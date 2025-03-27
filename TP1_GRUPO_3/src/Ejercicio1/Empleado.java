@@ -1,4 +1,4 @@
-package Dominio;
+package Ejercicio1;
 
 public class Empleado {
 	private final int id;
@@ -56,4 +56,4 @@ public class Empleado {
 	        return "Empleado: " + nombre + ", Edad: " + edad + ", Id: " + id;
 	    }
 }
-
+	

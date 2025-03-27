@@ -1,4 +1,4 @@
-package Dominio;
+package Ejercicio1;
 
 public class Principal {
 	public static void main(String[] args)
@@ -17,6 +17,9 @@ public class Principal {
 		a.setNombre("Ariel");
 		a.setEdad(30);
 		System.out.println(a.toString());
+		
+		Empleado b = new Empleado("Pedro", 25);
+		System.out.println(b.toString());
 		
 		System.out.println("El próximo ID será el " + Empleado.devuelveProximoID());
 	}
