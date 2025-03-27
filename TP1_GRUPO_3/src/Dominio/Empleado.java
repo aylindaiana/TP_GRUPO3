@@ -20,6 +20,12 @@ public class Empleado {
         this.edad = edad;
     }
 	
+	//Método estático retorna el próximo ID
+    public static int devuelveProximoID() {
+	    return cont;
+	}
+
+	
 	//Getters y Setters
 	
 	//Edad

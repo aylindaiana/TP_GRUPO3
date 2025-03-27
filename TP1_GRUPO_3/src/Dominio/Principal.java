@@ -17,5 +17,7 @@ public class Principal {
 		a.setNombre("Ariel");
 		a.setEdad(30);
 		System.out.println(a.toString());
+		
+		System.out.println("El próximo ID será el " + Empleado.devuelveProximoID());
 	}
 }
