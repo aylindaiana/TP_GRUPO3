@@ -47,7 +47,7 @@ public class Empleado {
 	
 	 @Override
 	    public String toString() {
-	        return "Empleado " + nombre + ", edad: " + edad + ", legajo: " + cont;
+	        return "Empleado: " + nombre + ", Edad: " + edad + ", Id: " + id;
 	    }
 }
 
