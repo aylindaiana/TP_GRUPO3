@@ -10,6 +10,14 @@ public class Empleado {
 
 	public Empleado() {
         this.id = cont++;
+        this.nombre = "Sin nombre";
+        this.edad = 99;
+    }
+	
+	public Empleado(String nombre, int edad) {
+        this.id = cont++;
+        this.nombre = nombre;
+        this.edad = edad;
     }
 	
 	//Getters y Setters
@@ -33,13 +41,13 @@ public class Empleado {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
+	} 
 	
 	//Metodo ToString()
 	
 	 @Override
 	    public String toString() {
-	        return "Empleado " + nombre + ", edad: " + edad + ", legajo: " + id;
+	        return "Empleado " + nombre + ", edad: " + edad + ", legajo: " + cont;
 	    }
 }
 
