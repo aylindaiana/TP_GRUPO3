@@ -1,5 +1,7 @@
 package ejercicio1;
 
+import java.util.Objects;
+
 public class Empleado {
 	private final int id;
 	private String nombre;
@@ -55,5 +57,19 @@ public class Empleado {
 	    public String toString() {
 	        return "Empleado: " + nombre + ", Edad: " + edad + ", Id: " + id;
 	    }
+	
+	// Equals de Empleado
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Empleado other = (Empleado) obj;
+		return edad == other.edad && Objects.equals(nombre, other.nombre);
+	}
+	 
 }
 	
