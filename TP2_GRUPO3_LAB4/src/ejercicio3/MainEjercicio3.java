@@ -2,7 +2,7 @@ package ejercicio3;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-public class mainEjercicio3 {
+public class MainEjercicio3 {
 	public static void main(String[] args) {   
 		Polideportivo p1 = new Polideportivo();
 		Polideportivo p2 = new Polideportivo("Polideportivo n° 2", 2);

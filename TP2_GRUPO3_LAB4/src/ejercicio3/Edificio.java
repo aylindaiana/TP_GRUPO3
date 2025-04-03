@@ -16,12 +16,15 @@ public class Edificio {
 	}
 
 	public void setSuperficie(double superficie) {
-		this.superficie = superficie;
-	}
+        if (superficie < 0) {
+            throw new IllegalArgumentException("La superficie no puede ser negativa");
+        }
+        this.superficie = superficie;
+    }
 
 	@Override
 	public String toString() {
-		return "Edificio\nMetros de Superficie: " + superficie + "Tipo de Instalacion n°" + "\n";
+	    return String.format("Edificio%nMetros de Superficie: %.1f%nTipo de Instalación n° \n", superficie);
 	}
 
 	

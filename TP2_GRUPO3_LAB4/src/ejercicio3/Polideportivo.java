@@ -36,13 +36,22 @@ public class Polideportivo extends Edificio implements IInstalacionDeportiva {
 	}
 	
 	public void setTipoDeInstalacion(int tipoDeInstalacion) {
-		this.tipoDeInstalacion = tipoDeInstalacion;
-	}
+        if (tipoDeInstalacion < 0) {
+            throw new IllegalArgumentException("El tipo de instalación no puede ser negativo");
+        }
+        this.tipoDeInstalacion = tipoDeInstalacion;
+    }
 
 	@Override
-	public String toString() {
-		return "Edificio de tipo Polideportivo\nNombre: " + nombre + "\nMetros de Superficie: " + getSuperficie() + "\nTipo de Instalacion n°" + getTipoDeInstalacion() + "\n";
-	}
+    public String toString() {
+        return String.format(
+            "Edificio de tipo Polideportivo%n" +
+            "Nombre: %s%n" +
+            "Superficie: %.2f m²%n" +
+            "Tipo de Instalación: %d \n",
+            nombre, getSuperficie(), tipoDeInstalacion
+        );
+    }
 	
 	
 }

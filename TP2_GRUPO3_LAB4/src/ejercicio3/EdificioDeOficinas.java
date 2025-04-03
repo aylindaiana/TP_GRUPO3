@@ -23,13 +23,21 @@ public class EdificioDeOficinas extends Edificio {
 	}
 
 	public void setNumeroOficinas(int numeroOficinas) {
-		this.numeroOficinas = numeroOficinas;
-	}
+        if (numeroOficinas < 0) {
+            throw new IllegalArgumentException("El número de oficinas no puede ser negativo");
+        }
+        this.numeroOficinas = numeroOficinas;
+    }
 
 	@Override
-	public String toString() {
-		return "Edificio de Oficinas \nNumero de Oficinas:" + numeroOficinas + "\nMetros de Superficie" + getSuperficie() + "\n";
-	}
+    public String toString() {
+        return String.format(
+            "Edificio de Oficinas%n" +
+            "Número de Oficinas: %d%n" +
+            "Superficie: %.2f m² \n",
+            numeroOficinas, getSuperficie()
+        );
+    }
 	
 	
 }
