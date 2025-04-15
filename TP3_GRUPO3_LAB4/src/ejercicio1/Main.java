@@ -14,7 +14,6 @@ public class Main {
         try (BufferedReader br = new BufferedReader(new FileReader("Personas.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-            	//System.out.println("Línea leída: " + linea);
                 String[] partes = linea.split("-");
                 
                 if (partes.length == 3) {
@@ -34,6 +33,23 @@ public class Main {
             }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
+
+        // Lectura Punto 2
+        for(Persona persona : personas) {
+        	System.out.println(persona.toString());
+        }
+        
+        // Lectura Punto 3
+        Archivo arc = new Archivo("Resultado.txt");
+        if(!arc.existe()) {
+        	System.out.println("Creando Archivo Resultado...");
+        	arc.crearArchivo();
+        	for(Persona persona : personas) {
+        		arc.EscribirLineas(persona.toString() + "\n");
+        	}
+        } else {
+        	System.out.println("Archivo Resultado ya existente");
         }
 	}
 }

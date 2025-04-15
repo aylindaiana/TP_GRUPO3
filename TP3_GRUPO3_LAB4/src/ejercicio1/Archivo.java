@@ -10,6 +10,10 @@ import java.io.IOException;
 public class Archivo {
 
 	private String ruta;
+	
+	public Archivo(String ruta) {
+		setRuta(ruta);
+	}
 
 	public String getRuta() {
 		return ruta;
@@ -87,6 +91,7 @@ public class Archivo {
 			e.printStackTrace();
 		}
 	}
+	
 	public void LeerLineas() {
 		FileReader entrada;
 		try {
