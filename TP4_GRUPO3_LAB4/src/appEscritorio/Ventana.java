@@ -9,7 +9,7 @@ public class Ventana extends JFrame{
 
 	public Ventana(){
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBounds(new Rectangle(500, 500, 500, 500));
+		setBounds(new Rectangle(350, 150, 800, 500));
 	}
 	
 	public void appActiva() {

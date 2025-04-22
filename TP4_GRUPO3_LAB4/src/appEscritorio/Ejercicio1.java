@@ -13,11 +13,16 @@ public class Ejercicio1 extends Ventana {
 	private JTextField txtFieldNombre;
 	private JTextField txtFieldApellido;
 	private JTextField txtFieldTelefono;
-	private JTextField textField_2;
+	private JTextField txtFieldFechaNacimiento;
 	private JLabel lblResultado;
+	private JLabel lblVerificadorFormatoFecha;
+	private JLabel lblVerificadorFormatoTelefono;
+	private JLabel lblVerificadorFormatoApellido;
+	private JLabel lblVerificadorFormatoNombre;
+	
 	public Ejercicio1() {
 		super();
-		setTitle("Ejercicio 1");
+		setTitle("Contactos");
 		getContentPane().setLayout(null);
 		
 		JLabel lblNombre = new JLabel("Nombre");
@@ -25,13 +30,13 @@ public class Ejercicio1 extends Ventana {
 		getContentPane().add(lblNombre);
 		
 		txtFieldNombre = new JTextField();
-		txtFieldNombre.setBounds(39, 46, 140, 20);
+		txtFieldNombre.setBounds(182, 33, 234, 20);
 		getContentPane().add(txtFieldNombre);
 		txtFieldNombre.setColumns(10);
 		
 		txtFieldApellido = new JTextField();
 		txtFieldApellido.setColumns(10);
-		txtFieldApellido.setBounds(39, 86, 140, 20);
+		txtFieldApellido.setBounds(182, 73, 234, 20);
 		getContentPane().add(txtFieldApellido);
 		
 		JLabel lblApellido = new JLabel("Apellido");
@@ -40,24 +45,24 @@ public class Ejercicio1 extends Ventana {
 		
 		txtFieldTelefono = new JTextField();
 		txtFieldTelefono.setColumns(10);
-		txtFieldTelefono.setBounds(39, 130, 140, 20);
+		txtFieldTelefono.setBounds(182, 117, 234, 20);
 		getContentPane().add(txtFieldTelefono);
 		
 		JLabel lblTelefono = new JLabel("Telefono");
 		lblTelefono.setBounds(39, 117, 140, 14);
 		getContentPane().add(lblTelefono);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(39, 174, 140, 20);
-		getContentPane().add(textField_2);
+		txtFieldFechaNacimiento = new JTextField();
+		txtFieldFechaNacimiento.setColumns(10);
+		txtFieldFechaNacimiento.setBounds(182, 158, 234, 20);
+		getContentPane().add(txtFieldFechaNacimiento);
 		
-		JLabel lbl1_3 = new JLabel("Fecha de Nacimiento");
-		lbl1_3.setBounds(39, 161, 140, 14);
-		getContentPane().add(lbl1_3);
+		JLabel lblFechaNacimiento = new JLabel("Fecha de Nacimiento");
+		lblFechaNacimiento.setBounds(39, 161, 140, 14);
+		getContentPane().add(lblFechaNacimiento);
 		
 		lblResultado = new JLabel("Los datos ingresados fueron: ");
-		lblResultado.setBounds(39, 205, 410, 14);
+		lblResultado.setBounds(46, 323, 685, 14);
 		getContentPane().add(lblResultado);
 		
 		JButton btnEnviar = new JButton("Enviar");
@@ -66,8 +71,24 @@ public class Ejercicio1 extends Ventana {
 				checkFields();
 			}
 		});
-		btnEnviar.setBounds(189, 173, 126, 23);
+		btnEnviar.setBounds(290, 189, 126, 23);
 		getContentPane().add(btnEnviar);
+		
+		lblVerificadorFormatoFecha = new JLabel(" ");
+		lblVerificadorFormatoFecha.setBounds(436, 161, 295, 14);
+		getContentPane().add(lblVerificadorFormatoFecha);
+		
+		lblVerificadorFormatoTelefono = new JLabel(" ");
+		lblVerificadorFormatoTelefono.setBounds(436, 120, 295, 14);
+		getContentPane().add(lblVerificadorFormatoTelefono);
+		
+		lblVerificadorFormatoApellido = new JLabel(" ");
+		lblVerificadorFormatoApellido.setBounds(436, 76, 295, 14);
+		getContentPane().add(lblVerificadorFormatoApellido);
+		
+		lblVerificadorFormatoNombre = new JLabel(" ");
+		lblVerificadorFormatoNombre.setBounds(436, 39, 295, 14);
+		getContentPane().add(lblVerificadorFormatoNombre);
 		
 		appActiva();
 	}
@@ -76,6 +97,7 @@ public class Ejercicio1 extends Ventana {
 		boolean bandera = true;
 		if(txtFieldNombre.getText().equals("")) {
 			txtFieldNombre.setBackground(new Color(255, 0, 0));
+			lblVerificadorFormatoNombre.setText("Campo obligatorio");
 			bandera = false;
 		} else {
 			txtFieldNombre.setBackground(new Color(255, 255, 255));
@@ -84,6 +106,7 @@ public class Ejercicio1 extends Ventana {
 
 		if(txtFieldApellido.getText().equals("")) {
 			txtFieldApellido.setBackground(new Color(255, 0, 0));
+			lblVerificadorFormatoApellido.setText("Campo obligatorio");
 			bandera = false;
 		} else {
 			txtFieldApellido.setBackground(new Color(255, 255, 255));
@@ -92,14 +115,88 @@ public class Ejercicio1 extends Ventana {
 
 		if(txtFieldTelefono.getText().equals("")) {
 			txtFieldTelefono.setBackground(new Color(255, 0, 0));
+			lblVerificadorFormatoTelefono.setText("Campo obligatorio");
 			bandera = false;
 		} else {
 			txtFieldTelefono.setBackground(new Color(255, 255, 255));
 		}
+				
+		for(int x = 0; x < txtFieldTelefono.getText().length(); x++) {
+			if(!(Character.isDigit(txtFieldTelefono.getText().charAt(x)))) {
+				txtFieldTelefono.setBackground(new Color(255, 0, 0));
+				lblVerificadorFormatoTelefono.setText("Este campo solo acepta numeros");
+				bandera = false;
+			}
+		}
+		
+		if(txtFieldFechaNacimiento.getText().length() == 8) {
+			for(int x = 0; x < txtFieldFechaNacimiento.getText().length(); x++) {
+				
+				boolean limpiar = true;
+				
+				if(x == 0 || x == 1 || x == 3 || x == 4 || x == 6 || x == 7) {
+					if(!(Character.isDigit(txtFieldFechaNacimiento.getText().charAt(x)))) {
+						txtFieldFechaNacimiento.setBackground(new Color(255, 0, 0));
+						lblVerificadorFormatoFecha.setText("Formato fecha '11/11/11' ");
+						lblVerificadorFormatoFecha.setBackground(Color.red);
+						bandera = false;
+						limpiar = false;
+						break;
+					}
+				}
+				
+				if((x == 2 || x == 5) && txtFieldFechaNacimiento.getText().charAt(x) != '/') {
+					txtFieldFechaNacimiento.setBackground(new Color(255, 0, 0));
+					lblVerificadorFormatoFecha.setText("Formato fecha '11/11/11' ");
+					bandera = false;
+					limpiar = false;
+					break;
+				}
+				
+				if(limpiar) {
+					txtFieldFechaNacimiento.setBackground(new Color(255, 255, 255));
+					lblVerificadorFormatoFecha.setText("");
+				}
+			}
+		} else if(txtFieldFechaNacimiento.getText().length() < 8 || txtFieldFechaNacimiento.getText().length() > 8){
+			txtFieldFechaNacimiento.setBackground(new Color(255, 0, 0));
+			lblVerificadorFormatoFecha.setText("Formato fecha '11/11/11' ");
+			lblVerificadorFormatoFecha.setBackground(Color.red);
+			bandera = false;
+			
+		} else if (txtFieldFechaNacimiento.getText().equals("")) {
+			txtFieldFechaNacimiento.setBackground(new Color(255, 0, 0));
+			bandera = false;
+			
+		} else {
+			txtFieldFechaNacimiento.setBackground(new Color(255, 255, 255));
+			lblVerificadorFormatoFecha.setText("");
+		}
+		
+		
 		
 		if(bandera) {
-			lblResultado.setText("Los datos ingresados son: " + txtFieldNombre.getText() + " " + txtFieldApellido.getText() + ", Telefono: " + txtFieldTelefono.getText());
-			System.out.println("hola");
+			
+			lblResultado.setText(
+					"Los datos ingresados son: " 
+					+ txtFieldNombre.getText() 
+					+ ", " + txtFieldApellido.getText() 
+					+ ", Telefono: " + txtFieldTelefono.getText() 
+					+ ", Fecha Nacimiento: " + txtFieldFechaNacimiento.getText()
+			);
+			
+			txtFieldNombre.setText("");
+			lblVerificadorFormatoNombre.setText("");
+			txtFieldApellido.setText("");
+			lblVerificadorFormatoApellido.setText("");
+			txtFieldTelefono.setBackground(new Color(255, 255, 255));
+			lblVerificadorFormatoTelefono.setText("");
+			txtFieldTelefono.setText("");
+			txtFieldTelefono.setBackground(new Color(255, 255, 255));
+			lblVerificadorFormatoTelefono.setText("");
+			txtFieldFechaNacimiento.setText("");
+			txtFieldFechaNacimiento.setBackground(new Color(255, 255, 255));
+			lblVerificadorFormatoFecha.setText("");
 		}
 	}
 }
