@@ -38,7 +38,7 @@ public class Main {
         // Lectura Punto 2
         for(Persona persona : personas) {
         	System.out.println(persona.toString());
-        }
+        }e
         
         // Lectura Punto 3
         Archivo arc = new Archivo("Resultado.txt");
