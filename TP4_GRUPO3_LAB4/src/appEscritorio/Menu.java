@@ -31,6 +31,11 @@ public class Menu extends Ventana{
 		getContentPane().add(btnEj1);
 		
 		JButton btnEj2 = new JButton("Ejercicio 2");
+		btnEj2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Ejercicio2 ej2 = new Ejercicio2();
+			}
+		});
 		btnEj2.setBounds(174, 117, 123, 23);
 		getContentPane().add(btnEj2);
 		
