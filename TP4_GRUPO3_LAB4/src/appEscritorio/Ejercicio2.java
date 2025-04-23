@@ -125,11 +125,56 @@ public class Ejercicio2 extends Ventana {
 		        comboTP.setSelectedIndex(0);
 		    }
 		});
+		
+		btnCalcular.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            double nota1 = Double.parseDouble(txtNota1.getText());
+		            double nota2 = Double.parseDouble(txtNota2.getText());
+		            double nota3 = Double.parseDouble(txtNota3.getText());
+		            
+		            if (nota1 < 1 || nota1 > 10 || nota2 < 1 || nota2 > 10 || nota3 < 1 || nota3 > 10) {
+		                throw new NumberFormatException("Las notas deben estar entre 1 y 10");
+		            }
+		            
+		            double promedio = (nota1 + nota2 + nota3) / 3;
+		            txtPromedio.setText(String.format("%.2f", promedio));
+		            
+		            String tp = (String) comboTP.getSelectedItem();
+		            String condicion = "";
+
+		            if (tp.equals("Desaprobado") || nota1 < 6 || nota2 < 6 || nota3 < 6) {
+		                condicion = "Libre";
+		            } else if (nota1 >= 8 && nota2 >= 8 && nota3 >= 8 && tp.equals("Aprobado")) {
+		                condicion = "Promocionado";
+		            } else if (nota1 >= 6 && nota2 >= 6 && nota3 >= 6 && tp.equals("Aprobado")) {
+		                condicion = "Regular";
+		            }
+
+		            txtCondicion.setText(condicion);
+		            
+		        } catch (NumberFormatException ex) {
+			        txtNota1.setText("Nro Invalido");
+			        txtNota2.setText("Nro Invalido");
+			        txtNota3.setText("Nro Invalido");
+		            txtPromedio.setText("Error");
+		            txtCondicion.setText("Error");
+		        }
+		    }
+		});
+
 
 		
 		JButton btnSalir = new JButton("SALIR");
 		btnSalir.setBounds(326, 141, 101, 35);
 		contentPane.add(btnSalir);
+		
+		btnSalir.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	dispose();
+		    }
+		});
+
 		
 		appActiva();
 
