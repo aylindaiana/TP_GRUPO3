@@ -117,6 +117,55 @@ public class Ejercicio3 extends Ventana {
 		btnAceptar.setBounds(272, 303, 89, 23);
 		ContentPane.add(btnAceptar);
 		
+		btnAceptar.addActionListener(e -> {
+		    String sistemaOperativo = "";
+		    if (rdbtnWindows.isSelected()) {
+		        sistemaOperativo = "Windows";
+		    } else if (rdbtnMac.isSelected()) {
+		        sistemaOperativo = "Mac";
+		    } else if (rdbtnLinux.isSelected()) {
+		        sistemaOperativo = "Linux";
+		    }
+		    
+		    if (sistemaOperativo.isEmpty()) {
+		        javax.swing.JOptionPane.showMessageDialog(this, "Por favor seleccione un sistema operativo.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+		    
+		    StringBuilder especialidades = new StringBuilder();
+		    if (chckbxProgramacion.isSelected()) {
+		        especialidades.append("Programación - ");
+		    }
+		    if (chckbxAdministracion.isSelected()) {
+		        especialidades.append("Administración - ");
+		    }
+		    if (chckbxDisenoGrafico.isSelected()) {
+		        especialidades.append("Diseño Gráfico - ");
+		    }
+		    
+		    if(especialidades.length() == 0)
+		    {
+		    	javax.swing.JOptionPane.showMessageDialog(this, "Por favor seleccione una especialidad", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+		    
+		    String horas = textFieldHoras.getText().trim();
+		    if (horas.isEmpty()) {
+		    	javax.swing.JOptionPane.showMessageDialog(this, "Por favor ingrese horas.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+		    	return;
+		    }
+
+		    //Carga de mensaje final
+		    String mensaje = sistemaOperativo + " - ";
+		    if (especialidades.length() > 0) {
+		        mensaje += especialidades.substring(0, especialidades.length() - 3);
+		    }
+		    mensaje += " - " + horas + " Hs";
+
+		    // Mostrar mensaje
+		    javax.swing.JOptionPane.showMessageDialog(this, mensaje, "Mensaje", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+		});
+
 		appActiva();
 	}
 }
