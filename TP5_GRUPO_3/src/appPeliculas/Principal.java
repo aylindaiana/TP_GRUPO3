@@ -2,7 +2,10 @@ package appPeliculas;
 
 import java.awt.EventQueue;
 
+import javax.swing.JPanel;
+
 public class Principal {
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
