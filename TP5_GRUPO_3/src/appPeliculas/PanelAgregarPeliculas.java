@@ -1,13 +1,15 @@
 package appPeliculas;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class PanelAgregarPeliculas extends JPanel{
 	
@@ -18,6 +20,7 @@ public class PanelAgregarPeliculas extends JPanel{
 	private JLabel lblGenero;
 	private JLabel lblGenerateId;
 	private JComboBox cbxGenero;
+	private int proximoId = 1;
 	
 	public PanelAgregarPeliculas() {
 		setLayout(null);
@@ -37,12 +40,12 @@ public class PanelAgregarPeliculas extends JPanel{
 		lblGenero.setBounds(57, 150, 73, 22);
 		add(lblGenero);
 		
-		// ----------------------------
-		// Aca dejo el espacio en el que iria el incremento.
 		lblGenerateId = new JLabel("");
 		lblGenerateId.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblGenerateId.setBounds(208, 64, 73, 22);
 		add(lblGenerateId);
+		
+		lblGenerateId.setText(String.valueOf(proximoId));
 		
 		txtNombre = new JTextField();
 		txtNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -55,16 +58,34 @@ public class PanelAgregarPeliculas extends JPanel{
 		cbxGenero.setBounds(208, 150, 86, 22);
 		add(cbxGenero);
 		
+		cbxGenero.addItem(new Categorias("Seleccione un genero")); // valor por defecto
+	    cbxGenero.addItem(new Categorias("Terror"));
+	    cbxGenero.addItem(new Categorias("Accion"));
+	    cbxGenero.addItem(new Categorias("Suspenso"));
+	    cbxGenero.addItem(new Categorias("Romantica"));
+		
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!txtNombre.getText().isEmpty()) {
-					String nombre = txtNombre.getText();
-					Categorias categoria = (Categorias) cbxGenero.getSelectedItem();
-					Peliculas peli = new Peliculas(nombre, categoria);
-					
-					txtNombre.setText("");
-				}
+				String nombre = txtNombre.getText().trim();
+			    Categorias categoria = (Categorias) cbxGenero.getSelectedItem();
+
+			    if (nombre.isEmpty()) {
+			        JOptionPane.showMessageDialog(null, "Debe ingresar un nombre para la película.", "Error", JOptionPane.ERROR_MESSAGE);
+			        return;
+			    }
+
+			    if (categoria.getNombre().equalsIgnoreCase("Seleccione un genero")) {
+			        JOptionPane.showMessageDialog(null, "Debe seleccionar un género válido.", "Error", JOptionPane.ERROR_MESSAGE);
+			        return;
+			    }
+
+			    Peliculas peli = new Peliculas(nombre, categoria);
+
+			    txtNombre.setText("");
+			    cbxGenero.setSelectedIndex(0);
+			    proximoId++;
+			    lblGenerateId.setText(String.valueOf(proximoId));
 			}
 		});
 		btnAceptar.setFont(new Font("Tahoma", Font.BOLD, 12));
