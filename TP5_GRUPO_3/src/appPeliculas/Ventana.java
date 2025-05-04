@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -22,8 +23,10 @@ public class Ventana extends JFrame {
 	private JMenu mnMenuPeliculas;
 	private JMenuItem mntmMenuPeliculasAgregar;
 	private JMenuItem mntmMenuPeliculasListar;
+	private static DefaultListModel<Peliculas> listModel;
 
 	public Ventana(){
+		listModel = new DefaultListModel<>();
 		setTitle("Programa peliculas");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(new Rectangle(350, 150, 800, 500));
@@ -40,6 +43,7 @@ public class Ventana extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				contentPanel.removeAll();
 				PanelAgregarPeliculas panel = new PanelAgregarPeliculas();
+				panel.setDefaultListModel(listModel);
 				contentPanel.add(panel);
 				contentPanel.revalidate();
 				contentPanel.repaint();

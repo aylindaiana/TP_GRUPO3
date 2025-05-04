@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -21,6 +22,7 @@ public class PanelAgregarPeliculas extends JPanel{
 	private JLabel lblGenerateId;
 	private JComboBox cbxGenero;
 	private int proximoId = 1;
+	private DefaultListModel<Peliculas> listModel;
 	
 	public PanelAgregarPeliculas() {
 		setLayout(null);
@@ -80,8 +82,9 @@ public class PanelAgregarPeliculas extends JPanel{
 			        return;
 			    }
 
-			    Peliculas peli = new Peliculas(nombre, categoria);
-
+			    Peliculas peli = new Peliculas(nombre, categoria);			   
+			    listModel.addElement(peli);
+			    
 			    txtNombre.setText("");
 			    cbxGenero.setSelectedIndex(0);
 			    proximoId++;
@@ -93,6 +96,9 @@ public class PanelAgregarPeliculas extends JPanel{
 		add(btnAceptar);
 		
 	}
-
-
+	
+	public void setDefaultListModel(DefaultListModel<Peliculas> listamodelRecibido)
+	{
+		this.listModel = listamodelRecibido;
+	}
 }
