@@ -53,6 +53,18 @@ public class Ventana extends JFrame {
 		mnMenuPeliculas.add(mntmMenuPeliculasAgregar);
 		
 		mntmMenuPeliculasListar = new JMenuItem("Listar");
+		mntmMenuPeliculasListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPanel.removeAll();
+				PanelListarPeliculas panel = new PanelListarPeliculas();
+				
+				//
+				
+				contentPanel.add(panel);
+				contentPanel.revalidate();
+				contentPanel.repaint();
+			}
+		});
 		mnMenuPeliculas.add(mntmMenuPeliculasListar);
 		
 		contentPanel = new JPanel();
