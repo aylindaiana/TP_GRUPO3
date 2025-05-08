@@ -3,7 +3,7 @@ package appPeliculas;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.TreeSet;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,10 +21,10 @@ public class PanelAgregarPeliculas extends JPanel{
 	private JLabel lblGenero;
 	private JLabel lblGenerateId;
 	private JComboBox cbxGenero;
-	private int proximoId = 1;
+	private int proximoId = Peliculas.getProximoId();
 	private DefaultListModel<Peliculas> listModel;
 	
-	public PanelAgregarPeliculas() {
+	public PanelAgregarPeliculas(TreeSet<Peliculas> peliculasOrdenadas) {
 		setLayout(null);
 		
 		lblId = new JLabel("ID");
@@ -82,19 +82,28 @@ public class PanelAgregarPeliculas extends JPanel{
 			        return;
 			    }
 
-			    Peliculas peli = new Peliculas(nombre, categoria);			   
-			    listModel.addElement(peli);
+			    Peliculas peli = new Peliculas(nombre, categoria);
+			    
+			    if(peliculasOrdenadas.add(peli)) {
+				    listModel.clear();
+				    
+				    for(Peliculas p : peliculasOrdenadas) {
+				    	listModel.addElement(p);
+				    }
+				    proximoId++;
+				    lblGenerateId.setText(String.valueOf(proximoId));
+			    }
+			    else {
+			    	JOptionPane.showMessageDialog(null, "Ya existe esa Pelicula en nuestro catalogo.", "Error", JOptionPane.ERROR_MESSAGE);
+			    }
 			    
 			    txtNombre.setText("");
 			    cbxGenero.setSelectedIndex(0);
-			    proximoId++;
-			    lblGenerateId.setText(String.valueOf(proximoId));
 			}
 		});
 		btnAceptar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnAceptar.setBounds(109, 203, 107, 23);
 		add(btnAceptar);
-		
 	}
 	
 	public void setDefaultListModel(DefaultListModel<Peliculas> listamodelRecibido)

@@ -1,6 +1,8 @@
 package appPeliculas;
 
-public class Peliculas {
+import java.util.Objects;
+
+public class Peliculas implements Comparable<Peliculas> {
 	private static int contador = 1; // contador para ID
 	private int id;
 	private String nombre; 
@@ -34,4 +36,26 @@ public class Peliculas {
     public void setCategoria(Categorias categoria) {
         this.categoria = categoria;
     }
+
+	@Override
+	public String toString() {
+		return '"' + nombre + '"' + ", Genero:" + categoria;
+	}
+
+	@Override
+	public int compareTo(Peliculas obj) {
+		// comparo por nombre
+		if((this.getNombre().toLowerCase().compareTo(obj.getNombre().toLowerCase())) != 0) {
+			int n = this.getNombre().toLowerCase().compareTo(obj.getNombre().toLowerCase());
+			return n;
+		}
+		// comparo por categoria
+		return this.getCategoria().toString().compareTo(obj.getCategoria().toString());
+	}
+    
+	// devolver contador
+	public static int getProximoId() {
+		return contador;
+	}
+    
 }
