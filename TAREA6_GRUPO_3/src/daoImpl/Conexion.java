@@ -10,7 +10,8 @@ public class Conexion {
 
     private Conexion() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
+            //Class.forName("com.mysql.jc.jdbc.Driver");
             this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bdPersonas", "root", "root");
             this.connection.setAutoCommit(false);
         } catch (Exception e) {

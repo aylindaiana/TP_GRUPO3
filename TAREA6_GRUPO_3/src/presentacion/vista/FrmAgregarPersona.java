@@ -62,12 +62,12 @@ public class FrmAgregarPersona extends JFrame {
                     return;
                 }
 
-                if (!nombre.matches("[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò— ]+")) {
+                if (!nombre.matches("[a-zA-Z√°√©√≠√≥√∫√Å√â√ç√ì√ö√±√ë ]+")) {
                     JOptionPane.showMessageDialog(null, "El nombre solo debe contener letras.");
                     return;
                 }
 
-                if (!apellido.matches("[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò— ]+")) {
+                if (!apellido.matches("[a-zA-Z√°√©√≠√≥√∫√Å√â√ç√ì√ö√±√ë ]+")) {
                     JOptionPane.showMessageDialog(null, "El apellido solo debe contener letras");
                     return;
                 }
@@ -79,7 +79,7 @@ public class FrmAgregarPersona extends JFrame {
                     Object[] opciones = {"S√≠", "No"};
                     int opcion = JOptionPane.showOptionDialog(
                         null,
-                        "Persona agregada correctamente. øDesea agregar otra?",
+                        "Persona agregada correctamente. ¬øDesea agregar otra?",
                         "Confirmacion",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,

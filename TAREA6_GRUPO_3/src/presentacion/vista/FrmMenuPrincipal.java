@@ -32,7 +32,7 @@ public class FrmMenuPrincipal extends JFrame {
         itemEliminar = new JMenuItem("Eliminar");
         menuPersona.add(itemEliminar);
         
-        JMenuItem itemListar = new JMenuItem("Listar");
+        //JMenuItem itemListar = new JMenuItem("Listar");
         menuPersona.add(itemListar);
         setJMenuBar(menuBar);
     }
@@ -44,5 +44,9 @@ public class FrmMenuPrincipal extends JFrame {
     
     public JMenuItem getItemListar() {
         return itemListar;
+    }
+    
+    public JMenuItem getItemEliminar() {
+        return itemEliminar;
     }
 }
