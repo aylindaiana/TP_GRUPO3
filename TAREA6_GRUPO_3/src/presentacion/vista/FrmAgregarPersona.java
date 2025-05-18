@@ -48,19 +48,39 @@ public class FrmAgregarPersona extends JFrame {
 
         btnAgregar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Persona persona = new Persona(
-                    txtDni.getText(),
-                    txtNombre.getText(),
-                    txtApellido.getText()
-                );
+                String dni = txtDni.getText().trim();
+                String nombre = txtNombre.getText().trim();
+                String apellido = txtApellido.getText().trim();
 
+                if (dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios.");
+                    return;
+                }
+
+                if (!dni.matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "El DNI debe contener solo numeros.");
+                    return;
+                }
+
+                if (!nombre.matches("[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò— ]+")) {
+                    JOptionPane.showMessageDialog(null, "El nombre solo debe contener letras.");
+                    return;
+                }
+
+                if (!apellido.matches("[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò— ]+")) {
+                    JOptionPane.showMessageDialog(null, "El apellido solo debe contener letras");
+                    return;
+                }
+
+  
+                Persona persona = new Persona(dni, nombre, apellido);
                 PersonaNegocio negocio = new PersonaNegocioImpl();
                 if (negocio.agregarPersona(persona)) {
                     Object[] opciones = {"S√≠", "No"};
                     int opcion = JOptionPane.showOptionDialog(
                         null,
-                        "Persona agregada correctamente. ¬øDesea agregar otra?",
-                        "Confirmaci√≥n",
+                        "Persona agregada correctamente. øDesea agregar otra?",
+                        "Confirmacion",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,

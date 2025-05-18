@@ -43,4 +43,31 @@ public class PersonaDaoImpl implements PersonaDao {
             return false;
         }
     }
+    
+    @Override
+    public boolean eliminar(String dni) {
+        Connection cn = Conexion.getConexion().getSQLConexion();
+        String query = "DELETE FROM Personas WHERE Dni = ?";
+        boolean eliminado = false;
+        
+        try {
+            java.sql.PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, dni);
+
+            if (ps.executeUpdate() > 0) {
+                cn.commit();
+                eliminado = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return eliminado;
+    }
+
+
 }

@@ -15,4 +15,13 @@ public class PersonaNegocioImpl implements PersonaNegocio {
         }
         return false;
     }
+
+    @Override
+    public boolean eliminarPersona(String dni) {
+        if (dni != null && !dni.isEmpty() && personaDao.existeDni(dni)) {
+            return personaDao.eliminar(dni);
+        }
+        return false;
+    }
+    
 }

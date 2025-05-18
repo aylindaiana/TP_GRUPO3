@@ -11,6 +11,8 @@ public class Controlador implements ActionListener {
 
     private FrmMenuPrincipal menu;
     private FrmAgregarPersona frmAgregar;
+
+
     private PersonaNegocio personaNegocio;
 
     public Controlador(FrmMenuPrincipal menu) {
