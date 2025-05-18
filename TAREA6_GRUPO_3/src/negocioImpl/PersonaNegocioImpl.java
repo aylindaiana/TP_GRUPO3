@@ -1,5 +1,7 @@
 package negocioImpl;
 
+import java.util.List;
+
 import dao.PersonaDao;
 import daoImpl.PersonaDaoImpl;
 import entidad.Persona;
@@ -22,6 +24,11 @@ public class PersonaNegocioImpl implements PersonaNegocio {
             return personaDao.eliminar(dni);
         }
         return false;
+    }
+    
+    @Override
+    public List<Persona> obtenerTodas() {
+        return personaDao.obtenerTodas();
     }
     
 }

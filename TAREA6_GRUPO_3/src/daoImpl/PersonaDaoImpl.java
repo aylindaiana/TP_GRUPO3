@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.PersonaDao;
 import entidad.Persona;
@@ -69,5 +71,29 @@ public class PersonaDaoImpl implements PersonaDao {
         return eliminado;
     }
 
+    
+    @Override
+    public List<Persona> obtenerTodas() {
+        List<Persona> personas = new ArrayList<>();
+        Connection cn = Conexion.getConexion().getSQLConexion();
+        String query = "SELECT dni, nombre, apellido FROM personas";
+        
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            while (rs.next()) {
+                Persona persona = new Persona();
+                persona.setDni(rs.getString("dni"));
+                persona.setNombre(rs.getString("nombre"));
+                persona.setApellido(rs.getString("apellido"));
+                personas.add(persona);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return personas;
+    }
 
 }

@@ -4,10 +4,15 @@ import javax.swing.*;
 
 public class FrmMenuPrincipal extends JFrame {
 
-    private JMenuBar menuBar;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JMenuBar menuBar;
     private JMenu menuPersona;
     private JMenuItem itemAgregar;
     private JMenuItem itemEliminar;
+    private JMenuItem itemListar;
 
     public FrmMenuPrincipal() {
         setTitle("Programa");
@@ -19,17 +24,25 @@ public class FrmMenuPrincipal extends JFrame {
         menuBar = new JMenuBar();
         menuPersona = new JMenu("Persona");
         itemAgregar = new JMenuItem("Agregar");
+        itemListar = new JMenuItem("Listar");
 
         menuPersona.add(itemAgregar);
         menuBar.add(menuPersona);
         
         itemEliminar = new JMenuItem("Eliminar");
         menuPersona.add(itemEliminar);
+        
+        JMenuItem itemListar = new JMenuItem("Listar");
+        menuPersona.add(itemListar);
         setJMenuBar(menuBar);
     }
 
     // Metodo getter que necesita el controlador
     public JMenuItem getItemAgregar() {
         return itemAgregar;
+    }
+    
+    public JMenuItem getItemListar() {
+        return itemListar;
     }
 }

@@ -11,6 +11,8 @@ public class Controlador implements ActionListener {
 
     private FrmMenuPrincipal menu;
     private FrmAgregarPersona frmAgregar;
+    
+    
 
 
     private PersonaNegocio personaNegocio;
@@ -29,6 +31,8 @@ public class Controlador implements ActionListener {
             abrirVentanaAgregar();
         }
     }
+    
+  
 
     private void abrirVentanaAgregar() {
         if (frmAgregar == null || !frmAgregar.isDisplayable()) {
@@ -36,4 +40,6 @@ public class Controlador implements ActionListener {
             frmAgregar.setVisible(true);
         }
     }
+    
+  
 }
