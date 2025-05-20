@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import negocio.PersonaNegocio;
 import negocioImpl.PersonaNegocioImpl;
 import presentacion.vista.FrmMenuPrincipal;
+import presentacion.vista.frmListarPersona;
 import presentacion.vista.FrmAgregarPersona;
 import presentacion.vista.FrmEliminar;
 
@@ -13,7 +14,7 @@ public class Controlador implements ActionListener {
     private FrmMenuPrincipal menu;
     private FrmAgregarPersona frmAgregar;
     private FrmEliminar frmEliminar;
-    
+    private frmListarPersona frmListar;
     
 
 
@@ -26,6 +27,7 @@ public class Controlador implements ActionListener {
         // Escuchador para el ítem "Agregar"
         this.menu.getItemAgregar().addActionListener(this);
         this.menu.getItemEliminar().addActionListener(this);
+        this.menu.getItemListar().addActionListener(this);
     }
 
     //@Override
@@ -41,6 +43,8 @@ public class Controlador implements ActionListener {
             abrirVentanaAgregar();
         } else if (e.getSource().equals(menu.getItemEliminar())) {
             abrirVentanaEliminar();
+        } else if (e.getSource().equals(menu.getItemListar())) {
+        	abrirVentanalistar();
         }
     }
 
@@ -56,5 +60,11 @@ public class Controlador implements ActionListener {
         	frmEliminar.setVisible(true);
         }
     }
-  
+
+    private void abrirVentanalistar() {
+        if (frmListar == null || !frmListar.isDisplayable()) {
+        	frmListar = new frmListarPersona();
+        	frmListar.setVisible(true);
+        }
+    }
 }
