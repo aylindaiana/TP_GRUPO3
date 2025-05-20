@@ -6,6 +6,7 @@ import negocio.PersonaNegocio;
 import negocioImpl.PersonaNegocioImpl;
 import presentacion.vista.FrmMenuPrincipal;
 import presentacion.vista.frmListarPersona;
+import presentacion.vista.FrmModificar;
 import presentacion.vista.FrmAgregarPersona;
 import presentacion.vista.FrmEliminar;
 
@@ -15,6 +16,7 @@ public class Controlador implements ActionListener {
     private FrmAgregarPersona frmAgregar;
     private FrmEliminar frmEliminar;
     private frmListarPersona frmListar;
+    private FrmModificar frmModificar;
     
 
 
@@ -28,14 +30,8 @@ public class Controlador implements ActionListener {
         this.menu.getItemAgregar().addActionListener(this);
         this.menu.getItemEliminar().addActionListener(this);
         this.menu.getItemListar().addActionListener(this);
+        this.menu.getItemModificar().addActionListener(this);
     }
-
-    //@Override
-    //public void actionPerformed(ActionEvent e) {
-    //    if (e.getSource().equals(menu.getItemAgregar())) {
-    //        abrirVentanaAgregar();
-    //    }
-    //}
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -45,7 +41,9 @@ public class Controlador implements ActionListener {
             abrirVentanaEliminar();
         } else if (e.getSource().equals(menu.getItemListar())) {
         	abrirVentanalistar();
-        }
+        } else if (e.getSource().equals(menu.getItemModificar())) {
+	    	abrirVentanaModificar();
+	    }
     }
 
     private void abrirVentanaAgregar() {
@@ -65,6 +63,12 @@ public class Controlador implements ActionListener {
         if (frmListar == null || !frmListar.isDisplayable()) {
         	frmListar = new frmListarPersona();
         	frmListar.setVisible(true);
+        }
+    }
+    private void abrirVentanaModificar() {
+        if (frmModificar == null || !frmModificar.isDisplayable()) {
+        	frmModificar = new FrmModificar();
+        	frmModificar.setVisible(true);
         }
     }
 }

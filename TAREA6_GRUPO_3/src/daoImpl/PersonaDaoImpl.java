@@ -71,7 +71,33 @@ public class PersonaDaoImpl implements PersonaDao {
         return eliminado;
     }
 
-    
+	@Override
+	public boolean modificar(Persona persona) {
+		Connection cn = Conexion.getConexion().getSQLConexion();
+	    String query = "UPDATE Personas SET Nombre = ?, Apellido = ? WHERE Dni = ?";
+	    boolean modificado = false;
+	    
+	    try {
+	        java.sql.PreparedStatement ps = cn.prepareStatement(query);
+	        ps.setString(1, persona.getNombre());
+	        ps.setString(2, persona.getApellido());
+	        ps.setString(3, persona.getDni());
+	
+	        if (ps.executeUpdate() > 0) {
+	            cn.commit();
+	            modificado = true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            cn.rollback();
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	    return modificado;
+	}
+	
     @Override
     public List<Persona> obtenerTodas() {
         List<Persona> personas = new ArrayList<>();

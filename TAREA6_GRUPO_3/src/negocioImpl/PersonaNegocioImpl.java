@@ -25,7 +25,16 @@ public class PersonaNegocioImpl implements PersonaNegocio {
         }
         return false;
     }
-    
+
+
+	@Override
+	public boolean modificarPersona(Persona persona) {
+		if(persona.getNombre() != null && persona.getApellido() != null) {
+			return personaDao.modificar(persona);
+		}
+		return false;
+	}
+	
     @Override
     public List<Persona> obtenerTodas() {
         return personaDao.obtenerTodas();
