@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import Dominio.TipoSeguro;
-
+import Dominio.Seguro;
 import Dominio.SeguroDao;
 
 @WebServlet("/servletSeguro")
@@ -33,6 +33,14 @@ public class servletSeguro extends HttpServlet {
 		    request.setAttribute("listaTipos", listaTipos);
 
 		    RequestDispatcher rd = request.getRequestDispatcher("/AgregarSeguro.jsp");
+		    rd.forward(request, response);
+		}
+		else if(accion.equals("listado"))
+		{
+			SeguroDao sdao = new SeguroDao();
+			ArrayList<Seguro> lista = sdao.obtenerSeguros();
+			request.setAttribute("listaSeguros", lista);
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");
 		    rd.forward(request, response);
 		}
 

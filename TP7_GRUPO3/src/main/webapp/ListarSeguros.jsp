@@ -1,0 +1,60 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Dominio.Seguro" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Seguros</title>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        vertical-align: top;
+        text-align: left;
+    }
+</style>
+</head>
+<body>
+
+<h2>Listado de seguros:</h2>
+<br><br>
+
+<%
+    ArrayList<Seguro> lista = (ArrayList<Seguro>) request.getAttribute("listaSeguros");
+    if (lista != null && !lista.isEmpty()) {
+%>
+    <table>
+        <thead>
+            <tr>
+                <th>ID seguro</th>
+                <th>Descripción seguro</th>
+                <th>Descripción tipo seguro</th>
+                <th>Costo contratación</th>
+                <th>Costo máximo asegurado</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% for (Seguro s : lista) { %>
+            <tr>
+                <td><%= s.getIdSeguro()%></td>
+                <td><%= s.getDescripcion()%></td>
+                <td><%= s.getIdTipo()%></td>
+                <td><%= s.getCostoContratacion() %></td>
+                <td><%= s.getCostoAsegurado() %></td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+<%
+    }
+%>
+<br><br>
+<a href="Inicio.jsp">Volver al inicio</a>
+</body>
+</html>

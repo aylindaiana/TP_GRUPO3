@@ -85,7 +85,32 @@ public class SeguroDao {
 
 	    return filas;
 	}
+	
+	public ArrayList<Seguro> obtenerSeguros() {
+		
+		ArrayList<Seguro> lista = new ArrayList<>();
+		try {
+	        Class.forName("com.mysql.jdbc.Driver");
+	        Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	        Statement st = cn.createStatement();
+	        ResultSet rs = st.executeQuery("SELECT * FROM seguros");
 
+	        while (rs.next()) {
+	            Seguro segurodb = new Seguro();
+	            segurodb.setIdSeguro(rs.getInt("idSeguro"));
+	            segurodb.setDescripcion(rs.getString("descripcion"));
+	            segurodb.setIdTipo(rs.getInt("idTipo"));
+	            segurodb.setCostoContratacion(rs.getFloat("costoContratacion"));
+	            segurodb.setCostoAsegurado(rs.getFloat("costoAsegurado"));
+	            lista.add(segurodb);
+	        }
 
+	        cn.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
 
 }
