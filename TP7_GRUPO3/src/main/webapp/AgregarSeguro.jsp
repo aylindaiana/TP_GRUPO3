@@ -9,11 +9,41 @@
 </head>
 <body>
 
+	
+	<a href="Inicio.jsp">Inicio</a>
+	<a href="#">Agregar seguro</a>
+	<a href="servletSeguro?accion=listado">Listar seguros</a>
+        
+
     <h2>Agregar seguros</h2>
 
     <% if (request.getAttribute("filasInsertadas") != null) { %>
         <p style="color: green;">✅ Seguro agregado correctamente.</p>
     <% } %>
+	
+	<%
+		if(request.getAttribute("camposVacios") != null && (boolean)request.getAttribute("camposVacios") == true)
+		{
+	%>
+			<script>
+				alert("Todos los campos deben ser completados.");
+			</script>
+	<%
+		}
+	%>
+	
+	
+	<%
+		if(request.getAttribute("seguroRepetido") != null && (boolean)request.getAttribute("seguroRepetido") == true)
+		{
+	%>
+			<script>
+				alert("el registro que intenta agregar tiene los datos de un seguro existente, ingrese datos validos.");
+			</script>
+	<%
+		}
+	%>
+	
 
     <form action="servletSeguro" method="post">
         <table>
@@ -23,7 +53,23 @@
             </tr>
             <tr>
                 <td>Descripción</td>
-                <td><input type="text" name="descripcion" /></td>
+                <td><input type="text" name="descripcion" value="<%= request.getParameter("descripcion") != null ? request.getParameter("descripcion") : "" %>" /></td> 
+                <td><%
+	       			if (request.getAttribute("camposVacios") != null && (boolean)request.getAttribute("camposVacios") == true) 
+	       			{
+	         	%>	
+	         			<label for="descripcion" style="color: red;">* Campo obligatorio</label>
+	       		<%	
+	       			}
+	    		%>
+	    		<%
+	       			if (request.getAttribute("seguroRepetido") != null && (boolean)request.getAttribute("seguroRepetido") == true) 
+	       			{
+	         	%>	
+	         			<label for="descripcion" style="color: red;">* Modificar Campo</label>
+	       		<%	
+	       			}
+	    		%></td> 
             </tr>
             <tr>
                 <td>Tipo de seguro</td>
@@ -44,11 +90,43 @@
             </tr>
             <tr>
                 <td>Costo contratación</td>
-                <td><input type="number" name="costoContratacion" /></td>
+                <td><input type="number" name="costoContratacion" value="<%= request.getParameter("costoContratacion") != null ? request.getParameter("costoContratacion") : "" %>" /></td> 
+                <td><%
+	       			if (request.getAttribute("camposVacios") != null && (boolean)request.getAttribute("camposVacios") == true) 
+	       			{
+	         	%>	
+	         			<label for="costoContratacion" style="color: red;">* Campo obligatorio</label>
+	       		<%	
+	       			}
+	    		%>
+	    		<%
+	       			if (request.getAttribute("seguroRepetido") != null && (boolean)request.getAttribute("seguroRepetido") == true) 
+	       			{
+	         	%>	
+	         			<label for="descripcion" style="color: red;">* Modificar Campo</label>
+	       		<%	
+	       			}
+	    		%></td> 
             </tr>
             <tr>
                 <td>Costo máximo asegurado</td>
-                <td><input type="number" name="costoMaximo" /></td>
+                <td><input type="number" name="costoMaximo" value="<%= request.getParameter("costoMaximo") != null ? request.getParameter("costoMaximo") : "" %>" /></td> 
+                <td><%
+	       			if (request.getAttribute("camposVacios") != null && (boolean)request.getAttribute("camposVacios") == true) 
+	       			{
+	         	%>	
+	         			<label for="costoMaximo" style="color: red;">* Campo obligatorio</label>
+	       		<%	
+	       			}
+	    		%>
+	    		<%
+	       			if (request.getAttribute("seguroRepetido") != null && (boolean)request.getAttribute("seguroRepetido") == true) 
+	       			{
+	         	%>	
+	         			<label for="descripcion" style="color: red;">* Modificar Campo</label>
+	       		<%	
+	       			}
+	    		%></td> 
             </tr>
             <tr>
                 <td colspan="2">

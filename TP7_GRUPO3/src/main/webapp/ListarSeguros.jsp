@@ -24,6 +24,11 @@
 <body>
 
 
+<a href="Inicio.jsp">Inicio</a>
+<a href="servletSeguro?accion=nuevo">Agregar seguro</a>
+<a href="#	">Listar seguros</a>
+        
+
 <h2>Listado de seguros:</h2>
 <br><br>
 <%
@@ -44,7 +49,7 @@
 			}
 			%>
 		</select> <br> 
-		<input type="submit" name="btnFiltrar" value="Filtra por favor"/>
+		<input type="submit" name="btnFiltrar" value="Filtra"/>
 	</form>
 
 <%
