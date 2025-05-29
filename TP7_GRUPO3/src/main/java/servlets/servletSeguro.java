@@ -22,6 +22,18 @@ public class servletSeguro extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		if(request.getParameter("btnFiltrar") != null) {
+			SeguroDao sdao = new SeguroDao();
+			int idTipo = Integer.parseInt(request.getParameter("idTipoSeguro").toString());
+			ArrayList<Seguro> lista = sdao.obtenerSeguros(idTipo);
+		    ArrayList<TipoSeguro> listaTipos = sdao.obtenerTiposSeguro();
+			
+			request.setAttribute("listaSeguros", lista);
+		    request.setAttribute("listaTipos", listaTipos);
+			RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");
+		    rd.forward(request, response);
+		}
+
 		String accion = request.getParameter("accion");
 
 		if (accion != null && accion.equals("nuevo")) {
@@ -35,15 +47,17 @@ public class servletSeguro extends HttpServlet {
 		    RequestDispatcher rd = request.getRequestDispatcher("/AgregarSeguro.jsp");
 		    rd.forward(request, response);
 		}
-		else if(accion.equals("listado"))
+		else if(accion != null && accion.equals("listado"))
 		{
 			SeguroDao sdao = new SeguroDao();
 			ArrayList<Seguro> lista = sdao.obtenerSeguros();
+		    ArrayList<TipoSeguro> listaTipos = sdao.obtenerTiposSeguro();
+		    
 			request.setAttribute("listaSeguros", lista);
+		    request.setAttribute("listaTipos", listaTipos);
 			RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");
 		    rd.forward(request, response);
 		}
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

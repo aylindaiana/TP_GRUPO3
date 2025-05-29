@@ -1,3 +1,4 @@
+<%@page import="Dominio.TipoSeguro"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Dominio.Seguro" %>
@@ -22,11 +23,31 @@
 </head>
 <body>
 
+
 <h2>Listado de seguros:</h2>
 <br><br>
+<%
+
+	ArrayList<Seguro> lista = (ArrayList<Seguro>) request.getAttribute("listaSeguros");
+	ArrayList<TipoSeguro> listaTipos = (ArrayList<TipoSeguro>) request.getAttribute("listaTipos");
+%>
+
+	<form method="get" action="servletSeguro">
+		Busqueda por tipo de Seguros: 
+		<select name="idTipoSeguro"> 
+			<% 
+			for(TipoSeguro tipo : listaTipos){
+				
+			%>
+				<option value=<%=tipo.getIdTipo()%> ><%=tipo.getDescripcion() %></option>
+			<%
+			}
+			%>
+		</select> <br> 
+		<input type="submit" name="btnFiltrar" value="Filtra por favor"/>
+	</form>
 
 <%
-    ArrayList<Seguro> lista = (ArrayList<Seguro>) request.getAttribute("listaSeguros");
     if (lista != null && !lista.isEmpty()) {
 %>
     <table>
@@ -44,7 +65,7 @@
             <tr>
                 <td><%= s.getIdSeguro()%></td>
                 <td><%= s.getDescripcion()%></td>
-                <td><%= s.getIdTipo()%></td>
+                <td><%= s.getTipoDescripcion()%></td>
                 <td><%= s.getCostoContratacion() %></td>
                 <td><%= s.getCostoAsegurado() %></td>
             </tr>
@@ -55,6 +76,5 @@
     }
 %>
 <br><br>
-<a href="Inicio.jsp">Volver al inicio</a>
 </body>
 </html>

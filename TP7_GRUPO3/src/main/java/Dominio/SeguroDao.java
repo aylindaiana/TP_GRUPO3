@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import Dominio.TipoSeguro;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class SeguroDao {
 
-	private String host = "jdbc:mysql://localhost:3306/";
+	private String host = "jdbc:mysql://localhost:3307/";
 	private String user = "root";
-	private String pass = "root";
-	private String dbName = "SegurosGroup";
+	private String pass = "passwordLabIv";
+	private String dbName = "segurosgroup";
 
 	public int obtenerProximoIdSeguro() {
 
@@ -92,16 +93,19 @@ public class SeguroDao {
 		try {
 	        Class.forName("com.mysql.jdbc.Driver");
 	        Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	        
+	        String query = "SELECT S.idSeguro, S.idTipo, S.descripcion, TS.descripcion AS descripcionTipo, S.costoContratacion, S.costoAsegurado FROM seguros AS S JOIN tiposeguros AS TS ON S.idTipo = TS.idTipo";
 	        Statement st = cn.createStatement();
-	        ResultSet rs = st.executeQuery("SELECT * FROM seguros");
+            ResultSet rs = st.executeQuery(query);
 
 	        while (rs.next()) {
 	            Seguro segurodb = new Seguro();
-	            segurodb.setIdSeguro(rs.getInt("idSeguro"));
-	            segurodb.setDescripcion(rs.getString("descripcion"));
-	            segurodb.setIdTipo(rs.getInt("idTipo"));
-	            segurodb.setCostoContratacion(rs.getFloat("costoContratacion"));
-	            segurodb.setCostoAsegurado(rs.getFloat("costoAsegurado"));
+                segurodb.setIdSeguro(rs.getInt("S.idSeguro"));
+                segurodb.setIdTipo(rs.getInt("S.idTipo"));
+                segurodb.setDescripcion(rs.getString("S.descripcion"));
+                segurodb.setTipoDescripcion(rs.getString("descripcionTipo"));
+                segurodb.setCostoAsegurado(rs.getFloat("s.costoAsegurado"));
+                segurodb.setCostoContratacion(rs.getFloat("s.costoAsegurado"));
 	            lista.add(segurodb);
 	        }
 
@@ -113,4 +117,34 @@ public class SeguroDao {
 	    return lista;
 	}
 
+public ArrayList<Seguro> obtenerSeguros(int idTipoSeguro) {
+		
+		ArrayList<Seguro> lista = new ArrayList<>();
+		try {
+	        Class.forName("com.mysql.jdbc.Driver");
+	        Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	        String query = "SELECT S.idSeguro, S.idTipo, S.descripcion, TS.descripcion AS descripcionTipo, S.costoContratacion, S.costoAsegurado FROM seguros AS S JOIN tiposeguros AS TS ON S.idTipo = TS.idTipo WHERE TS.idTipo = ?";
+			PreparedStatement st = cn.prepareStatement(query);
+	        st.setInt(1, idTipoSeguro);
+            ResultSet rs = st.executeQuery();
+
+	        while (rs.next()) {
+
+                Seguro segurodb = new Seguro();
+                segurodb.setIdSeguro(rs.getInt("S.idSeguro"));
+                segurodb.setIdTipo(rs.getInt("S.idTipo"));
+                segurodb.setDescripcion(rs.getString("S.descripcion"));
+                segurodb.setTipoDescripcion(rs.getString("descripcionTipo"));
+                segurodb.setCostoAsegurado(rs.getFloat("s.costoAsegurado"));
+                segurodb.setCostoContratacion(rs.getFloat("s.costoAsegurado"));
+                lista.add(segurodb);
+	        }
+
+	        cn.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
 }

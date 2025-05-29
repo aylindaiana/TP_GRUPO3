@@ -4,8 +4,18 @@ public class Seguro {
 	private int idSeguro;
 	private String descripcion;
 	private int idTipo;
+	private String tipoDescripcion;
 	private float costoContratacion;
 	private float costoAsegurado;
+	
+	
+	
+	public String getTipoDescripcion() {
+		return tipoDescripcion;
+	}
+	public void setTipoDescripcion(String tipoDescripcion) {
+		this.tipoDescripcion = tipoDescripcion;
+	}
 	
 	public int getIdSeguro() {
 		return idSeguro;

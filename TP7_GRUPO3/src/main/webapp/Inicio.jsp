@@ -9,7 +9,7 @@
 <body>
 
    
-<a href="Inicio.jsp">Inicio</a>
+<a href="#">Inicio</a>
 <a href="servletSeguro?accion=nuevo">Agregar seguro</a>
 <a href="servletSeguro?accion=listado">Listar seguros</a>
         

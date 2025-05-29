@@ -8,6 +8,7 @@
     <title>Agregar seguro</title> 
 </head>
 <body>
+
     <h2>Agregar seguros</h2>
 
     <% if (request.getAttribute("filasInsertadas") != null) { %>
@@ -30,10 +31,12 @@
                     <select name="tipoSeguro">
                         <%
                             ArrayList<TipoSeguro> lista = (ArrayList<TipoSeguro>) request.getAttribute("listaTipos");
-                            for (TipoSeguro tipo : lista) {
+                            if(lista!=null){
+                        	for (TipoSeguro tipo : lista) {
                         %>
                             <option value="<%= tipo.getIdTipo() %>"><%= tipo.getDescripcion() %></option>
                         <%
+                            }
                             }
                         %>
                     </select>
