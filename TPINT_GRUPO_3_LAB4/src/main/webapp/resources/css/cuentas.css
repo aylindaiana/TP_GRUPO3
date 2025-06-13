@@ -1,0 +1,152 @@
+/* === ESTILOS GENERALES === */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #ccc;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background-color: darkred;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* === CONTENIDO GENERAL === */
+.contenido {
+    padding: 20px;
+}
+
+.titulo-seccion {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.tabla-cuentas {
+    background-color: #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #999;
+    color: white;
+}
+
+td {
+    background-color: black;
+    color: white;
+}
+
+/* === BOTONES GENERALES === */
+.ver-btn {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pagar-btn {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.estado.pagado {
+    background-color: limegreen;
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+/* === DETALLE DE CUENTA (verCuenta.jsp) === */
+.volver-btn {
+    background-color: darkred;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Tabla de movimientos mejorada */
+.tabla-movimientos {
+    background-color: #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.tabla-movimientos table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.tabla-movimientos th {
+    background-color: #888;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.tabla-movimientos td {
+    background-color: black;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+}
+
+.tabla-movimientos td.positivo {
+    color: #00ff66;
+    font-weight: bold;
+}
+
+.tabla-movimientos td.negativo {
+    color: red;
+    font-weight: bold;
+}
+
