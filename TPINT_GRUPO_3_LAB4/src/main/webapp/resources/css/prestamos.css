@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+header {
+    background-color: #ccc;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background-color: darkred;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+#general-container{
+	margin: 20px;
+	padding: 30px;
+}
+
+#historial-container{
+	border-radius: 2%;
+	border: 2px solid rgb(0, 0, 0);
+	padding: 20px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#cuenta-destino-container {
+	border-radius: 2%;
+	border: 2px solid rgb(0, 0, 0);
+	margin: 20px;
+	padding: 20px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#montos-container{
+	border-radius: 2%;
+	border: 5px solid  rgba(0, 0, 0, 0.3);
+}
