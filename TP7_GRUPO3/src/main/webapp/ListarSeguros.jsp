@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Dominio.Seguro" %>
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
 <meta charset="UTF-8">
 <title>Seguros</title>
