@@ -1,0 +1,207 @@
+@charset "UTF-8";
+
+header {
+	background-color: #ccc;
+	padding: 10px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+nav a {
+	margin: 0 10px;
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
+
+nav a u {
+	text-decoration: underline;
+}
+
+.logout-btn {
+	background-color: darkred;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.search-container {
+	background-color: #e6e6e6;
+	padding: 20px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+	border: 2px solid rgb(0, 0, 0);
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+        
+.table-container {
+	background-color: #d4d4d4;
+	padding: 15px;
+	border-radius: 8px;
+	border: 2px solid rgb(0, 0, 0);
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+        
+.table-container .table {
+	margin-bottom: 0;
+	background-color: white;
+}
+        
+.table-container .table thead th {
+	background-color: #b8b8b8;
+	color: #333;
+	font-weight: bold;
+	border-color: #999;
+}
+        
+.badge {
+	font-size: 0.8em;
+}
+        
+.btn-sm {
+	font-size: 0.8em;
+	padding: 4px 8px;
+}
+
+.container {
+	margin: 20px;
+	padding: 30px;
+}
+
+body {
+	background-color: #f8f9fa;
+}
+
+.form-control {
+	border: 1px solid #999;
+}
+
+.btn-secondary {
+	background-color: #6c757d;
+	border-color: #6c757d;
+}
+
+.btn-outline-secondary {
+	color: #6c757d;
+	border-color: #6c757d;
+}
+
+.tabla-cuentas {
+    background-color: #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.contenido {
+    padding: 20px;
+}
+
+.titulo-seccion {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.tabla-cuentas {
+    background-color: #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #999;
+    color: white;
+}
+
+td {
+    background-color: black;
+    color: white;
+}
+
+.ver-btn {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* verCuentaAdmin */
+
+.volver-btn {
+    background-color: darkred;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.Prestamos-btn{
+	background-color: yellow;
+	color: black;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Tabla de movimientos mejorada */
+.tabla-movimientos {
+    background-color: #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.tabla-movimientos table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.tabla-movimientos th {
+    background-color: #888;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.tabla-movimientos td {
+    background-color: black;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+}
+
+.tabla-movimientos td.positivo {
+    color: #00ff66;
+    font-weight: bold;
+}
+
+.tabla-movimientos td.negativo {
+    color: red;
+    font-weight: bold;
+}
