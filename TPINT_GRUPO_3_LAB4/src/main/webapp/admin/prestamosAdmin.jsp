@@ -26,7 +26,7 @@
 			<div>
 				<a href="${pageContext.request.contextPath}/admin/homeCliente.jsp">Home</a>
 				<a
-					href="${pageContext.request.contextPath}/admin/altCliente.jsp">Alta cliente</a>
+					href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta cliente</a>
 				<a
 					href="${pageContext.request.contextPath}/admin/clientes.jsp">Lista Clientes</a>
 				<a href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a>
