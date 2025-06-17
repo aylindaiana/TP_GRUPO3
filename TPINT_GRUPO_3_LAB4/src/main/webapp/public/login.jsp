@@ -10,7 +10,7 @@
 <body>
     <div class="login-container">
         <h2 class="login-title">Bienvenido</h2>
-        <form action="login" method="post">
+        <form action="${pageContext.request.contextPath}/admin/homeAdmin.jsp" method="post">
             <div class="input-group">
                 <label for="username">Usuario</label>
                 <input type="text" id="username" name="username" required>

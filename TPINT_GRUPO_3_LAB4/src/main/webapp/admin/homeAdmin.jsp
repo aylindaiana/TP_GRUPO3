@@ -20,12 +20,11 @@
 		</div>
 		<nav>
 			<div>
-				<a href="${pageContext.request.contextPath}/admin/homeAdmin.jsp">Home</a>
-				<a
-					href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta cliente</a>
+				<a href="${pageContext.request.contextPath}/admin/homeAdmin.jsp"><u>Home</u></a>
+				<a href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta cliente</a>
 				<a href="${pageContext.request.contextPath}/admin/clientes.jsp">Lista Clientes</a>
 				<a href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a>
-				<a href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp"><u>Préstamos</u></a>
+				<a href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Préstamos</a>
 				<a href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 				<span style="margin-left: 20px;">Usuario</span>
 				<button class="logout-btn">LOG OUT</button>
