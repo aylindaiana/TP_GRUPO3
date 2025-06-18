@@ -151,7 +151,7 @@
                     <div class="cuentas-container">
                         <h5 class="section-title">Cuentas del Cliente </h5>
 
-                        <div class="cuenta-item" id="cuenta1">
+                      <div class="cuenta-item" id="cuenta1">
                             <div class="row align-items-center">
                                 <div class="col-md-2">
                                     <label class="form-label"><strong>Número:</strong></label>
@@ -172,12 +172,13 @@
                                     <label class="form-label"><strong>Saldo:</strong></label>
                                     <input type="text" class="form-control" name="saldo1" value="$250.000,00" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label class="form-label"><strong>CBU:</strong></label>
                                     <input type="text" class="form-control" name="cbu1" value="0170123456789012345678" readonly>
                                 </div>
-                                <div class="col-md-1 text-center">
+                                <div class="col-md-2 text-center">
                                     <label class="form-label"><strong>Acciones:</strong></label><br>
+                                    <a href="${pageContext.request.contextPath}/admin/verCuenta.jsp?id=X123" class="btn btn-primary btn-sm me-2">Ver</a>
                                     <button type="button" class="btn btn-danger btn-sm">Eliminar</button>
                                 </div>
                             </div>
@@ -204,12 +205,13 @@
                                     <label class="form-label"><strong>Saldo:</strong></label>
                                     <input type="text" class="form-control" name="saldo2" value="$180.500,50" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label class="form-label"><strong>CBU:</strong></label>
                                     <input type="text" class="form-control" name="cbu2" value="0170987654321098765432" readonly>
                                 </div>
-                                <div class="col-md-1 text-center">
+                                <div class="col-md-2 text-center">
                                     <label class="form-label"><strong>Acciones:</strong></label><br>
+                                    <a href="${pageContext.request.contextPath}/admin/verCuenta.jsp?id=X943" class="btn btn-primary btn-sm me-2">Ver</a>
                                     <button type="button" class="btn btn-danger btn-sm">Eliminar</button>
                                 </div>
                             </div>

@@ -87,3 +87,17 @@ body {
 	border-bottom: 2px solid #ccc;
 	padding-bottom: 10px;
 }
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.me-2 {
+    margin-right: 0.5rem;
+}
