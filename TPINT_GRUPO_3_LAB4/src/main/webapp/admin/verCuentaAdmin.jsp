@@ -21,8 +21,7 @@
 		<nav>
 			<div>
 				<a href="${pageContext.request.contextPath}/admin/homeAdmin.jsp">Home</a>
-				<a
-					href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta cliente</a>
+				<a href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta cliente</a>
 				<a href="${pageContext.request.contextPath}/admin/clientes.jsp">Lista Clientes</a>
 				<a href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a>
 				<a href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp"><u>Préstamos</u></a>
@@ -75,5 +74,6 @@
 	        </table>
 	    </div>
 	</div>
+
 </body>
 </html>

@@ -1,0 +1,136 @@
+@charset "UTF-8";
+ header {
+	background-color: #ccc;
+	padding: 10px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+nav a {
+	margin: 0 10px;
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
+
+nav a u {
+	text-decoration: underline;
+}
+
+.logout-btn {
+	background-color: darkred;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+
+.page-title {
+	color: #333;
+	margin-bottom: 30px;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.report-card {
+	background: white;
+	border-radius: 8px;
+	padding: 25px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	border: 2px solid #ddd;
+	margin-bottom: 20px;
+}
+
+.report-card h3 {
+	color: #333;
+	margin-bottom: 15px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.report-card p {
+	color: #666;
+	margin-bottom: 20px;
+	line-height: 1.4;
+}
+        
+.stat-card {
+	background: #f8f9fa;
+	padding: 20px;
+	border-radius: 6px;
+	text-align: center;
+	border-left: 4px solid #007bff;
+	margin-bottom: 15px;
+}
+
+.stat-number {
+	font-size: 28px;
+	font-weight: bold;
+	color: #007bff;
+	display: block;
+}
+
+.stat-label {
+	color: #666;
+	font-size: 14px;
+	margin-top: 5px;
+}
+
+.status-active { 
+	color: #28a745; 
+	font-weight: 500; 
+}
+        
+.status-inactive { 
+	color: #dc3545; 
+	font-weight: 500; 
+}
+        
+.status-pending { 
+	color: #ffc107; 
+	font-weight: 500; 
+}
+
+.filter-section {
+	background-color: #e9ecef;
+	padding: 15px;
+	border-radius: 5px;
+	margin-bottom: 15px;
+}
+
+.summary-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	gap: 25px;
+	margin-bottom: 30px;
+}
+
+.info-card {
+	background: white;
+	border: 2px solid #ddd;
+	border-radius: 8px;
+	padding: 20px;
+}
+
+.info-card-header {
+	background-color: #f8f9fa;
+	margin: -20px -20px 15px -20px;
+	padding: 15px 20px;
+	border-radius: 6px 6px 0 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.info-card h6 {
+	margin: 0;
+	font-weight: bold;
+	color: #333;
+}
+
+.metric-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
