@@ -3,9 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Transferencias</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<title>Transferencias</title>
+
+    <link rel="stylesheet" 
+        href="${pageContext.request.contextPath}/resources/css/transferencias.css">
+        
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -17,32 +21,20 @@
 	    <div class="collapse navbar-collapse" id="navbarText">
 	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	        <li class="nav-item">
-	          <a class="nav-link" aria-current="page" href="#">Home</a>
-	        </li>
-	        
-	    <%
-	    	// si es admin
-	    	%>
-	        <li class="nav-item">
-	          <a class="nav-link" href="#">Clientes</a>
+	          <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Reportes</a>
-	        </li>
-	   <%
-	    %>
-	        <li class="nav-item">
-	          <a class="nav-link" href="#">Cuentas</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Prestamo</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/prestamos.jsp">Prestamo</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" href="#">Transferir</a>
+	          <a class="nav-link active" href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
 	        </li>
 	      </ul>
-	      <span class="navbar-text">
-	      	logo
+	      <span class="navbar-text d-flex flex-row">
+	      <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">Nombre Usuario</a>
 	        <button class="btn btn-danger">Log Out</button>
 	      </span>
 	    </div>
@@ -77,7 +69,7 @@
 	      		
 					<label for="formSelect" class="form-label fw-bold text-start">Destinatario</label>
 					<div class="input-group mb-3">
-					  <span class="input-group-text">Contacto</span>
+					  <span class="input-group-text span-center">Contacto</span>
 					  <select id="formSelect" class="form-select">
 					    <option>Seleccione contacto</option>
 					  </select>
@@ -85,13 +77,13 @@
 				    
 					<label for="formMonto" class="form-label fw-bold text-start">Monto</label>
 					<div class="input-group mb-3">
-					  <span class="input-group-text">$</span>
+					  <span class="input-group-text span-center justify-content-center">$</span>
 					  <input type="text" class="form-control" id="formMonto">
 					  <span class="input-group-text">.00</span>
 					</div>
 				    
 					<div class="input-group mb-3">
-					  <span class="input-group-text fw-bold text-start">Mensaje</span>
+					  <span class="input-group-text fw-bold span-center">Mensaje</span>
 					  <textarea class="form-control" aria-label="With textarea"></textarea>
 					</div>
 					

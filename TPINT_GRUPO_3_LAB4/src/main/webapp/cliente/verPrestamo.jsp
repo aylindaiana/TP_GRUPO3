@@ -16,23 +16,37 @@
 	crossorigin="anonymous"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/prestamos.css">
+        
 </head>
 <body>
-	<header>
-		<div>
-			<strong>CLIENTE</strong>
-		</div>
-		<nav>
-			<div>
-				<a href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
-				<a href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
-				<a href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
-				<a href="${pageContext.request.contextPath}/cliente/prestamos.jsp"><u>Préstamo</u></a>
-				<span style="margin-left: 20px;">Usuario</span>
-				<button class="logout-btn">LOG OUT</button>
-			</div>
-		</nav>
-	</header>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">Bankame</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarText">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" href="${pageContext.request.contextPath}/cliente/prestamos.jsp">Prestamo</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
+	        </li>
+	      </ul>
+	      <span class="navbar-text d-flex flex-row">
+	      <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">Nombre Usuario</a>
+	        <button class="btn btn-danger">Log Out</button>
+	      </span>
+	    </div>
+	  </div>
+	</nav>
 
 
 	<div class="container text-center" id="general-container">

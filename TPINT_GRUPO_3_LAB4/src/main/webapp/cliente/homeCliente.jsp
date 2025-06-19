@@ -5,26 +5,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Home Cliente</title>
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" 
-        crossorigin="anonymous">
     <link rel="stylesheet" 
         href="${pageContext.request.contextPath}/resources/css/homeCliente.css">
+        
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 </head>
 <body>
-<header>
-    <div><strong>CLIENTE</strong></div>
-    <nav>
-        <a href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
-        <a href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
-        <a href="${pageContext.request.contextPath}/cliente/cuentas.jsp"><u>Cuentas</u></a>
-        <a href="${pageContext.request.contextPath}/cliente/prestamos.jsp">Préstamo</a>
-        <span style="margin-left: 20px;">Usuario</span>
-        <button class="logout-btn">LOG OUT</button>
-    </nav>
-</header>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">Bankame</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarText">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/prestamos.jsp">Prestamo</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
+	        </li>
+	      </ul>
+	      <span class="navbar-text d-flex flex-row">
+	      <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">Nombre Usuario</a>
+	        <button class="btn btn-danger">Log Out</button>
+	      </span>
+	    </div>
+	  </div>
+	</nav>
 
     <div class="container">
         <div class="row">
@@ -56,7 +70,7 @@
                     <div class="info-field mt-3">
                         <label class="field-label">CUIL:</label>
                         <span class="field-value">20-12345678-9</span>
-                    </div>
+                    </div> 
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Sexo:</label>
