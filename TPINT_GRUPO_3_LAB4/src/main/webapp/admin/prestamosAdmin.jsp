@@ -108,7 +108,7 @@
 
 				<div class="row">
 					<table class="table table-hover">
-						<tr>
+						<tr class="table-info">
 							<th>Numero de prestamo</th>
 							<th>Estado</th>
 						</tr>
@@ -119,17 +119,17 @@
 
 						<tr>
 							<td>prestamo 2</td>
-							<td><a href="" class="btn btn-warning">pendiente</a></td>
+							<td><a href="detallesPrestamo.jsp" class="btn btn-warning">pendiente</a></td>
 						</tr>
 
 						<tr>
 							<td>prestamo 3</td>
-							<td><a href="" class="btn btn-warning">pendiente</a></td>
+							<td><a href="detallesPrestamo.jsp" class="btn btn-warning">pendiente</a></td>
 						</tr>
 
 						<tr>
 							<td>prestamo 4</td>
-							<td><a href="" class="btn btn-danger">rechazado</a></td>
+							<td><a href="detallesPrestamo.jsp" class="btn btn-danger">rechazado</a></td>
 						</tr>
 					</table>
 				</div>

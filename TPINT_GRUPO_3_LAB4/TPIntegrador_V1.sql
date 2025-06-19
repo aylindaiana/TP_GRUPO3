@@ -93,6 +93,13 @@ CREATE TABLE `usuario_tipos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+CREATE TABLE `prestamo_rechazado` (
+  `ID` int NOT NULL,
+  `IDPrestamo` int NOT NULL,
+  `MotivoRechazo` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 /* 
 -----------------------------------------------------------------------------------------------------------------------------------

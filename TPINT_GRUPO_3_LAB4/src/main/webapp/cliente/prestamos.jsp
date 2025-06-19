@@ -99,7 +99,7 @@
 					</div>
 				</div>
 				<br>
-				<button class="btn btn-success">Solicitar</button>
+				<a href="solicitarPrestamo.jsp" class="btn btn-success">Solicitar</a>
 				
 			</div>
 			<div class="col" id="historial-container">
@@ -110,7 +110,7 @@
 
 				<div class="row">
 					<table class="table table-hover">
-						<tr>
+						<tr class="table-info">
 							<th>Numero de prestamo</th>
 							<th>Estado</th>
 						</tr>
@@ -131,7 +131,7 @@
 
 						<tr>
 							<td>prestamo 4</td>
-							<td><a href="" class="btn btn-danger">rechazado</a></td>
+							<td><a href="verPrestamo.jsp" class="btn btn-danger">rechazado</a></td>
 						</tr>
 					</table>
 				</div>
