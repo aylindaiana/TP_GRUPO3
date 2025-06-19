@@ -6,15 +6,15 @@
 <meta charset="UTF-8">
 <title>Mi Perfil</title>
 
-<!-- Bootstrap -->
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 
-<!-- CSS personalizado -->
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/verUsuario.css">
 </head>
 <body>
 
-	<!-- Navbar -->
+
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 	  <div class="container-fluid">
 	    <a class="navbar-brand" href="#">Bankame</a>
@@ -44,7 +44,7 @@
 	  </div>
 	</nav>
 
-	<!-- Contenido -->
+
 	<div class="container mt-5">
 	    <div class="card shadow p-4">
 	        <div class="d-flex align-items-center mb-4">
@@ -55,7 +55,7 @@
 	            </div>
 	        </div>
 
-	        <!-- Datos personales -->
+
 	        <h5 class="mt-3">Datos Personales</h5>
 	        <div class="row">
 	            <div class="col-md-4">
@@ -69,7 +69,7 @@
 	            </div>
 	        </div>
 
-	        <!-- Datos de contacto -->
+
 	        <h5 class="mt-4">Datos de Contacto</h5>
 	        <div class="row">
 	            <div class="col-md-4">
@@ -83,7 +83,7 @@
 	            </div>
 	        </div>
 
-	        <!-- Datos de acceso -->
+	
 	        <h5 class="mt-4">Datos de Acceso</h5>
 	        <div class="row">
 	            <div class="col-md-4">
