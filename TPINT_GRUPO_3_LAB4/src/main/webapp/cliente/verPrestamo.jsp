@@ -25,7 +25,8 @@
 		<nav>
 			<div>
 				<a href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
-				<a href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
+				<a
+					href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
 				<a href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
 				<a href="${pageContext.request.contextPath}/cliente/prestamos.jsp"><u>Préstamo</u></a>
 				<span style="margin-left: 20px;">Usuario</span>
@@ -36,57 +37,105 @@
 
 
 	<div class="container text-center" id="general-container">
-		<div class="row">
-			<div class="col" id="historial-container">
-
-				<div class="row">
-					<b>PRESTAMO NUMERO 1</b>
-				</div>
-
-				<div class="row">
-
-					<form action="">
-						<table class="table table-hover">
-							<tr>
-								<th>Numero de Cuota</th>
-								<th>Monto</th>
-								<th>Fecha limite</th>
-								<th>Estado cuota</th>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>$2000</td>
-								<td>14/06/2025</td>
-								<td><button type="submit" class="btn btn-success">Pagado</button></td>
-							</tr>
-
-							<tr>
-								<td>2</td>
-								<td>$2000</td>
-								<td>14/07/2025</td>
-								<td><button type="submit" class="btn btn-warning">Pagar</button></td>
-							</tr>
-
-							<tr>
-								<td>3</td>
-								<td>$2000</td>
-								<td>14/08/2025</td>
-								<td><button type="submit" class="btn btn-warning">Pagar</button></td>
-							</tr>
-
-							<tr>
-								<td>4</td>
-								<td>$2000</td>
-								<td>14/09/2025</td>
-								<td><button type="submit" class="btn btn-warning">Pagar</button></td>
-							</tr>
-						</table>
-					</form>
-				</div>
-
+		<div class="col" id="historial-container">
+			<div class="row">
+				<b>PRESTAMO NUMERO 1</b>
 			</div>
+
+			<div class="row">
+
+				<form action="">
+					<table class="table table-hover">
+						<tr class="table-info">
+							<th>Numero de Cuota</th>
+							<th>Monto</th>
+							<th>Fecha limite</th>
+							<th>Estado cuota</th>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>$2000</td>
+							<td>14/06/2025</td>
+							<td><a href="#" class="btn btn-success">Pagado</a></td>
+						</tr>
+
+						<tr>
+							<td>2</td>
+							<td>$2000</td>
+							<td>14/07/2025</td>
+							<td><a href="pagarCuota.jsp" class="btn btn-warning">Pagar</a></td>
+						</tr>
+
+						<tr>
+							<td>3</td>
+							<td>$2000</td>
+							<td>14/08/2025</td>
+							<td><a href="pagarCuota.jsp" class="btn btn-warning">Pagar</a></td>
+						</tr>
+
+						<tr>
+							<td>4</td>
+							<td>$2000</td>
+							<td>14/09/2025</td>
+							<td><a href="pagarCuota.jsp" class="btn btn-warning">Pagar</a></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+
+		</div>
+		
+		<br>
+		
+		
+		<div class="col" id="historial-container">
+
+			<div class="row">
+				<b>PRESTAMO PRESTAMO RECHAZADO</b>
+			</div>
+
+			<div class="row">
+					<table class="table table-hover">
+						<tr class="table-info">
+							<th>Cantidad de cuotas</th>
+							<th>Monto solicitado</th>
+							<th>Fecha de solicitud</th>
+							<th>Motivo de rechazo</th>
+						</tr>
+						<tr>
+							<td>36</td>
+							<td>$2000000</td>
+							<td>18/06/2025</td>
+							<td>
+								<textarea rows="8" cols="50" readonly style="resize: none;">el monto solicitado excede la cantidad a brindar para alguien con un historial crediticio casi nulo.
+								</textarea>
+							</td>
+						</tr>
+
+					</table>
+					<a href="prestamos.jsp" class="btn btn-primary">Regresar</a>
+			</div>
+
 		</div>
 	</div>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
