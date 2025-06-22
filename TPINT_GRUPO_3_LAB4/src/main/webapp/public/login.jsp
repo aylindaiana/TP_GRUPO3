@@ -10,16 +10,16 @@
 <body>
     <div class="login-container">
         <h2 class="login-title">Bienvenido</h2>
-        <form action="${pageContext.request.contextPath}/admin/homeAdmin.jsp" method="post">
+        <form action="${pageContext.request.contextPath}/ServletLogin" method="post">
             <div class="input-group">
                 <label for="username">Usuario</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required value="<%= request.getParameter("username") != null ? request.getParameter("username") : "" %>">
             </div>
             <div class="input-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" required value="<%= request.getParameter("password") != null ? request.getParameter("password") : "" %>">
             </div>
-            <button type="submit" class="login-button">ENTRAR</button>
+            <input type="submit" class="login-button" value="Entrar" />
         </form>
     </div>
 </body>
