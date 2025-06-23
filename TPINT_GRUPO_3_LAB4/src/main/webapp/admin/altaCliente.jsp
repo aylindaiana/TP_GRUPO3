@@ -56,7 +56,7 @@
 	</nav>
 
 <div class="main-container">
-    <form action="procesarAltaCliente" method="post">
+    <form action="${pageContext.request.contextPath}/procesarAltaCliente" method="post">
         <div class="form-columns">
             <!-- Columna Izquierda - Datos Personales -->
             <div class="form-column">
