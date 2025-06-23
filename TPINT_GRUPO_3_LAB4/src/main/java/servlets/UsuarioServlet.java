@@ -57,7 +57,7 @@ public class UsuarioServlet extends HttpServlet {
             nuevoUsuario.setProvincia(provincia);
             nuevoUsuario.setCorreoElectronico(email);
             nuevoUsuario.setTelefono(telefono);
-            nuevoUsuario.setIdUsuario(2); // 2 = Cliente (según la tabla usuario_tipos)
+            nuevoUsuario.setIdUsuario(2);
 
             // Paso 3: Lógica de negocio
             NegocioUsuario negocio = new NegocioUsuarioImpl();
