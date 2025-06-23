@@ -57,22 +57,22 @@ public class UsuarioServlet extends HttpServlet {
             nuevoUsuario.setProvincia(provincia);
             nuevoUsuario.setCorreoElectronico(email);
             nuevoUsuario.setTelefono(telefono);
-            nuevoUsuario.setIdUsuario(2);
+            nuevoUsuario.setIdUsuario(2); // Usuario tipo cliente
 
             // Paso 3: Lógica de negocio
             NegocioUsuario negocio = new NegocioUsuarioImpl();
             boolean insertadoOK = negocio.agregarUsuarioConCredenciales(nuevoUsuario, usuario, password);
 
-            // Paso 4: Redirección
+            // Paso 4: Redirección con mensaje
             if (insertadoOK) {
-                response.sendRedirect("admin/clientes.jsp");
+                response.sendRedirect("admin/altaCliente.jsp?status=success");
             } else {
-                response.sendRedirect("admin/altaCliente.jsp?error=1");
+                response.sendRedirect("admin/altaCliente.jsp?status=error");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("admin/altaCliente.jsp?error=2");
+            response.sendRedirect("admin/altaCliente.jsp?status=error");
         }
     }
 }

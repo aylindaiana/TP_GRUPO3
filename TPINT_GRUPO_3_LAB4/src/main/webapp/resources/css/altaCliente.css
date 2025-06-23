@@ -144,3 +144,8 @@ h2 {
 .submit-button:hover {
     background-color: #45a049;
 }
+
+.alert {
+    max-width: 600px;
+    margin: 20px auto;
+}
