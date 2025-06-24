@@ -10,7 +10,7 @@
 <body>
     <div class="login-container">
         <h2 class="login-title">Bienvenido</h2>
-        <form action="${pageContext.request.contextPath}/ServletLogin" method="post">
+        <form action="${pageContext.request.contextPath}/ServletLogin?accion=iniciar" method="post">
             <div class="input-group">
                 <label for="username">Usuario</label>
                 <input type="text" id="username" name="username" required value="<%= request.getParameter("username") != null ? request.getParameter("username") : "" %>">

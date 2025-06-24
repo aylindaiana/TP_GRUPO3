@@ -29,11 +29,11 @@
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
 	        </li>
-	      </ul>
+	      </ul>	  
 	      <span class="navbar-text d-flex flex-row">
-	      <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">Nombre Usuario</a>
-	        <button class="btn btn-danger">Log Out</button>
-	      </span>
+		    <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp"><%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null" %></a>
+		    <a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="btn btn-danger">Log Out</a>
+		  </span>
 	    </div>
 	  </div>
 	</nav>

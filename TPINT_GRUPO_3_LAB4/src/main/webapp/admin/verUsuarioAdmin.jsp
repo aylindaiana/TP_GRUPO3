@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/verUsuario.css">
 </head>
 <body>
-
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 	  <div class="container-fluid">
 	    <a class="navbar-brand" href="#">Bankame</a>
@@ -21,28 +20,28 @@
 	    <div class="collapse navbar-collapse" id="navbarText">
 	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Home</a>
+	          <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/admin/homeAdmin.jsp">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Alta Clientes</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta Clientes</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Clientes</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/clientes.jsp">Clientes</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Reportes</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Cuentas</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Prestamo</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a>
 	        </li>
-	      </ul>
-	      <span class="navbar-text d-flex flex-row">
-	        <a class="nav-link active align-self-center justify-content-center" href="#">Laura Gómez</a>
-	        <button class="btn btn-danger ms-2">Log Out</button>
-	      </span>
+	      </ul>				  
+		  <span class="navbar-text d-flex flex-row">
+			  <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/admin/verUsuarioAdmin.jsp"><%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null" %></a>
+			  <a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="btn btn-danger">Log Out</a>
+		  </span>
 	    </div>
 	  </div>
 	</nav>
