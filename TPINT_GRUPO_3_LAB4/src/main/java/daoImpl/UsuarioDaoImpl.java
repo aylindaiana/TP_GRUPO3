@@ -10,7 +10,7 @@ import entidad.Usuario;
 public class UsuarioDaoImpl implements UsuarioDao {
 
     private static final String SELECT_ALL = "SELECT * FROM usuario";
-    private static final String INSERT = "INSERT INTO usuario (Nombre, Apellido, Dni, Cuil, Sexo, Nacionalidad, FechaDeNacimiento, Direccion, Localidad, Provincia, CorreoElectronico, Telefono, IDUsuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO usuario (Nombre, Apellido, Dni, Cuil, Sexo, Nacionalidad, FechaDeNacimiento, Direccion, Localidad, Provincia, CorreoElectronico, Telefono, IDUsuario, Estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE usuario SET Nombre = ?, Apellido = ?, Dni = ?, Cuil = ?, Sexo = ?, Nacionalidad = ?, FechaDeNacimiento = ?, Direccion = ?, Localidad = ?, Provincia = ?, CorreoElectronico = ?, Telefono = ?, IDUsuario = ? WHERE ID = ?";
     private static final String SELECT_BY_ID = "SELECT * FROM usuario WHERE ID = ?";
 
@@ -35,6 +35,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
             stmt.setString(11, u.getCorreoElectronico());
             stmt.setString(12, u.getTelefono());
             stmt.setInt(13, u.getIdUsuario());
+            stmt.setBoolean(14, true); // o u.isEstado() si ya lo tiene cargado
+
 
             if (stmt.executeUpdate() > 0) {
                 conexion.commit();
@@ -151,6 +153,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
             stmt.setString(11, u.getCorreoElectronico());
             stmt.setString(12, u.getTelefono());
             stmt.setInt(13, u.getIdUsuario());
+            stmt.setBoolean(14, true); // o u.isEstado() si ya lo tiene cargado
+
 
             if (stmt.executeUpdate() > 0) {
                 ResultSet rs = stmt.getGeneratedKeys();

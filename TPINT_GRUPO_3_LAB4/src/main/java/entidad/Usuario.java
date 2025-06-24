@@ -17,6 +17,8 @@ public class Usuario {
 	private String correoElectronico;
 	private String telefono;
 	private int idUsuario;
+	private boolean estado;
+
 	
 	public Usuario() {
 		super();
@@ -24,7 +26,7 @@ public class Usuario {
 	
 	public Usuario(int id, String nombre, String apellido, int dni, int cuil, String sexo, String nacionalidad,
 			Date fechaDeNacimiento, String direccion, String localidad, String provincia, String correoElectronico,
-			String telefono, int idUsuario) {
+			String telefono, int idUsuario, boolean estado) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -40,6 +42,7 @@ public class Usuario {
 		this.correoElectronico = correoElectronico;
 		this.telefono = telefono;
 		this.idUsuario = idUsuario;
+		this.estado = estado;
 	}
 	public int getId() {
 		return id;
@@ -125,6 +128,14 @@ public class Usuario {
 	public void setIdUsuario(int idUsuario) {
 		this.idUsuario = idUsuario;
 	}
+	public boolean isEstado() {
+	    return estado;
+	}
+
+	public void setEstado(boolean estado) {
+	    this.estado = estado;
+	}
+
 	
 	
 }
