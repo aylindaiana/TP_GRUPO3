@@ -28,8 +28,9 @@
           <a class="nav-link active" href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta Clientes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/clientes.jsp">Clientes</a>
-        </li>
+  <a class="nav-link" href="${pageContext.request.contextPath}/ListarUsuariosServlet">Clientes</a>
+</li>
+
         <li class="nav-item">
           <a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
         </li>

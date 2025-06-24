@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="entidad.Usuario" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +17,7 @@
 		integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
 		crossorigin="anonymous"></script>
 	<link rel="stylesheet"
-		href="${pageContext.request.contextPath}/resources/css/listaClientes.css">	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+		href="${pageContext.request.contextPath}/resources/css/listaClientes.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -29,10 +31,6 @@
 	        <li class="nav-item">
 	          <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/admin/homeAdmin.jsp">Home</a>
 	        </li>
-	    <%
-	    	// si es admin
-	    	%>
-	    	
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta Clientes</a>
 	        </li>
@@ -42,8 +40,6 @@
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 	        </li>
-	   <%
-	    %>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a>
 	        </li>
@@ -52,7 +48,7 @@
 	        </li>
 	      </ul>
 	      <span class="navbar-text d-flex flex-row">
-	      <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/admin/verUsuarioAdmin.jsp">Nombre Usuario</a>
+	        <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/admin/verUsuarioAdmin.jsp">Nombre Usuario</a>
 	        <button class="btn btn-danger">Log Out</button>
 	      </span>
 	    </div>
@@ -103,42 +99,47 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <%
+                            @SuppressWarnings("unchecked")
+                                List<Usuario> obtenerTodos = (List<Usuario>) request.getAttribute("obtenerTodos");
+                                if (obtenerTodos != null) {
+                                    for (Usuario usuario : obtenerTodos) {
+                            %>
                             <tr>
-                                <td>Braian</td>
-                                <td>Pirelli</td>
-                                <td>12.345.678</td>
-                                <td>0170123456789012345678</td>
-                                <td>2</td>
-                                <td><span class="badge bg-success">Activo</span></td>
-                                <td><a href="${pageContext.request.contextPath}/admin/detalleCliente.jsp?id=1" class="btn btn-primary btn-sm">VER</a></td>
+                                <td><%= usuario.getNombre() %></td>
+                                <td><%= usuario.getApellido() %></td>
+                                <td><%= usuario.getDni() %></td>
+                                <td>
+                                    <%
+                                        // Acá se debería obtener el CBU y cantidad de cuentas del usuario desde la base
+                                        // Por ahora hay valores de ejemplo:
+                                    %>
+                                    0170123456789012345678
+                                </td>
+                                <td>
+                                    <%
+                                        // Ejemplo: mostrar cantidad de cuentas
+                                    %>
+                                    2
+                                </td>
+                                <td>
+                                    <%
+                                        // Mostrar estado
+                                    %>
+                                    <span class="badge bg-success">Activo</span>
+                                </td>
+                                <td>
+                                    <a href="<%= request.getContextPath() %>/admin/detalleCliente.jsp?id=<%= usuario.getId() %>" class="btn btn-primary btn-sm">VER</a>
+                                </td>
                             </tr>
+                            <%
+                                    }
+                                } else {
+                            %>
                             <tr>
-                                <td>Alex</td>
-                                <td>Carvajal</td>
-                                <td>23.456.789</td>
-                                <td>0170987654321098765432</td>
-                                <td>1</td>
-                                <td><span class="badge bg-success">Activo</span></td>
-                                <td><a href="${pageContext.request.contextPath}/admin/detalleCliente.jsp?id=2" class="btn btn-primary btn-sm">VER</a></td>
+                                <td colspan="7" class="text-center">No hay clientes para mostrar.</td>
                             </tr>
-                            <tr>
-                                <td>Alex</td>
-                                <td>Nass</td>
-                                <td>34.567.890</td>
-                                <td>0170555666777888999000</td>
-                                <td>3</td>
-                                <td><span class="badge bg-warning">Pendiente</span></td>
-                                <td><a href="${pageContext.request.contextPath}/admin/detalleCliente.jsp?id=3" class="btn btn-primary btn-sm">VER</a></td>
-                            </tr>
-                            <tr>
-                                <td>Antonio</td>
-                                <td>Melino</td>
-                                <td>45.678.901</td>
-                                <td>0170111222333444555666</td>
-                                <td>1</td>
-                                <td><span class="badge bg-danger">Inactivo</span></td>
-                                <td><a href="${pageContext.request.contextPath}/admin/detalleCliente.jsp?id=4" class="btn btn-primary btn-sm">VER</a></td>
-                            </tr>
+                            <% } %>
                         </tbody>
                     </table>
                 </div>
