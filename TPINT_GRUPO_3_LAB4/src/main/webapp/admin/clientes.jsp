@@ -35,8 +35,8 @@
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta Clientes</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" href="${pageContext.request.contextPath}/admin/clientes.jsp">Clientes</a>
-	        </li>
+  <a class="nav-link" href="${pageContext.request.contextPath}/ListarUsuariosServlet">Clientes</a>
+</li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 	        </li>
@@ -129,7 +129,13 @@
                                     <span class="badge bg-success">Activo</span>
                                 </td>
                                 <td>
-                                    <a href="<%= request.getContextPath() %>/admin/detalleCliente.jsp?id=<%= usuario.getId() %>" class="btn btn-primary btn-sm">VER</a>
+                                    <form method="get" action="${pageContext.request.contextPath}/DetalleUsuarioServlet">
+									    <input type="hidden" name="id" value="<%= usuario.getId() %>" />
+									    <button type="submit" class="btn btn-primary btn-sm">Ver</button>
+									</form>
+
+
+
                                 </td>
                             </tr>
                             <%
