@@ -10,6 +10,7 @@ public interface UsuarioDao {
     public List<Usuario> listar();          
     public int insertarYObtenerId(Usuario usuario);
     public boolean bajaLogica(int id);
+    public boolean activar(int id);
 
 }
 

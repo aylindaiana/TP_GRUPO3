@@ -64,5 +64,17 @@ public class NegocioCuentaImpl implements NegocioCuenta{
     public List<Cuenta> listar() {
         return cuentaDao.listar();
     }
+    
+    @Override
+    public boolean inactivarCuenta(int id)
+    {
+    	return cuentaDao.bajaLogica(id);
+    }
+    
+    @Override
+    public boolean activarCuenta(int id)
+    {
+    	return cuentaDao.activar(id);
+    }
 	
 }

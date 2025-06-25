@@ -183,16 +183,35 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 
 			<div class="text-center mt-4">
 				<a href="${pageContext.request.contextPath}/ListarUsuariosServlet"
-					class="btn btn-secondary btn-lg me-3">Volver</a> <a
+					class="btn btn-secondary btn-lg me-3">Volver</a> 
+				<a
 					href="${pageContext.request.contextPath}/ModificarUsuarioServlet?id=<%= usuario.getId() %>"
 					class="btn btn-warning btn-lg me-3">Modificar</a>
-
 				<form
 					action="${pageContext.request.contextPath}/EliminarUsuarioServlet"
 					method="post" style="display: inline;"
 					onsubmit="return confirmarEliminacion();">
 					<input type="hidden" name="id" value="<%=usuario.getId()%>">
-					<button type="submit" class="btn btn-danger btn-lg">Eliminar</button>
+					<%
+						if(usuario.isEstado()) {
+					%>
+						<button type="submit" class="btn btn-danger btn-lg">Eliminar</button>
+					<%
+					} 
+					%>
+				</form>
+				<form
+					action="${pageContext.request.contextPath}/ActivarUsuarioServlet"
+					method="post" style="display: inline;"
+					onsubmit="return confirmarActivacion();">
+					<input type="hidden" name="id" value="<%=usuario.getId()%>">
+					<%
+						if(!usuario.isEstado()) {
+					%>
+						<button type="submit" class="btn btn-primary btn-lg">Activar</button>
+					<%
+					} 
+					%>
 				</form>
 			</div>
 		</div>
@@ -200,6 +219,9 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 		<script>
 			function confirmarEliminacion() {
 				return confirm("¿Estás seguro que deseas eliminar este usuario?");
+			}
+			function confirmarActivacion(){
+				return confirm("¿Estás seguro que deseas activar este usuario?");
 			}
 		</script>
 </body>

@@ -10,6 +10,7 @@ public interface NegocioUsuario {
     public List<Usuario> obtenerTodos(); 
     public boolean agregarUsuarioConCredenciales(Usuario usuario, String nombreUsuario, String password);
     public boolean eliminarUsuario(int id);
+    public boolean activarUsuario(int id);
 
 
 }

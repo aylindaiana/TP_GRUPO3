@@ -41,7 +41,7 @@
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/cuentaAdminServlet">Cuentas</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a>
@@ -58,7 +58,7 @@
   <div class="container" style="margin-top: 30px;">
         <div class="row">
             <div class="col-12">
-                <h4><strong>Lista Clientes</strong></h4>
+                <h4><strong>Buscar Clientes:</strong></h4>
             </div>
         </div>
         

@@ -13,6 +13,8 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String INSERT = "INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE cuenta SET IDCliente = ?, IDTipoDeCuenta = ?, FechaDeCreacion = ?, CBU = ?, Saldo = ?, Estado = ? WHERE ID = ?";
     private static final String SELECT_BY_ID = "SELECT * FROM cuenta WHERE ID = ?";
+    private static final String BAJA_LOGICA = "UPDATE cuenta SET Estado = 0 WHERE ID = ?";
+    private static final String ACTIVAR = "UPDATE cuenta SET Estado = 1 WHERE ID = ?";
 
     
     
@@ -188,5 +190,51 @@ public class CuentaDaoImpl implements CuentaDao {
             }
 		}
 		
+	}
+	
+	@Override
+	public boolean bajaLogica(int id)
+	{
+		boolean resultado = false;
+		PreparedStatement stmt = null;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		
+		try {
+			stmt = conexion.prepareStatement(BAJA_LOGICA);
+			stmt.setInt(1, id);
+			
+			if (stmt.executeUpdate() > 0) {
+				conexion.commit();
+				resultado = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try { conexion.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+		}
+		
+		return resultado;
+	}
+	
+	@Override
+	public boolean activar(int id)
+	{
+		boolean resultado = false;
+		PreparedStatement stmt = null;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		
+		try {
+			stmt = conexion.prepareStatement(ACTIVAR);
+			stmt.setInt(1, id);
+			
+			if (stmt.executeUpdate() > 0) {
+				conexion.commit();
+				resultado = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try { conexion.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+		}
+		
+		return resultado;
 	}
 }

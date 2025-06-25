@@ -54,5 +54,10 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
     public boolean eliminarUsuario(int id) {
         return usuarioDao.bajaLogica(id);
     }
+    
+    @Override
+    public boolean activarUsuario(int id) {
+        return usuarioDao.activar(id);
+    }
 
 }

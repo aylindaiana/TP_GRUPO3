@@ -9,4 +9,6 @@ public interface NegocioCuenta {
     public boolean modificar(Cuenta cuenta);
     public Cuenta obtenerPorId(int id);
     public List<Cuenta> listar();
+    public boolean inactivarCuenta(int id);
+    public boolean activarCuenta(int id);
 }
