@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="entidad.Cuenta" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,8 +58,48 @@
 	    <div class="tabla-cuentas">
 	        <div style="display: flex; justify-content: space-between; align-items: center;">
 	            <div>
-	                <p><strong>nombre cuenta:</strong> .................X123</p>
-	                <p><strong>tipo de cuenta:</strong> Cuenta de ahorro</p>
+	                <%
+					    Cuenta cuenta = (Cuenta) request.getAttribute("cuenta");
+					    String modo = (String) request.getAttribute("modo");
+					%>
+					<p><strong>CBU:</strong> <%= cuenta != null ? cuenta.getCbu() : "N/A" %></p>
+					<p><strong>Tipo de cuenta:</strong> 
+					    <%= (cuenta != null && cuenta.getIdTipoDeCuenta() == 1) ? "Cuenta corriente" : "Caja de ahorro" %>
+					</p>
+					<form method="post" action="${pageContext.request.contextPath}/DetalleCuentaServlet">
+					    <input type="hidden" name="idCuenta" value="<%= cuenta != null ? cuenta.getId() : 0 %>">
+					
+					    <div class="mb-3">
+					        <label for="idCliente" class="form-label">ID Cliente</label>
+					        <input type="number" class="form-control" name="idCliente" id="idCliente" required 
+					               value="<%= cuenta != null ? cuenta.getIdCliente() : "" %>">
+					    </div>
+					
+					    <div class="mb-3">
+					        <label for="tipoCuenta" class="form-label">Tipo de cuenta</label>
+					        <select class="form-select" name="tipoCuenta" id="tipoCuenta">
+					            <option value="1" <%= cuenta != null && cuenta.getIdTipoDeCuenta() == 1 ? "selected" : "" %>>Cuenta corriente</option>
+					            <option value="2" <%= cuenta != null && cuenta.getIdTipoDeCuenta() == 2 ? "selected" : "" %>>Caja de ahorro</option>
+					        </select>
+					    </div>
+					
+					    <div class="mb-3">
+					        <label for="cbu" class="form-label">CBU</label>
+					        <input type="text" class="form-control" name="cbu" id="cbu" required 
+					               value="<%= cuenta != null ? cuenta.getCbu() : "" %>">
+					    </div>
+					
+					    <div class="mb-3">
+					        <label for="saldo" class="form-label">Saldo</label>
+					        <input type="number" class="form-control" name="saldo" id="saldo" step="0.01" required
+					               value="<%= cuenta != null ? cuenta.getSaldo() : 0 %>">
+					    </div>
+					
+					    <button type="submit" class="btn btn-primary">
+					        <%= "editar".equals(modo) ? "Guardar cambios" : "Crear cuenta" %>
+					    </button>
+					</form>
+					
 	            </div>
 	            <button class="Prestamos-btn" onclick="location.href='prestamosAdmin.jsp'">Prestamos</button>
 	            <button class="volver-btn" onclick="location.href='cuentasAdmin.jsp'">VOLVER</button>

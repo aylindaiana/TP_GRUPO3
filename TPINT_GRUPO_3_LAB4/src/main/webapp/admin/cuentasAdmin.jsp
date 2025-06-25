@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="entidad.Cuenta" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +38,7 @@
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a>
+	          <a class="nav-link active" href="${pageContext.request.contextPath}/admin/cuentaAdminServlet">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a>
@@ -64,15 +66,19 @@
                     <div class="row align-items-end">
                         <div class="col-md-4">
                             <label for="busqueda" class="form-label"><strong>Búsqueda:</strong></label>
-                            <input type="text" class="form-control" id="busqueda" placeholder="Buscar cliente...">
+                            <input type="text" class="form-control" id="busqueda" placeholder="Buscar cliente..."
+                            value="<%= request.getAttribute("busquedaAnterior") != null ? request.getAttribute("busquedaAnterior") : "" %>">
                         </div>
                         <div class="col-md-4">
                             <label for="cbu" class="form-label"><strong>CBU:</strong></label>
-                            <input type="text" class="form-control" id="cbu" placeholder="Buscar por CBU...">
+                            <input type="text" class="form-control" id="cbu" placeholder="Buscar por CBU..."
+                            value="<%= request.getAttribute("cbuAnterior") != null ? request.getAttribute("cbuAnterior") : "" %>">
                         </div>
                         <div class="col-md-4">
                             <button type="button" class="btn btn-secondary">Buscar</button>
-                            <button type="button" class="btn btn-outline-secondary ms-2">Limpiar</button>
+                           <!--   <button type="button" class="btn btn-outline-secondary ms-2">Limpiar</button> -->
+                           <a href="${pageContext.request.contextPath}/ListarCuentasServlet?accion=limpiar" 
+                                   class="btn btn-outline-secondary ms-2">Limpiar</a>
                         </div>
                     </div>
                 </div>
@@ -91,26 +97,39 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                	<td>Antonio Melino</td>
-                    <td>..................X943</td>
-                    <td>Cuenta corriente</td>
-                    <td><button class="ver-btn" onclick="location.href='verCuentaAdmin.jsp'">ver</button></td>
-                </tr>
-                <tr>
-                	<td>Antonio Melino</td>
-                    <td>..................A421</td>
-                    <td>Cuenta de ahorro</td>
-                    <td><button class="ver-btn" onclick="location.href='verCuentaAdmin.jsp'">ver</button></td>
-                </tr>
-                <tr>
-                	<td>Antonio Melino</td>
-                    <td>..................X123</td>
-                    <td>Cuenta de ahorro</td>
-                    <td><button class="ver-btn" onclick="location.href='verCuentaAdmin.jsp'">ver</button></td>
-                </tr>
-            </tbody>
+			<tbody>
+			<%
+			    List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("listaCuentas");
+			    if (cuentas != null) {
+			        for (Cuenta cuenta : cuentas) {
+			%>
+			    <tr>
+			        <td><%= cuenta.getIdCliente() %></td>
+			        <td>..................<%= cuenta.getCbu().substring(cuenta.getCbu().length() - 3) %></td>
+			        <td><%= cuenta.getIdTipoDeCuenta() == 1 ? "Cuenta corriente" : "Cuenta de ahorro" %></td>
+			        <td>$<%= String.format("%.2f", cuenta.getSaldo()) %></td>
+			        <td>
+			            <span class="badge <%= cuenta.isEstado() ? "bg-success" : "bg-danger" %>">
+			                <%= cuenta.isEstado() ? "Activa" : "Inactiva" %>
+			            </span>
+			        </td>
+			        <td>
+			            <form method="get" action="DetalleCuentaServlet">
+			                <input type="hidden" name="idCuenta" value="<%= cuenta.getId() %>"/>
+			                <button type="submit" class="ver-btn">ver</button>
+			            </form>
+			        </td>
+			    </tr>
+			<%
+			        }
+			    } else {
+			%>
+			    <tr><td colspan="7">No hay cuentas disponibles.</td></tr>
+			<%
+			    }
+			%>
+			</tbody>
+
         </table>
     	</div>
 	</div>

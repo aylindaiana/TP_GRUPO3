@@ -7,7 +7,6 @@ public interface CuentaDao {
     public boolean modificar(Cuenta cuenta);                    
     public Cuenta obtenerPorId(int id);                 
     public List<Cuenta> listar();          
-    public int insertarYObtenerId(Cuenta cuenta);
     
     //borrador para pruebas de prestamos------------------------------------------------------------------------------------------------------------------------------
 	public List<Cuenta> listarCuentas();

@@ -19,7 +19,7 @@ CREATE TABLE `usuario` (
   `IDUsuario` int DEFAULT NULL,
   `Estado` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `usuario_credenciales` (
   `ID` int NOT NULL AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE `usuario_credenciales` (
   `Contraseña` varchar(45) DEFAULT NULL,
   `Estado` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `cuenta` (
   `ID` int NOT NULL AUTO_INCREMENT,
@@ -40,13 +40,13 @@ CREATE TABLE `cuenta` (
   `Saldo` double DEFAULT NULL,
   `Estado` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`,`IDCliente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `cuenta_tipos` (
   `ID` int NOT NULL,
   `Descripcion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='		';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='		';
 
 CREATE TABLE `cuotas` (
   `ID` int NOT NULL AUTO_INCREMENT,
@@ -57,7 +57,7 @@ CREATE TABLE `cuotas` (
   `IDMovimiento` varchar(45) DEFAULT NULL,
   `Estado` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`,`IDPrestamo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='		';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='		';
 
 CREATE TABLE `movimientos` (
   `ID` int NOT NULL AUTO_INCREMENT,
@@ -68,13 +68,13 @@ CREATE TABLE `movimientos` (
   `Comentario` varchar(45) DEFAULT NULL,
   `IDTipodeMovimiento` int DEFAULT NULL,
   PRIMARY KEY (`ID`,`IDCuentaOrigen`,`IDCuentaDestino`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='				';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='				';
 
 CREATE TABLE `movimientos_tipos` (
   `ID` int NOT NULL,
   `Descripcion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `prestamos` (
   `ID` int NOT NULL AUTO_INCREMENT,
@@ -87,20 +87,20 @@ CREATE TABLE `prestamos` (
   `CantidadCuotas` int DEFAULT NULL,
   `Autorizacion` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`,`IDCliente`,`IDCuenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `usuario_tipos` (
   `ID` int NOT NULL,
   `Descripcion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `prestamo_rechazado` (
   `ID` int NOT NULL,
   `IDPrestamo` int NOT NULL,
   `MotivoRechazo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 /* 
@@ -126,6 +126,9 @@ INSERT INTO `tpintegrador`.`movimientos_tipos` (`ID`, `Descripcion`) VALUES ('4'
 /* Tipos de Cuenta */
 INSERT INTO `tpintegrador`.`cuenta_tipos` (`ID`, `Descripcion`) VALUES ('1', 'Caja de Ahorro');
 INSERT INTO `tpintegrador`.`cuenta_tipos` (`ID`, `Descripcion`) VALUES ('2', 'Cuenta corriente');
+
+INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado)
+VALUES (1, 1, CURDATE(), '1234567890123456789012', 15000.00, 1);
 
 /* 
 -----------------------------------------------------------------------------------------------------------------------------------

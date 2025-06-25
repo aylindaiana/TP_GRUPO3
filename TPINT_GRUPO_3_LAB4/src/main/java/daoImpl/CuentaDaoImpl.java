@@ -118,36 +118,7 @@ public class CuentaDaoImpl implements CuentaDao {
         return lista;
     }
 
-    @Override
-    public int insertarYObtenerId(Cuenta c) {
-        int idGenerado = -1;
-        PreparedStatement stmt;
-        Connection conexion = Conexion.getConexion().getSQLConexion();
 
-        try {
-            stmt = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, c.getIdCliente());
-            stmt.setInt(2, c.getIdTipoDeCuenta());
-            stmt.setDate(3, c.getFechaDeCreacion());
-            stmt.setString(4, c.getCbu());
-            stmt.setDouble(5, c.getSaldo());
-            stmt.setBoolean(6, c.isEstado());
-
-            if (stmt.executeUpdate() > 0) {
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    idGenerado = rs.getInt(1);
-                }
-                conexion.commit();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try { conexion.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
-        }
-
-        return idGenerado;
-    }
 
     private Cuenta mapearCuenta(ResultSet rs) throws SQLException {
         Cuenta c = new Cuenta();
