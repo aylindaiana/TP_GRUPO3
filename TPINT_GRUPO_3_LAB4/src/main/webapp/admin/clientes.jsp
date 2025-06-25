@@ -122,12 +122,20 @@
                                     %>
                                     2
                                 </td>
-                                <td>
-                                    <%
-                                        // Mostrar estado
-                                    %>
-                                    <span class="badge bg-success">Activo</span>
-                                </td>
+                               <td>
+								    <%
+								        if(usuario.isEstado()) {
+								    %>
+								        <span class="badge bg-success">Activo</span>
+								    <%
+								        } else {
+								    %>
+								        <span class="badge bg-danger">Inactivo</span>
+								    <%
+								        }
+								    %>
+								</td>
+
                                 <td>
                                     <form method="get" action="${pageContext.request.contextPath}/DetalleUsuarioServlet">
 									    <input type="hidden" name="id" value="<%= usuario.getId() %>" />

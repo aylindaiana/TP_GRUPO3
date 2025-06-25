@@ -49,4 +49,10 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
 
         return credDao.agregarCredenciales(credenciales);
     }
+    
+    @Override
+    public boolean eliminarUsuario(int id) {
+        return usuarioDao.bajaLogica(id);
+    }
+
 }

@@ -13,6 +13,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
     private static final String INSERT = "INSERT INTO usuario (Nombre, Apellido, Dni, Cuil, Sexo, Nacionalidad, FechaDeNacimiento, Direccion, Localidad, Provincia, CorreoElectronico, Telefono, IDUsuario, Estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE usuario SET Nombre = ?, Apellido = ?, Dni = ?, Cuil = ?, Sexo = ?, Nacionalidad = ?, FechaDeNacimiento = ?, Direccion = ?, Localidad = ?, Provincia = ?, CorreoElectronico = ?, Telefono = ?, IDUsuario = ? WHERE ID = ?";
     private static final String SELECT_BY_ID = "SELECT * FROM usuario WHERE ID = ?";
+    private static final String BAJA_LOGICA = "UPDATE usuario SET Estado = 0 WHERE ID = ?";
 
     @Override
     public boolean insertar(Usuario u) {
@@ -189,6 +190,30 @@ public class UsuarioDaoImpl implements UsuarioDao {
         u.setCorreoElectronico(rs.getString("CorreoElectronico"));
         u.setTelefono(rs.getString("Telefono"));
         u.setIdUsuario(rs.getInt("IDUsuario"));
+        u.setEstado(rs.getBoolean("Estado"));
+
         return u;
+    }
+    
+    @Override
+    public boolean bajaLogica(int id) {
+        boolean resultado = false;
+        PreparedStatement stmt = null;
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+
+        try {
+            stmt = conexion.prepareStatement(BAJA_LOGICA);
+            stmt.setInt(1, id);
+
+            if (stmt.executeUpdate() > 0) {
+                conexion.commit();
+                resultado = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            try { conexion.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+        }
+
+        return resultado;
     }
 }

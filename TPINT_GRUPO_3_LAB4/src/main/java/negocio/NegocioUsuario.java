@@ -9,4 +9,7 @@ public interface NegocioUsuario {
     public Usuario obtenerPorId(int id);
     public List<Usuario> obtenerTodos(); 
     public boolean agregarUsuarioConCredenciales(Usuario usuario, String nombreUsuario, String password);
+    public boolean eliminarUsuario(int id);
+
+
 }

@@ -51,7 +51,7 @@
 <div class="container mt-4">
     <h2>Detalle del Cliente</h2>
 
-    <form>
+    <div>
         <input type="hidden" name="id" value="<%= usuario.getId() %>">
 
         <div class="row mb-3">
@@ -164,12 +164,22 @@
         </div>
 
         <div class="text-center mt-4">
-	    <a href="${pageContext.request.contextPath}/ListarUsuariosServlet" class="btn btn-secondary btn-lg me-3">Volver</a>
-	    <a href="${pageContext.request.contextPath}/ModificarUsuarioServlet?id=<%= usuario.getId() %>" class="btn btn-warning btn-lg">Modificar</a>
-	</div>
+            <a href="${pageContext.request.contextPath}/ListarUsuariosServlet" class="btn btn-secondary btn-lg me-3">Volver</a>
+            <a href="${pageContext.request.contextPath}/ModificarUsuarioServlet?id=<%= usuario.getId() %>" class="btn btn-warning btn-lg me-3">Modificar</a>
+            
+            <form action="${pageContext.request.contextPath}/EliminarUsuarioServlet" method="post" style="display:inline;" onsubmit="return confirmarEliminacion();">
+                <input type="hidden" name="id" value="<%= usuario.getId() %>">
+                <button type="submit" class="btn btn-danger btn-lg">Eliminar</button>
+            </form>
+        </div>
+    </div>
 
-        
-    </form>
-</div>
+<script>
+    function confirmarEliminacion() {
+        return confirm("¿Estás seguro que deseas eliminar este usuario?");
+    }
+</script>
+
 </body>
 </html>
+

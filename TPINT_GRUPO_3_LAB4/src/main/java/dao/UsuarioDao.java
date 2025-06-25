@@ -9,6 +9,8 @@ public interface UsuarioDao {
     public Usuario obtenerPorId(int id);                 
     public List<Usuario> listar();          
     public int insertarYObtenerId(Usuario usuario);
+    public boolean bajaLogica(int id);
+
 }
 
 
