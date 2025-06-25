@@ -8,4 +8,8 @@ public interface CuentaDao {
     public Cuenta obtenerPorId(int id);                 
     public List<Cuenta> listar();          
     public int insertarYObtenerId(Cuenta cuenta);
+    
+    //borrador para pruebas de prestamos------------------------------------------------------------------------------------------------------------------------------
+	public List<Cuenta> listarCuentas();
+	public void recargarCuenta(int IDCuenta, double montoSolicitado);
 }

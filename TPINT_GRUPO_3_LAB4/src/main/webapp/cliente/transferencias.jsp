@@ -27,7 +27,7 @@
 	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/prestamos.jsp">Prestamo</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/PrestamosClienteServlet">Prestamo</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link active" href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>

@@ -1,5 +1,10 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="dao.PrestamoDao" %>
+<%@ page import="daoImpl.PrestamoDaoImpl" %>
+<%@ page import="entidad.Cuenta" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,91 +22,127 @@
 	crossorigin="anonymous"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/prestamos.css">
-        
+
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
-	  <div class="container-fluid">
-	    <a class="navbar-brand" href="#">Bankame</a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse" id="navbarText">
-	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-	        <li class="nav-item">
-	          <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
-	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
-	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link active" href="${pageContext.request.contextPath}/cliente/prestamos.jsp">Prestamo</a>
-	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
-	        </li>
-	      </ul>	  
-	      <span class="navbar-text d-flex flex-row">
-		    <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp"><%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null" %></a>
-		    <a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="btn btn-danger">Log Out</a>
-		  </span>
-	    </div>
-	  </div>
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Bankame</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link" aria-current="page"
+						href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
+					</li>
+					<li class="nav-item"><a class="nav-link active"
+						href="${pageContext.request.contextPath}/PrestamosClienteServlet">Prestamo</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
+					</li>
+				</ul>
+				<span class="navbar-text d-flex flex-row"> <a
+					class="nav-link align-self-center justify-content-center"
+					href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">Nombre
+						Usuario</a>
+					<button class="btn btn-danger">Log Out</button>
+				</span>
+			</div>
+		</div>
 	</nav>
 
 	<div class="container text-center" id="general-container">
 		<div class="row">
 			<div class="col-4" id="cuenta-destino-container">
 
-				<div class="row">
-					<b>CUENTA DESTINO</b>
-				</div>
+				<form
+					action="${pageContext.request.contextPath}/PrestamosClienteServlet"
+					method="post">
+					<div class="row">
+						<b>CUENTA DESTINO</b>
+					</div>
 
-				<div class="row">
-					<select class="btn btn-secondary btn-lg dropdown-toggle">
-						<option>cuenta 1</option>
-						<option>cuenta 2</option>
-						<option>cuenta 3</option>
-					</select>
-				</div>
-				<div class="row">Monto a solicitar</div>
-				<div class="row">
-					<div class="col" id="montos-container">
-						<div class="row">
-							<input type="number">
+					
+					
+					<div class="row">
+						<select class="form-select" name="cuentaSeleccionada">
+						<%
+							List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("listaCuentas");
+    						for (Cuenta aux : cuentas) {
+						%>
+							 <option value="<%= aux.getId() %>"><%= aux.getCbu() %></option>								
+						<%
+							}
+						%>
+						</select>
+					</div>
+					
+					<div class="row">
+						<div class="col">Monto a solicitar</div>
+						<div class="col">
+							<%
+							if (request.getAttribute("incompleto") != null) {
+							%>
+							<label style="color: red;">*</label>
+							<%
+							}
+							%>
 						</div>
 					</div>
-				</div>
+					<div class="row">
+						<div class="col" id="montos-container">
+							<div class="row">
+								<input name="txtMontoSolicitado" type="number" required>
 
-				<br>
-				<div class="row">
-					<div class="cuotas-container">
-						cantidad de cuotas: 
-						<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-						  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-						  <label class="btn btn-outline-primary" for="btnradio1">3</label>
-						
-						  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-						  <label class="btn btn-outline-primary" for="btnradio2">6</label>
-						
-						  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-						  <label class="btn btn-outline-primary" for="btnradio3">9</label>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="row">Monto final</div>
-				<div class="row">
-					<div class="col" id="montos-container">
-						<div class="row">
-							<label name="montoTotal">$1.000.000</label>
+					<br>
+					<div class="row">
+						<div class="cuotas-container">
+					<div class="row">
+						<div class="col">cantidad de cuotas:</div>
+						<div class="col">
+							<%
+							if (request.getAttribute("incompleto") != null) {
+							%>
+							<label style="color: red;">*</label>
+							<%
+							}
+							%>
 						</div>
 					</div>
-				</div>
-				<br>
-				<a href="solicitarPrestamo.jsp" class="btn btn-success">Solicitar</a>
-				
+							<div class="btn-group" role="group"
+								aria-label="Basic radio toggle button group">
+								<input type="radio" class="btn-check" name="btnradio"
+									id="btnradio1" autocomplete="off" value="3" checked> <label
+									class="btn btn-outline-primary" for="btnradio1">3</label> <input
+									type="radio" class="btn-check" name="btnradio" id="btnradio2"
+									autocomplete="off" value="6"> <label
+									class="btn btn-outline-primary" for="btnradio2">6</label> <input
+									type="radio" class="btn-check" name="btnradio" id="btnradio3"
+									autocomplete="off" value="9"> <label
+									class="btn btn-outline-primary" for="btnradio3">9</label>
+							</div>
+						</div>
+					</div>
+
+
+					<br>
+					<button type="submit" class="btn btn-success"
+						name="btn-solicitarPrestamo">Solicitar</button>
+				</form>
 			</div>
+
 			<div class="col" id="historial-container">
 
 				<div class="row">
@@ -137,6 +178,7 @@
 				</div>
 
 			</div>
+
 		</div>
 	</div>
 

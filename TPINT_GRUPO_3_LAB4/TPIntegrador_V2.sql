@@ -199,7 +199,64 @@ call buscar_cliente_id(1);
 
 /* SP Pedir prestamo */
 
+DELIMITER $$
+CREATE PROCEDURE sp_solicitar_prestamo(
+	IN id INT,
+	IN idCliente VARCHAR(45),
+	IN idCuenta INT,
+	IN fecha DATE,
+	IN importe DOUBLE,
+	IN plazo INT,
+	IN importeMensual DOUBLE,
+	IN cuotas INT,
+	IN autorizacion TINYINT
+)
+BEGIN
+	INSERT INTO prestamos (ID, IDCliente, IDCuenta, FechaDeAlta, Importe, PlazoPago, ImporteMensual, CantidadCuotas, Autorizacion)
+	VALUES (id, idCliente, idCuenta, fecha, importe, plazo, importeMensual, cuotas, autorizacion);
+END$$
+DELIMITER ;
+
+/*SP recargar cuenta con prestamo*/
+
+DELIMITER $$
+CREATE PROCEDURE sp_recargar_cuenta(
+	IN recarga DOUBLE,
+    IN id INT
+)
+BEGIN
+	UPDATE cuenta
+	SET Saldo = Saldo + recarga
+	WHERE ID = id;
+END$$
+DELIMITER $$
+
+/* SP listar prestamos por cliente */
+
+DELIMITER $$
+CREATE PROCEDURE sp_listar_prestamos_por_cliente(
+	IN idCliente VARCHAR(45)
+)
+BEGIN
+	SELECT ID, IDCliente, IDCuenta, FechaDeAlta, Importe, PlazoPago, ImporteMensual, CantidadCuotas, Autorizacion
+	FROM prestamos WHERE IDCliente = idCliente;
+END$$
+DELIMITER ;
+
+/* SP listar prestamos general*/
+
+DELIMITER $$
+CREATE PROCEDURE sp_listar_prestamos()
+BEGIN
+	SELECT ID, IDCliente, IDCuenta, FechaDeAlta, Importe, PlazoPago, ImporteMensual, CantidadCuotas, Autorizacion
+	FROM prestamos;
+END$$
+DELIMITER ;
+
 /* SP Pago prestamo */
+
+
+
 
 /* SP movimiento (transferencia recibida, transferencia emitida, pago cuota, alta cuenta, alta prestamo, pago prestamo */
 

@@ -34,7 +34,7 @@
 	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" href="${pageContext.request.contextPath}/cliente/prestamos.jsp">Prestamo</a>
+	          <a class="nav-link active" href="${pageContext.request.contextPath}/PrestamosClienteServlet">Prestamo</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
@@ -48,10 +48,27 @@
 	  </div>
 	</nav>
 
+
+	<%
+	int cuotas = Integer.parseInt(request.getAttribute("cuotas").toString());
+	double solicitado = Double.parseDouble(request.getAttribute("montoSolicitado").toString());
+	double total = Double.parseDouble(request.getAttribute("montoTotal").toString());
+	int cuenta = Integer.parseInt(request.getAttribute("cuentaSeleccionada").toString());
+	%>
+
 	<div class="container text-center" id="general-container">
 		<div class="col" id="historial-container">
 			<div class="col">
-				<form action="">
+				<form
+					action="${pageContext.request.contextPath}/SolicitarPrestamoServlet"
+					method="post">
+
+
+					<input type="hidden" value="<%=cuotas%>" name="cuotas"> 
+					<input type="hidden" value="<%=solicitado%>" name="solicitado">
+					<input type="hidden" value="<%=total%>" name="total"> 
+					<input type="hidden" value="<%=cuenta%>" name="cuenta">
+
 					<div class="row">
 						<table class="table table-hover">
 							<tr class="table-info">
@@ -63,18 +80,19 @@
 							</tr>
 
 							<tr>
-								<th>Cuenta 1</th>
-								<th>9</th>
+								<th>Numero cuenta: <%=cuenta%> <% //agregar para que se muestre el numero de cuenta seleccionada de la ddl %></th>
+								<th><%=cuotas%></th>
 								<th>50%</th>
-								<th>1.000.000,00</th>
-								<th>1.500.000,00</th>
+								<th>$<%=solicitado%></th>
+								<th>$<%=total%></th>
 							</tr>
 						</table>
 					</div>
 					<div class="row">
 						<div class="col">
 							<div class="row">
-								<a href="prestamos.jsp" class="btn btn-success">Confirmar</a>
+								<button name="btn-confirmar" type="submit"
+									class="btn btn-success">Confirmar</button>
 							</div>
 						</div>
 						<div class="col">

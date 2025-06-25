@@ -14,6 +14,8 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String UPDATE = "UPDATE cuenta SET IDCliente = ?, IDTipoDeCuenta = ?, FechaDeCreacion = ?, CBU = ?, Saldo = ?, Estado = ? WHERE ID = ?";
     private static final String SELECT_BY_ID = "SELECT * FROM cuenta WHERE ID = ?";
 
+    
+    
     @Override
     public boolean insertar(Cuenta c) {
         boolean resultado = false;
@@ -158,4 +160,62 @@ public class CuentaDaoImpl implements CuentaDao {
         c.setEstado(rs.getBoolean("Estado"));
         return c;
     }
+    
+    //borrador para probar seccion prestamos----------------------------------------------------------------------------------------------------------------------
+	@Override
+	public List<Cuenta> listarCuentas(){
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		String query = "select `ID`, `IDCliente`, `IDTipoDeCuenta`, `FechaDeCreacion`, `CBU`, `Saldo`, `Estado` from cuenta where `IDCliente` = 1";
+		ArrayList<Cuenta> lista = new ArrayList<>();
+
+        
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            while (rs.next()) {
+                Cuenta cuenta = new Cuenta();
+                cuenta.setId(rs.getInt("ID"));
+                cuenta.setIdCliente(rs.getInt("IDCliente"));;
+                cuenta.setIdTipoDeCuenta(rs.getInt("IDTipoDeCuenta"));
+                cuenta.setFechaDeCreacion(rs.getDate("FechaDeCreacion"));
+                cuenta.setCbu(rs.getString("CBU"));
+                cuenta.setSaldo(rs.getDouble("Saldo"));
+                cuenta.setEstado(rs.getBoolean("Estado"));
+                
+                lista.add(cuenta);
+            }
+            return lista;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+	}
+
+	@Override
+	public void recargarCuenta(int IDCuenta, double montoSolicitado) {
+
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		
+		String query = "CALL sp_recargar_cuenta(?, ?)";
+		PreparedStatement st;
+        
+		try {
+			st = cn.prepareStatement(query);
+			st.setDouble(1, montoSolicitado);
+	        st.setInt(2, IDCuenta);
+	        if(st.executeUpdate() > 0) {
+	            cn.commit();
+	        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+		}
+		
+	}
 }

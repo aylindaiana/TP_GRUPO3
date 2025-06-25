@@ -30,7 +30,7 @@
 	          <a class="nav-link" href="#">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Préstamo</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/PrestamosClienteServlet">Préstamo</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="#">Transferir</a>
