@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-md-4">
                             <button type="button" class="btn btn-secondary">Buscar</button>
-                           <!--   <button type="button" class="btn btn-outline-secondary ms-2">Limpiar</button> -->
+                           
                            <a href="${pageContext.request.contextPath}/ListarCuentasServlet?accion=limpiar" 
                                    class="btn btn-outline-secondary ms-2">Limpiar</a>
                         </div>
@@ -84,6 +84,15 @@
                 </div>
             </div>
         </div>
+        
+        <div class="row mt-3">
+		    <div class="col-12 text-end">
+				<a href="${pageContext.request.contextPath}/DetalleCuentaServlet?modo=crear" class="btn btn-primary">
+				    Crear Nueva Cuenta
+				</a>
+
+		    </div>
+		</div>
         
     <div class="contenido">
 	    <div class="titulo-seccion">Cuentas</div>
@@ -116,6 +125,7 @@
 			        <td>
 			            <form method="get" action="DetalleCuentaServlet">
 			                <input type="hidden" name="idCuenta" value="<%= cuenta.getId() %>"/>
+			                <input type="hidden" name="modo" value="editar"/>
 			                <button type="submit" class="ver-btn">ver</button>
 			            </form>
 			        </td>

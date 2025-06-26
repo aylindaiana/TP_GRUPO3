@@ -17,11 +17,10 @@ public class NegocioCuentaImpl implements NegocioCuenta{
     
     @Override
     public boolean insertar(Cuenta cuenta) {
-    	int cuentasActivas = cuentaDao.cuentasActivasPorCliente(cuenta.getIdCliente());
         if (cuenta == null) {
             return false;
         }
-        
+
         if (cuenta.getFechaDeCreacion() == null) {
             cuenta.setFechaDeCreacion(new Date(System.currentTimeMillis()));
         }
