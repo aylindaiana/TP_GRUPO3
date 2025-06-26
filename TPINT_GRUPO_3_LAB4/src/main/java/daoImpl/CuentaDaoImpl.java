@@ -15,6 +15,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String SELECT_BY_ID = "SELECT * FROM cuenta WHERE ID = ?";
     private static final String BAJA_LOGICA = "UPDATE cuenta SET Estado = 0 WHERE ID = ?";
     private static final String ACTIVAR = "UPDATE cuenta SET Estado = 1 WHERE ID = ?";
+    private static final String CUENTAS_ACTIVAS_CLIENTE = "SELECT COUNT(*) FROM cuenta WHERE IDCliente = ? AND Estado = 1";
 
     
     
@@ -30,7 +31,7 @@ public class CuentaDaoImpl implements CuentaDao {
             stmt.setInt(2, c.getIdTipoDeCuenta());
             stmt.setDate(3, c.getFechaDeCreacion());
             stmt.setString(4, c.getCbu());
-            stmt.setDouble(5, c.getSaldo());
+            stmt.setDouble(5, 10000);
             stmt.setBoolean(6, c.isEstado());
 
             if (stmt.executeUpdate() > 0) {
@@ -132,6 +133,22 @@ public class CuentaDaoImpl implements CuentaDao {
         c.setSaldo(rs.getDouble("Saldo"));
         c.setEstado(rs.getBoolean("Estado"));
         return c;
+    }
+    
+    @Override
+    public int cuentasActivasPorCliente(int idCliente) {
+        int cantidad = 0;
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+        try (PreparedStatement stmt = conexion.prepareStatement(CUENTAS_ACTIVAS_CLIENTE)) {
+            stmt.setInt(1, idCliente);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                cantidad = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cantidad;
     }
     
     //borrador para probar seccion prestamos----------------------------------------------------------------------------------------------------------------------

@@ -66,6 +66,10 @@
 					<p><strong>Tipo de cuenta:</strong> 
 					    <%= (cuenta != null && cuenta.getIdTipoDeCuenta() == 1) ? "Cuenta corriente" : "Caja de ahorro" %>
 					</p>
+					<% String error = (String) request.getAttribute("error"); %>
+						<% if (error != null) { %>
+						    <div class="alert alert-danger"><%= error %></div>
+					<% } %>
 					<form method="post" action="${pageContext.request.contextPath}/DetalleCuentaServlet">
 					    <input type="hidden" name="idCuenta" value="<%= cuenta != null ? cuenta.getId() : 0 %>">
 					
@@ -75,7 +79,7 @@
 					               value="<%= cuenta != null ? cuenta.getIdCliente() : "" %>">
 					    </div>
 					
-					    <div class="mb-3">
+					    <div class="mb-3"> 
 					        <label for="tipoCuenta" class="form-label">Tipo de cuenta</label>
 					        <select class="form-select" name="tipoCuenta" id="tipoCuenta">
 					            <option value="1" <%= cuenta != null && cuenta.getIdTipoDeCuenta() == 1 ? "selected" : "" %>>Cuenta corriente</option>
@@ -89,11 +93,15 @@
 					               value="<%= cuenta != null ? cuenta.getCbu() : "" %>">
 					    </div>
 					
-					    <div class="mb-3">
-					        <label for="saldo" class="form-label">Saldo</label>
-					        <input type="number" class="form-control" name="saldo" id="saldo" step="0.01" required
-					               value="<%= cuenta != null ? cuenta.getSaldo() : 0 %>">
-					    </div>
+					    <% if ("editar".equals(modo)) { %>
+						    <div class="mb-3">
+						        <label for="saldo" class="form-label">Saldo</label>
+						        <input type="number" class="form-control" name="saldo" id="saldo" step="0.01" required
+						               value="<%= cuenta != null ? String.format("%.2f", cuenta.getSaldo()) : 0 %>">
+						    </div>
+						<% } else { %>
+						    <input type="hidden" name="saldo" value="10.000">
+						<% } %>
 					
 					    <button type="submit" class="btn btn-primary">
 					        <%= "editar".equals(modo) ? "Guardar cambios" : "Crear cuenta" %>
@@ -103,6 +111,7 @@
 	            </div>
 	            <button class="Prestamos-btn" onclick="location.href='prestamosAdmin.jsp'">Prestamos</button>
 	            <button class="volver-btn" onclick="location.href='cuentasAdmin.jsp'">VOLVER</button>
+	            
 	        </div>
 	    </div>
 	

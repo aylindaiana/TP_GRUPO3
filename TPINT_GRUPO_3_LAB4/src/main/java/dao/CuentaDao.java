@@ -9,6 +9,7 @@ public interface CuentaDao {
     public List<Cuenta> listar();
     public boolean bajaLogica(int id);
     public boolean activar(int id);
+    int cuentasActivasPorCliente(int idCliente);
     //borrador para pruebas de prestamos------------------------------------------------------------------------------------------------------------------------------
 	public List<Cuenta> listarCuentas();
 	public void recargarCuenta(int IDCuenta, double montoSolicitado);

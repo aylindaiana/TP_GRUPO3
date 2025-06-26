@@ -1,4 +1,4 @@
-package servlets;
+ package servlets;
 
 import entidad.Cuenta;
 import negocio.NegocioCuenta;
@@ -46,7 +46,11 @@ public class DetalleCuentaServlet extends HttpServlet {
             cuenta.setId(idCuenta);
             cuenta.setIdCliente(idCliente);
             cuenta.setIdTipoDeCuenta(tipoCuenta);
-            cuenta.setSaldo(saldo);
+            if (idCuenta > 0) {
+                cuenta.setSaldo(saldo); 
+            } else {
+                cuenta.setSaldo(10000); 
+            }
             cuenta.setCbu(cbu);
 
             boolean resultado;
@@ -56,12 +60,17 @@ public class DetalleCuentaServlet extends HttpServlet {
                 resultado = negocioCuenta.insertar(cuenta);
             }
 
-            if (resultado) {
-                response.sendRedirect("ListarCuentasServlet");
-            } else {
-                request.setAttribute("error", "No se pudo guardar la cuenta.");
+
+            if (!resultado) {
+                request.setAttribute("error", "No se pudo guardar la cuenta. Verifique que el cliente no tenga más de 3 cuentas activas.");
+                request.setAttribute("cuenta", cuenta); 
+                request.setAttribute("modo", idCuenta > 0 ? "editar" : "agregar");
                 request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
+                return;
+            }else {
+            	response.sendRedirect("CuentaAdminServlet");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Error al procesar los datos.");

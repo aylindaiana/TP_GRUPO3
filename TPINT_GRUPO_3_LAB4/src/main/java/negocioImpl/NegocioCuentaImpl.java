@@ -17,6 +17,7 @@ public class NegocioCuentaImpl implements NegocioCuenta{
     
     @Override
     public boolean insertar(Cuenta cuenta) {
+    	int cuentasActivas = cuentaDao.cuentasActivasPorCliente(cuenta.getIdCliente());
         if (cuenta == null) {
             return false;
         }
@@ -25,9 +26,7 @@ public class NegocioCuentaImpl implements NegocioCuenta{
             cuenta.setFechaDeCreacion(new Date(System.currentTimeMillis()));
         }
         
-        if (cuenta.getSaldo() == 0) {
-            cuenta.setSaldo(0.0);
-        }
+        cuenta.setSaldo(10000);
         
         cuenta.setEstado(true);
         
