@@ -16,7 +16,9 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String BAJA_LOGICA = "UPDATE cuenta SET Estado = 0 WHERE ID = ?";
     private static final String ACTIVAR = "UPDATE cuenta SET Estado = 1 WHERE ID = ?";
     private static final String CUENTAS_ACTIVAS_CLIENTE = "SELECT COUNT(*) FROM cuenta WHERE IDCliente = ? AND Estado = 1";
-
+    
+    private static final String BUSCAR_CUENTAS_ASIGNADAS = "CALL sp_buscar_cuentas_asignadas(?)";
+    private static final String BAJA_CLIENTE_BAJA_CUENTAS = "UPDATE cuenta SET Estado = 0 WHERE IDCliente = ?";
     
     
     @Override
@@ -253,5 +255,52 @@ public class CuentaDaoImpl implements CuentaDao {
 		}
 		
 		return resultado;
+	}
+
+	@Override
+	public boolean cantidadCuentas(int id) {
+
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		PreparedStatement st;
+        
+        try  {
+
+            st = cn.prepareStatement(BUSCAR_CUENTAS_ASIGNADAS);
+            st.setInt(1, id);
+        	
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int resultado = rs.getInt(1);
+                if(resultado == 1) {
+                	return true;
+                }
+                else {
+                	return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return false;
+	}
+
+	@Override
+	public void bajaCuentasUsuario(int id) {
+
+		PreparedStatement st = null;
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		
+		try {
+			st = cn.prepareStatement(BAJA_CLIENTE_BAJA_CUENTAS);
+			st.setInt(1, id);
+			
+			if (st.executeUpdate() > 0) {
+				cn.commit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try { cn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+		}
+		
 	}
 }

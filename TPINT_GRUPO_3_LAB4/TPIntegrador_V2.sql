@@ -192,6 +192,36 @@ call buscar_cliente_id(1);
 
 /* SP ABML Cuentas */
 
+/* comando sql para que si el usuario tiene 3 o mas cuentas, devuelva false y no permita la creacion ni asignacion de otras cuentas */
+/* SP buscar_cuentas_asignadas */
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_buscar_cuentas_asignadas$$
+
+CREATE PROCEDURE sp_buscar_cuentas_asignadas(
+	IN id int
+)
+BEGIN 
+	DECLARE cantidad INT;
+
+	SELECT count(CU.ID) 
+    INTO cantidad
+    FROM cuenta CU
+    INNER JOIN usuario US
+    ON CU.IDCliente = US.ID
+    where US.ID = id AND CU.Estado = 1;
+    
+    IF cantidad >= 3 THEN
+     SELECT 0 AS resultado;
+	ELSE
+	 SELECT 1 AS resultado;
+	END IF;
+    
+END$$
+DELIMITER ;
+
+CALL sp_buscar_cuentas_asignadas(1);
+
+
 /* SP Asignacion cuenta a cliente */
 
 /* SP Autorizacion prestamo (cambio estado) */

@@ -11,4 +11,7 @@ public interface NegocioCuenta {
     public List<Cuenta> listar();
     public boolean inactivarCuenta(int id);
     public boolean activarCuenta(int id);
+
+    public boolean cantidadCuentas(int id);
+	public void bajaCuentasUsuario(int id);
 }

@@ -75,5 +75,19 @@ public class NegocioCuentaImpl implements NegocioCuenta{
     {
     	return cuentaDao.activar(id);
     }
+
+	@Override
+	public boolean cantidadCuentas(int id) {
+		CuentaDao dao = new CuentaDaoImpl();
+		
+		return dao.cantidadCuentas(id);
+	}
+
+	@Override
+	public void bajaCuentasUsuario(int id) {
+		CuentaDao dao = new CuentaDaoImpl();
+		
+		dao.bajaCuentasUsuario(id);
+	}
 	
 }

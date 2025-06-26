@@ -14,8 +14,8 @@
             <div class="input-group">
                 <label for="username">Usuario</label>
                 <input type="text" id="username" name="username" required value="<%= request.getParameter("username") != null ? request.getParameter("username") : "" %>">
-            </div>
-            <div class="input-group">
+            </div> 
+            <div class="input-group"> 
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" required value="<%= request.getParameter("password") != null ? request.getParameter("password") : "" %>">
             </div>

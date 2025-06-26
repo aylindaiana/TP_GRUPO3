@@ -7,6 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import negocio.NegocioUsuario;
+import negocio.NegocioCuenta;
+import negocioImpl.NegocioCuentaImpl;
 import negocioImpl.NegocioUsuarioImpl;
 
 @WebServlet("/EliminarUsuarioServlet")
@@ -22,8 +24,12 @@ public class EliminarUsuarioServlet extends HttpServlet {
         try {
             int id = Integer.parseInt(idParam);
             boolean eliminado = negocioUsuario.eliminarUsuario(id);
-
+            
+            NegocioCuenta cNegocio = new NegocioCuentaImpl();
+            
+            
             if (eliminado) {
+                cNegocio.bajaCuentasUsuario(id);
                 response.sendRedirect("ListarUsuariosServlet?status=eliminado");
             } else {
                 response.sendRedirect("ListarUsuariosServlet?status=errorEliminacion");
@@ -35,4 +41,24 @@ public class EliminarUsuarioServlet extends HttpServlet {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

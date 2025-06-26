@@ -5,9 +5,7 @@
 <%@ page import="java.util.List"%>
 
 
-<%
-Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +20,9 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 	href="${pageContext.request.contextPath}/resources/css/detalleCliente.css">
 </head>
 <body>
+	<%
+	Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
+	%>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">Bankame</a>
@@ -144,59 +145,81 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 			List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 
 			for (Cuenta aux : cuentas) {
+				if (aux.isEstado()) {
 			%>
 
-			<!-- Cuentas hardcodeadas de ejemplo, reemplazar por dinámicas si luego se agregan desde base de datos -->
-			<div class="cuenta-item border rounded p-3 mb-3">
-				<div class="row">
-					<div class="col-md-2">
-						<label class="form-label">Número</label> <input type="text"
-							class="form-control" value="<%=aux.getId() %>" readonly>
-					</div>
-					<div class="col-md-2">
-						<label class="form-label">Tipo</label> <input type="text"
-							class="form-control" value="<%=aux.getIdTipoDeCuenta() %>" readonly>
-					</div>
-					<div class="col-md-2">
-						<label class="form-label">Fecha Creación</label> <input
-							type="date" class="form-control" value="<%=aux.getFechaDeCreacion() %>" readonly>
-					</div>
-					<div class="col-md-2">
-						<label class="form-label">Saldo</label> <input type="text"
-							class="form-control" value="<%=aux.getSaldo() %>" readonly>
-					</div>
-					<div class="col-md-2">
-						<label class="form-label">CBU</label> <input type="text"
-							class="form-control" value="<%=aux.getCbu() %>" readonly>
-					</div>
-					<div class="col-md-2 text-center">
-						<label class="form-label">Acciones</label><br> <a href="#"
-							class="btn btn-primary btn-sm me-1">Ver</a>
-						<button type="button" class="btn btn-danger btn-sm">Eliminar</button>
+			<form method="post" action="DetalleUsuarioServlet">
+				<div class="cuenta-item border rounded p-3 mb-3">
+					<div class="row">
+						<div class="col-md-2">
+							<label class="form-label">Número</label> <input type="text"
+								class="form-control" value="<%=aux.getId()%>" readonly
+								name="numeroCuenta">
+						</div>
+						<div class="col-md-2">
+							<label class="form-label">Tipo</label> <input type="text"
+								class="form-control" value="<%=aux.getIdTipoDeCuenta()%>"
+								readonly>
+						</div>
+						<div class="col-md-2">
+							<label class="form-label">Fecha Creación</label> <input
+								type="date" class="form-control"
+								value="<%=aux.getFechaDeCreacion()%>" readonly>
+						</div>
+						<div class="col-md-2">
+							<label class="form-label">Saldo</label> <input type="text"
+								class="form-control" value="<%=aux.getSaldo()%>" readonly>
+						</div>
+						<div class="col-md-2">
+							<label class="form-label">CBU</label> <input type="text"
+								class="form-control" value="<%=aux.getCbu()%>" readonly>
+						</div>
+						<div class="col-md-2 text-center">
+							<label class="form-label">Acciones</label><br>
+							<button type="submit" class="btn btn-primary btn-sm me-1"
+								name="verCuenta">Ver</button>
+							<button type="submit" class="btn btn-danger btn-sm"
+								name="eliminarCuenta">Eliminar</button>
+							<%
+							if (request.getAttribute("eliminar") != null && (boolean) request.getAttribute("eliminar") == true
+									&& aux.getId() == (int) request.getAttribute("cuentaEliminar")) {
+							%>
+							<br>
+							<button type="submit" class="btn btn-warning btn-sm"
+								name="confirmarEliminar">Confirmar eliminacion</button>
+
+							<%
+							}
+							%>
+
+						</div>
 					</div>
 				</div>
-			</div>
+
+			</form>
 			<%
+			}
 			}
 			%>
 
 
 
-
-
-			<div class="cuenta-item border border-dashed p-3 text-muted bg-light">
-				<div class="row align-items-center">
-					<div class="col-md-8">
-						<strong>Agregar nueva cuenta</strong><br> <small>El
-							cliente puede tener hasta 3 cuentas</small>
-					</div>
-					<div class="col-md-4 text-end">
-						<button type="button" class="btn btn-success btn-sm">Agregar
-							Cuenta</button>
+			<form method="post" action="DetalleUsuarioServlet">
+				<div
+					class="cuenta-item border border-dashed p-3 text-muted bg-light">
+					<div class="row align-items-center">
+						<div class="col-md-8">
+							<strong>Agregar nueva cuenta</strong><br> <small>El
+								cliente puede tener hasta 3 cuentas</small>
+						</div>
+						<div class="col-md-4 text-end">
+							<input type="hidden" name="idUser" value="<%= usuario.getId()%>">
+							<button type="submit" class="btn btn-success btn-sm"
+								name="agregarCuenta">Agregar Cuenta</button>
+						</div>
 					</div>
 				</div>
-			</div>
-
+			</form>
 
 
 
@@ -215,9 +238,6 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 					<input type="hidden" name="id" value="<%=usuario.getId()%>">
 					<%
 					if (usuario.isEstado()) {
-					%>
-					<%
-					// agregar redireccion al servlet y dar de baja las cuentas
 					%>
 					<button type="submit" class="btn btn-danger btn-lg">Eliminar</button>
 					<%
@@ -248,6 +268,20 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 				return confirm("¿Estás seguro que deseas activar este usuario?");
 			}
 		</script>
+
+
+		<%
+		if (request.getAttribute("permitirAgregar") != null && !(boolean) request.getAttribute("permitirAgregar")) {
+		%>
+		<script>
+			window.onload = function() {
+				alert("No es posible agregar más cuentas, se alcanzó el límite de cuentas activas (3).");
+			};
+		</script>
+		<%
+		}
+		%>
+	
 </body>
 </html>
 
