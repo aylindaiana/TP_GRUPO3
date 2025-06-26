@@ -11,6 +11,6 @@ public interface CuentaDao {
     public boolean activar(int id);
     int cuentasActivasPorCliente(int idCliente);
     //borrador para pruebas de prestamos------------------------------------------------------------------------------------------------------------------------------
-	public List<Cuenta> listarCuentas();
+	public List<Cuenta> listarCuentas(int id);
 	public void recargarCuenta(int IDCuenta, double montoSolicitado);
 }

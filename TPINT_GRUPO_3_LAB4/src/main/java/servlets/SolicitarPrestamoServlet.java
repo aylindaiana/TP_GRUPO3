@@ -79,7 +79,7 @@ public class SolicitarPrestamoServlet extends HttpServlet {
             
             
             //se tiene que volver a cargar las cuentas
-    	    List<Cuenta> cuentas = daoCuentas.listarCuentas();
+    	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
 
     	    request.setAttribute("listaCuentas", cuentas);
 

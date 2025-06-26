@@ -153,9 +153,9 @@ public class CuentaDaoImpl implements CuentaDao {
     
     //borrador para probar seccion prestamos----------------------------------------------------------------------------------------------------------------------
 	@Override
-	public List<Cuenta> listarCuentas(){
+	public List<Cuenta> listarCuentas(int id){
 		Connection cn = Conexion.getConexion().getSQLConexion();
-		String query = "select `ID`, `IDCliente`, `IDTipoDeCuenta`, `FechaDeCreacion`, `CBU`, `Saldo`, `Estado` from cuenta where `IDCliente` = 1";
+		String query = "select `ID`, `IDCliente`, `IDTipoDeCuenta`, `FechaDeCreacion`, `CBU`, `Saldo`, `Estado` from cuenta where `IDCliente` = " + id;
 		ArrayList<Cuenta> lista = new ArrayList<>();
 
         

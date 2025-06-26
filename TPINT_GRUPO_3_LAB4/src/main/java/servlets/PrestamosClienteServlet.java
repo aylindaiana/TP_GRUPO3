@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.CuentaDao;
 import dao.PrestamoDao;
@@ -30,7 +31,12 @@ public class PrestamosClienteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		CuentaDao daoCuentas = new CuentaDaoImpl(); 
-	    List<Cuenta> cuentas = daoCuentas.listarCuentas();
+
+		HttpSession session = request.getSession();
+        int idCliente = (int) session.getAttribute("id");
+        String id = String.valueOf(idCliente);
+        
+	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
 
 	    request.setAttribute("listaCuentas", cuentas);
 	    

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="entidad.Usuario"%>
+<%@ page import="entidad.Cuenta"%>
+<%@ page import="java.util.List"%>
+
+
 <%
 Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 %>
@@ -119,46 +123,51 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 			<div class="row mb-3">
 				<div class="col-md-6">
 					<label class="form-label">Dirección</label> <input type="text"
-						class="form-control" value="<%=usuario.getDireccion()%>"
-						readonly>
+						class="form-control" value="<%=usuario.getDireccion()%>" readonly>
 				</div>
 				<div class="col-md-3">
 					<label class="form-label">Localidad</label> <input type="text"
-						class="form-control" value="<%=usuario.getLocalidad()%>"
-						readonly>
+						class="form-control" value="<%=usuario.getLocalidad()%>" readonly>
 				</div>
 				<div class="col-md-3">
 					<label class="form-label">Provincia</label> <input type="text"
-						class="form-control" value="<%=usuario.getProvincia()%>"
-						readonly>
+						class="form-control" value="<%=usuario.getProvincia()%>" readonly>
 				</div>
 			</div>
 
 			<hr class="mt-4 mb-3">
 
 			<h4>Cuentas del Cliente</h4>
+
+
+			<%
+			List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
+
+			for (Cuenta aux : cuentas) {
+			%>
+
 			<!-- Cuentas hardcodeadas de ejemplo, reemplazar por dinámicas si luego se agregan desde base de datos -->
 			<div class="cuenta-item border rounded p-3 mb-3">
 				<div class="row">
 					<div class="col-md-2">
 						<label class="form-label">Número</label> <input type="text"
-							class="form-control" value="X123" readonly>
+							class="form-control" value="<%=aux.getId() %>" readonly>
 					</div>
 					<div class="col-md-2">
 						<label class="form-label">Tipo</label> <input type="text"
-							class="form-control" value="Caja de ahorro" readonly>
+							class="form-control" value="<%=aux.getIdTipoDeCuenta() %>" readonly>
 					</div>
 					<div class="col-md-2">
 						<label class="form-label">Fecha Creación</label> <input
-							type="date" class="form-control" value="2023-01-15" readonly>
+							type="date" class="form-control" value="<%=aux.getFechaDeCreacion() %>" readonly>
 					</div>
 					<div class="col-md-2">
 						<label class="form-label">Saldo</label> <input type="text"
-							class="form-control" value="$250.000,00" readonly>
+							class="form-control" value="<%=aux.getSaldo() %>" readonly>
 					</div>
 					<div class="col-md-2">
 						<label class="form-label">CBU</label> <input type="text"
-							class="form-control" value="0170123456789012345678" readonly>
+							class="form-control" value="<%=aux.getCbu() %>" readonly>
 					</div>
 					<div class="col-md-2 text-center">
 						<label class="form-label">Acciones</label><br> <a href="#"
@@ -167,6 +176,13 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 					</div>
 				</div>
 			</div>
+			<%
+			}
+			%>
+
+
+
+
 
 			<div class="cuenta-item border border-dashed p-3 text-muted bg-light">
 				<div class="row align-items-center">
@@ -181,10 +197,15 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 				</div>
 			</div>
 
+
+
+
+
+
+
 			<div class="text-center mt-4">
 				<a href="${pageContext.request.contextPath}/ListarUsuariosServlet"
-					class="btn btn-secondary btn-lg me-3">Volver</a> 
-				<a
+					class="btn btn-secondary btn-lg me-3">Volver</a> <a
 					href="${pageContext.request.contextPath}/ModificarUsuarioServlet?id=<%= usuario.getId() %>"
 					class="btn btn-warning btn-lg me-3">Modificar</a>
 				<form
@@ -193,11 +214,14 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 					onsubmit="return confirmarEliminacion();">
 					<input type="hidden" name="id" value="<%=usuario.getId()%>">
 					<%
-						if(usuario.isEstado()) {
+					if (usuario.isEstado()) {
 					%>
-						<button type="submit" class="btn btn-danger btn-lg">Eliminar</button>
 					<%
-					} 
+					// agregar redireccion al servlet y dar de baja las cuentas
+					%>
+					<button type="submit" class="btn btn-danger btn-lg">Eliminar</button>
+					<%
+					}
 					%>
 				</form>
 				<form
@@ -206,11 +230,11 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 					onsubmit="return confirmarActivacion();">
 					<input type="hidden" name="id" value="<%=usuario.getId()%>">
 					<%
-						if(!usuario.isEstado()) {
+					if (!usuario.isEstado()) {
 					%>
-						<button type="submit" class="btn btn-primary btn-lg">Activar</button>
+					<button type="submit" class="btn btn-primary btn-lg">Activar</button>
 					<%
-					} 
+					}
 					%>
 				</form>
 			</div>
@@ -220,7 +244,7 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 			function confirmarEliminacion() {
 				return confirm("¿Estás seguro que deseas eliminar este usuario?");
 			}
-			function confirmarActivacion(){
+			function confirmarActivacion() {
 				return confirm("¿Estás seguro que deseas activar este usuario?");
 			}
 		</script>
