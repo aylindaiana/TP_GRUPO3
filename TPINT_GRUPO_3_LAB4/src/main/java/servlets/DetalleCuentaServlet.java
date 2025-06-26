@@ -1,4 +1,4 @@
- package servlets;
+package servlets;
 
 import entidad.Cuenta;
 import negocio.NegocioCuenta;
@@ -43,72 +43,55 @@ public class DetalleCuentaServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String modo = request.getParameter("modo");
-            boolean resultado = false;
-            Cuenta cuenta = new Cuenta();
+   	 try {
+	      	String modo = request.getParameter("modo"); 
+	      	
+	        int idCuenta = request.getParameter("idCuenta") != null ? Integer.parseInt(request.getParameter("idCuenta")) : 0;
+	        int idCliente = Integer.parseInt(request.getParameter("idCliente"));
+	        int tipoCuenta = Integer.parseInt(request.getParameter("tipoCuenta"));
+	        double saldo = Double.parseDouble(request.getParameter("saldo"));
+	        String cbu = request.getParameter("cbu");
+	
+	          Cuenta cuenta = new Cuenta();
+	          cuenta.setId(idCuenta);
+	          cuenta.setIdCliente(idCliente);
+	          cuenta.setIdTipoDeCuenta(tipoCuenta);
+	          if (idCuenta > 0) {
+	              cuenta.setSaldo(saldo); 
+	          } else {
+	              cuenta.setSaldo(10000); 
+	          }
+	          cuenta.setCbu(cbu);
+	          cuenta.setEstado(true);
+	
+	          boolean resultado;
+	          if ("editar".equalsIgnoreCase(modo)) {
+	              resultado = negocioCuenta.modificar(cuenta);
+	          } else if ("crear".equalsIgnoreCase(modo)) {
+	              resultado = negocioCuenta.insertar(cuenta);
+	          } else {
+	              request.setAttribute("error", "Modo desconocido.");
+	              request.setAttribute("cuenta", cuenta);
+	              request.setAttribute("modo", modo);
+	              request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
+	              return;
+	          }
 
-            if ("crear".equalsIgnoreCase(modo)) {
-                int idCliente = Integer.parseInt(request.getParameter("idCliente"));
-
-                boolean tieneDemasiadasCuentas = negocioCuenta.cantidadCuentas(idCliente);
-                if (tieneDemasiadasCuentas) {
-                    request.setAttribute("error", "El cliente ya tiene 3 cuentas activas.");
-                    request.setAttribute("modo", "crear");
-                    request.setAttribute("cuenta", new Cuenta()); 
-                    request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
-                    return;
-                }
-
-                int tipoCuenta = Integer.parseInt(request.getParameter("tipoCuenta"));
-                String cbu = request.getParameter("cbu");
-
-                cuenta.setIdCliente(idCliente);
-                cuenta.setIdTipoDeCuenta(tipoCuenta);
-                cuenta.setCbu(cbu);
-                cuenta.setSaldo(10000);
-                cuenta.setEstado(true);
-
-                resultado = negocioCuenta.insertar(cuenta);
-
-            } else if ("editar".equalsIgnoreCase(modo)) {
-                int idCuenta = Integer.parseInt(request.getParameter("idCuenta"));
-                int idCliente = Integer.parseInt(request.getParameter("idCliente"));
-                int tipoCuenta = Integer.parseInt(request.getParameter("tipoCuenta"));
-                double saldo = Double.parseDouble(request.getParameter("saldo"));
-                String cbu = request.getParameter("cbu");
-
-                cuenta.setId(idCuenta);
-                cuenta.setIdCliente(idCliente);
-                cuenta.setIdTipoDeCuenta(tipoCuenta);
-                cuenta.setSaldo(saldo);
-                cuenta.setCbu(cbu);
-                cuenta.setEstado(true);
-
-                resultado = negocioCuenta.modificar(cuenta);
-
-            } else {
-                request.setAttribute("error", "Modo desconocido.");
-                request.setAttribute("cuenta", cuenta);
-                request.setAttribute("modo", modo);
-                request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
-                return;
-            }
-
-            if (!resultado) {
-                request.setAttribute("error", "No se pudo guardar la cuenta.");
-                request.setAttribute("cuenta", cuenta);
-                request.setAttribute("modo", modo);
-                request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
-            } else {
-                response.sendRedirect("CuentaAdminServlet");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error", "Error al procesar los datos.");
-            request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
-        }
+	          if (!resultado) {
+	              request.setAttribute("error", "No se pudo guardar la cuenta. Verifique que el cliente no tenga más de 3 cuentas activas.");
+	              request.setAttribute("cuenta", cuenta); 
+	              request.setAttribute("modo", modo);
+	              request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
+	              return;
+	          }else {
+	          	response.sendRedirect("CuentaAdminServlet");
+	          }
+	
+	      } catch (Exception e) {
+	          e.printStackTrace();
+	          request.setAttribute("error", "Error al procesar los datos.");
+	          request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
+	      }
     }
 
 }

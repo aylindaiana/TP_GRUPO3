@@ -20,6 +20,11 @@ public class NegocioCuentaImpl implements NegocioCuenta{
         if (cuenta == null) {
             return false;
         }
+        int cuentasActivas = cuentaDao.cuentasActivasPorCliente(cuenta.getIdCliente());
+        
+        if (cuentasActivas >= 3) {
+            return false;
+        }
 
         if (cuenta.getFechaDeCreacion() == null) {
             cuenta.setFechaDeCreacion(new Date(System.currentTimeMillis()));
