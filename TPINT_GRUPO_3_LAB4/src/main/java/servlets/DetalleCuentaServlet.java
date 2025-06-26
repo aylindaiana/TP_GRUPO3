@@ -83,6 +83,7 @@ public class DetalleCuentaServlet extends HttpServlet {
                 cuenta.setIdTipoDeCuenta(tipoCuenta);
                 cuenta.setSaldo(saldo);
                 cuenta.setCbu(cbu);
+                cuenta.setEstado(true);
 
                 resultado = negocioCuenta.modificar(cuenta);
 
