@@ -32,6 +32,8 @@ public class UsuarioServlet extends HttpServlet {
         String telefono = request.getParameter("telefono");
         String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
+
 
         boolean hayError = false;
 
@@ -48,6 +50,11 @@ public class UsuarioServlet extends HttpServlet {
             request.setAttribute("errorTelefono", "Sólo se permiten números en Teléfono");
             hayError = true;
         }
+        if (password == null || !password.equals(confirmPassword)) {
+            request.setAttribute("errorPassword", "Las contraseñas no coinciden.");
+            hayError = true;
+        }
+
 
         // Paso 2: Setear todos los atributos (para mantener los datos)
         request.setAttribute("dni", dni);

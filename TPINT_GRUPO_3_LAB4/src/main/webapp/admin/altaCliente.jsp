@@ -186,6 +186,9 @@
             <div class="form-group">
                 <label for="confirmPassword">Confirmar contraseña:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <small class="text-danger">
+				    <%= request.getAttribute("errorPassword") != null ? request.getAttribute("errorPassword") : "" %>
+				</small>
             </div>
         </div>
 
