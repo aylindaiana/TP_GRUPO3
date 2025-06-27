@@ -23,47 +23,83 @@ public class UsuarioServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         request.setCharacterEncoding("UTF-8");
 
+        // Paso 1: Obtener parámetros
+        String dni = request.getParameter("dni");
+        String cuil = request.getParameter("cuil");
+        String telefono = request.getParameter("telefono");
+        String usuario = request.getParameter("usuario");
+        String password = request.getParameter("password");
+
+        boolean hayError = false;
+
+        // Validar numéricos
+        if (dni == null || !dni.matches("\\d+")) {
+            request.setAttribute("errorDni", "Sólo se permiten números en DNI");
+            hayError = true;
+        }
+        if (cuil == null || !cuil.matches("\\d+")) {
+            request.setAttribute("errorCuil", "Sólo se permiten números en CUIL");
+            hayError = true;
+        }
+        if (telefono == null || !telefono.matches("\\d+")) {
+            request.setAttribute("errorTelefono", "Sólo se permiten números en Teléfono");
+            hayError = true;
+        }
+
+        // Paso 2: Setear todos los atributos (para mantener los datos)
+        request.setAttribute("dni", dni);
+        request.setAttribute("cuil", cuil);
+        request.setAttribute("telefono", telefono);
+        request.setAttribute("nombre", request.getParameter("nombre"));
+        request.setAttribute("apellido", request.getParameter("apellido"));
+        request.setAttribute("sexo", request.getParameter("sexo"));
+        request.setAttribute("nacionalidad", request.getParameter("nacionalidad"));
+        request.setAttribute("fechaNacimiento", request.getParameter("fechaNacimiento"));
+        request.setAttribute("direccion", request.getParameter("direccion"));
+        request.setAttribute("localidad", request.getParameter("localidad"));
+        request.setAttribute("provincia", request.getParameter("provincia"));
+        request.setAttribute("email", request.getParameter("email"));
+        request.setAttribute("usuario", usuario);
+
+        // Si hay errores de validación, volver al formulario
+        if (hayError) {
+            request.getRequestDispatcher("admin/altaCliente.jsp").forward(request, response);
+            return;
+        }
+
         try {
-            // Paso 1: Obtener parámetros del formulario
-            String dni = request.getParameter("dni");
-            String cuil = request.getParameter("cuil");
-            String nombre = request.getParameter("nombre");
-            String apellido = request.getParameter("apellido");
-            String sexo = request.getParameter("sexo");
-            String nacionalidad = request.getParameter("nacionalidad");
-            String fechaNacimiento = request.getParameter("fechaNacimiento");
-            String direccion = request.getParameter("direccion");
-            String localidad = request.getParameter("localidad");
-            String provincia = request.getParameter("provincia");
-            String email = request.getParameter("email");
-            String telefono = request.getParameter("telefono");
-            String usuario = request.getParameter("usuario");
-            String password = request.getParameter("password");
-
-            // Paso 2: Crear objeto Usuario
-            Usuario nuevoUsuario = new Usuario();
-            nuevoUsuario.setDni(Integer.parseInt(dni));
-            nuevoUsuario.setCuil(Integer.parseInt(cuil));
-            nuevoUsuario.setNombre(nombre);
-            nuevoUsuario.setApellido(apellido);
-            nuevoUsuario.setSexo(sexo);
-            nuevoUsuario.setNacionalidad(nacionalidad);
-            nuevoUsuario.setFechaDeNacimiento(Date.valueOf(fechaNacimiento));
-            nuevoUsuario.setDireccion(direccion);
-            nuevoUsuario.setLocalidad(localidad);
-            nuevoUsuario.setProvincia(provincia);
-            nuevoUsuario.setCorreoElectronico(email);
-            nuevoUsuario.setTelefono(telefono);
-            nuevoUsuario.setIdUsuario(2); // Usuario tipo cliente
-
-            // Paso 3: Lógica de negocio
             NegocioUsuario negocio = new NegocioUsuarioImpl();
+
+            // Validar DNI duplicado
+            int dniInt = Integer.parseInt(dni);
+            if (negocio.existeDni(dniInt)) {
+                request.setAttribute("errorDni", "El DNI ya está registrado.");
+                request.getRequestDispatcher("admin/altaCliente.jsp").forward(request, response);
+                return;
+            }
+
+            // Paso 3: Crear objeto Usuario
+            Usuario nuevoUsuario = new Usuario();
+            nuevoUsuario.setDni(dniInt);
+            nuevoUsuario.setCuil(Integer.parseInt(cuil));
+            nuevoUsuario.setNombre(request.getParameter("nombre"));
+            nuevoUsuario.setApellido(request.getParameter("apellido"));
+            nuevoUsuario.setSexo(request.getParameter("sexo"));
+            nuevoUsuario.setNacionalidad(request.getParameter("nacionalidad"));
+            nuevoUsuario.setFechaDeNacimiento(Date.valueOf(request.getParameter("fechaNacimiento")));
+            nuevoUsuario.setDireccion(request.getParameter("direccion"));
+            nuevoUsuario.setLocalidad(request.getParameter("localidad"));
+            nuevoUsuario.setProvincia(request.getParameter("provincia"));
+            nuevoUsuario.setCorreoElectronico(request.getParameter("email"));
+            nuevoUsuario.setTelefono(telefono);
+            nuevoUsuario.setIdUsuario(2); // Cliente
+
+            // Paso 4: Insertar
             boolean insertadoOK = negocio.agregarUsuarioConCredenciales(nuevoUsuario, usuario, password);
 
-            // Paso 4: Redirección con mensaje
             if (insertadoOK) {
                 response.sendRedirect("admin/altaCliente.jsp?status=success");
             } else {

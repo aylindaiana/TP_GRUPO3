@@ -11,6 +11,5 @@ public interface NegocioUsuario {
     public boolean agregarUsuarioConCredenciales(Usuario usuario, String nombreUsuario, String password);
     public boolean eliminarUsuario(int id);
     public boolean activarUsuario(int id);
-
-
+    public boolean existeDni(int dni);
 }

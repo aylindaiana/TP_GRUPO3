@@ -238,4 +238,35 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         return resultado;
     }
+    
+    
+    @Override
+    public boolean existeDni(int dni) {
+        boolean existe = false;
+        String sql = "SELECT COUNT(*) FROM usuario WHERE Dni = ?";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+
+        try {
+            stmt = conexion.prepareStatement(sql);
+            stmt.setInt(1, dni);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return existe;
+    }
+
 }

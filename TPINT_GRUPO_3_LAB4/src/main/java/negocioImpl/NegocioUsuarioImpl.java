@@ -59,5 +59,10 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
     public boolean activarUsuario(int id) {
         return usuarioDao.activar(id);
     }
+    
+    @Override
+    public boolean existeDni(int dni) {
+        return usuarioDao.existeDni(dni);
+    }
 
 }

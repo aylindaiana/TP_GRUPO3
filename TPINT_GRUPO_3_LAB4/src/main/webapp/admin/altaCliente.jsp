@@ -67,6 +67,7 @@
     }
 %>
 
+
 <div class="main-container">
     <form action="${pageContext.request.contextPath}/procesarAltaCliente" method="post">
         <div class="form-columns">
@@ -76,42 +77,54 @@
                     <h2>Datos personales</h2>
                     <div class="form-group">
                         <label for="dni">DNI:</label>
-                        <input type="text" id="dni" name="dni" required>
+                        <input type="text" id="dni" name="dni" required
+                               value="<%= request.getAttribute("dni") != null ? request.getAttribute("dni") : "" %>">
+                        <small class="text-danger">
+                            <%= request.getAttribute("errorDni") != null ? request.getAttribute("errorDni") : "" %>
+                        </small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="cuil">CUIL:</label>
-                        <input type="text" id="cuil" name="cuil" required>
+                        <input type="text" id="cuil" name="cuil" required
+                               value="<%= request.getAttribute("cuil") != null ? request.getAttribute("cuil") : "" %>">
+                        <small class="text-danger">
+                            <%= request.getAttribute("errorCuil") != null ? request.getAttribute("errorCuil") : "" %>
+                        </small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="nombre">Nombre:</label>
-                        <input type="text" id="nombre" name="nombre" required>
+                        <input type="text" id="nombre" name="nombre" required
+                               value="<%= request.getAttribute("nombre") != null ? request.getAttribute("nombre") : "" %>">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="apellido">Apellido:</label>
-                        <input type="text" id="apellido" name="apellido" required>
+                        <input type="text" id="apellido" name="apellido" required
+                               value="<%= request.getAttribute("apellido") != null ? request.getAttribute("apellido") : "" %>">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="sexo">Sexo:</label>
                         <select id="sexo" name="sexo" required>
                             <option value="">Seleccionar...</option>
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
-                            <option value="O">Otro</option>
+                            <option value="M" <%= "M".equals(request.getAttribute("sexo")) ? "selected" : "" %>>Masculino</option>
+                            <option value="F" <%= "F".equals(request.getAttribute("sexo")) ? "selected" : "" %>>Femenino</option>
+                            <option value="O" <%= "O".equals(request.getAttribute("sexo")) ? "selected" : "" %>>Otro</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="nacionalidad">Nacionalidad:</label>
-                        <input type="text" id="nacionalidad" name="nacionalidad" required>
+                        <input type="text" id="nacionalidad" name="nacionalidad" required
+                               value="<%= request.getAttribute("nacionalidad") != null ? request.getAttribute("nacionalidad") : "" %>">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="fechaNacimiento">Fecha de nacimiento:</label>
-                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required
+                               value="<%= request.getAttribute("fechaNacimiento") != null ? request.getAttribute("fechaNacimiento") : "" %>">
                     </div>
                 </div>
             </div>
@@ -122,27 +135,35 @@
                     <h2>Datos de contacto</h2>
                     <div class="form-group">
                         <label for="direccion">Dirección:</label>
-                        <input type="text" id="direccion" name="direccion" required>
+                        <input type="text" id="direccion" name="direccion" required
+                               value="<%= request.getAttribute("direccion") != null ? request.getAttribute("direccion") : "" %>">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="localidad">Localidad:</label>
-                        <input type="text" id="localidad" name="localidad" required>
+                        <input type="text" id="localidad" name="localidad" required
+                               value="<%= request.getAttribute("localidad") != null ? request.getAttribute("localidad") : "" %>">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="provincia">Provincia:</label>
-                        <input type="text" id="provincia" name="provincia" required>
+                        <input type="text" id="provincia" name="provincia" required
+                               value="<%= request.getAttribute("provincia") != null ? request.getAttribute("provincia") : "" %>">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="email">Correo electrónico:</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" required
+                               value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" name="telefono" required>
+                        <input type="text" id="telefono" name="telefono" required
+                               value="<%= request.getAttribute("telefono") != null ? request.getAttribute("telefono") : "" %>">
+                        <small class="text-danger">
+                            <%= request.getAttribute("errorTelefono") != null ? request.getAttribute("errorTelefono") : "" %>
+                        </small>
                     </div>
                 </div>
             </div>
@@ -153,14 +174,15 @@
             <h2>Credenciales de acceso</h2>
             <div class="form-group">
                 <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" required>
+                <input type="text" id="usuario" name="usuario" required
+                       value="<%= request.getAttribute("usuario") != null ? request.getAttribute("usuario") : "" %>">
             </div>
-            
+
             <div class="form-group">
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="confirmPassword">Confirmar contraseña:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
@@ -174,6 +196,7 @@
         </div>
     </form>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>

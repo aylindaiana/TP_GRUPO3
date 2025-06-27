@@ -11,7 +11,7 @@ public interface UsuarioDao {
     public int insertarYObtenerId(Usuario usuario);
     public boolean bajaLogica(int id);
     public boolean activar(int id);
-
+    public boolean existeDni(int dni);
 }
 
 
