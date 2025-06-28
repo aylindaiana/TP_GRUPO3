@@ -293,5 +293,153 @@ DELIMITER ;
 
 /* SP movimiento (transferencia recibida, transferencia emitida, pago cuota, alta cuenta, alta prestamo, pago prestamo */
 
+
+
+DROP PROCEDURE IF EXISTS SP_INSERTAR_MOVIMIENTO$$
+
+DELIMITER $$
+CREATE PROCEDURE SP_INSERTAR_MOVIMIENTO(
+    IN I_ID INT,
+    IN I_IDCuentaOrigen INT,
+    IN I_IDCuentaDestino INT,
+    IN I_Monto INT,
+    IN I_Fecha DATE,
+    IN I_Comentario VARCHAR(45),
+    IN I_IDTipodeMovimiento INT
+)
+BEGIN
+	INSERT INTO movimientos (ID, IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento)
+    VALUES (I_ID, I_IDCuentaOrigen, I_IDCuentaDestino, I_Monto, I_Fecha, I_Comentario, I_IDTipodeMovimiento);
+END$$
+DELIMITER $$
+
+CALL SP_INSERTAR_MOVIMIENTO(?, ?, ?, ?, ?, ?, ?);
+
+
+
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_MOVIMIENTOS_POR_CLIENTE$$
+
+DELIMITER $$
+CREATE PROCEDURE SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(
+    IN I_ID INT
+)
+BEGIN
+	SELECT ID, IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento FROM movimientos 
+    WHERE ID = I_ID;
+END$$
+DELIMITER $$
+
+CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(?);
+
+
+
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_MOVIMIENTOS$$
+
+DELIMITER $$
+CREATE PROCEDURE SP_LISTAR_MOVIMIENTOS(
+)
+BEGIN
+	SELECT ID, IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento FROM movimientos;
+END$$
+DELIMITER $$
+
+CALL SP_LISTAR_MOVIMIENTOS();
+
+
+
+
+DROP PROCEDURE IF EXISTS SP_ULTIMO_ID_MOVIMIENTO_GENERADO$$
+
+DELIMITER $$
+CREATE PROCEDURE SP_ULTIMO_ID_MOVIMIENTO_GENERADO(
+)
+BEGIN
+	SELECT ID FROM movimientos ORDER BY ID DESC LIMIT 1;
+END$$
+DELIMITER $$
+
+CALL SP_ULTIMO_ID_MOVIMIENTO_GENERADO();
+
+/*------------------------------------------------------------------------------------------------------------------------------------
+cuotas */
+
+
+DROP PROCEDURE IF EXISTS SP_INSERTAR_CUOTA$$
+
+DELIMITER $$
+CREATE PROCEDURE SP_INSERTAR_CUOTA(
+    IN I_ID INT,
+    IN I_IDPrestamo INT,
+    IN I_NumeroCuota INT,
+    IN I_Monto INT,
+    IN I_FechaPago DATE,
+    IN I_IDMovimiento VARCHAR(45),
+    IN I_Estado TINYINT
+)
+BEGIN
+	INSERT INTO cuotas (ID, IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado)
+    VALUES (I_ID, I_IDPrestamo, I_NumeroCuota, I_Monto, I_FechaPago, I_IDMovimiento, I_Estado);
+END$$
+DELIMITER $$
+
+CALL SP_INSERTAR_CUOTA(?, ?, ?, ?, ?, ?, ?);
+
+
+
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_CUOTAS_POR_PRESTAMO$$
+
+DELIMITER $$
+CREATE PROCEDURE SP_LISTAR_CUOTAS_POR_PRESTAMO(
+    IN I_ID INT
+)
+BEGIN
+	SELECT ID, IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado FROM cuotas 
+    WHERE ID = I_ID;
+END$$
+DELIMITER $$
+
+CALL SP_LISTAR_CUOTAS_POR_PRESTAMO(?);
+
+/*------------------------------------------------------------------------------------------------------------------------------------
+prestamo rechazado */
+
+
+DROP PROCEDURE IF EXISTS SP_INSERTAR_PRESTAMO_RECHAZADO$$
+
+DELIMITER $$
+CREATE PROCEDURE SP_INSERTAR_PRESTAMO_RECHAZADO(
+    IN I_ID INT,
+    IN I_IDPrestamo INT,
+    IN I_MotivoRechazo VARCHAR(45)
+)
+BEGIN
+	INSERT INTO prestamo_rechazado (ID, IDPrestamo, MotivoRechazo)
+    VALUES (I_ID, I_IDPrestamo, I_MotivoRechazo);
+END$$
+DELIMITER $$
+
+CALL SP_INSERTAR_PRESTAMO_RECHAZADO(?, ?, ?);
+
+
+
+DROP PROCEDURE IF EXISTS SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO$$
+
+DELIMITER $$
+CREATE PROCEDURE SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO(
+    IN I_ID INT
+)
+BEGIN
+	SELECT ID, IDPrestamo, MotivoRechazo FROM prestamo_rechazado 
+    WHERE ID = I_ID;
+END$$
+DELIMITER $$
+
+CALL SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO(?);
+
+
+
 /* Al crear usuario, trigger para crear automaticamente credenciales (en nulo pero que se cree el registro relacionado con su id) */
 

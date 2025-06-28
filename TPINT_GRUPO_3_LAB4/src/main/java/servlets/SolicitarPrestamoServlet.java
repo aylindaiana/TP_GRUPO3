@@ -75,7 +75,6 @@ public class SolicitarPrestamoServlet extends HttpServlet {
             
             
             negocio.solicitarPrestamo(prestamo);
-            daoCuentas.recargarCuenta(IDCuenta, montoSolicitado);
             
             
             //se tiene que volver a cargar las cuentas
