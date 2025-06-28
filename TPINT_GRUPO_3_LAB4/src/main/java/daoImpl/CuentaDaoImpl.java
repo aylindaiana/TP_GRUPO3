@@ -122,8 +122,7 @@ public class CuentaDaoImpl implements CuentaDao {
 
         return lista;
     }
-
-
+    
 
     private Cuenta mapearCuenta(ResultSet rs) throws SQLException {
         Cuenta c = new Cuenta();
@@ -157,7 +156,12 @@ public class CuentaDaoImpl implements CuentaDao {
 	@Override
 	public List<Cuenta> listarCuentas(int id){
 		Connection cn = Conexion.getConexion().getSQLConexion();
-		String query = "select `ID`, `IDCliente`, `IDTipoDeCuenta`, `FechaDeCreacion`, `CBU`, `Saldo`, `Estado` from cuenta where `IDCliente` = " + id;
+		String query = "SELECT c.ID, c.IDCliente, c.IDTipoDeCuenta, " +
+	               "ct.Descripcion AS DescripcionTipoDeCuenta, " +
+	               "c.FechaDeCreacion, c.CBU, c.Saldo, c.Estado " +
+	               "FROM cuenta c " +
+	               "INNER JOIN cuenta_tipos ct ON c.IDTipoDeCuenta = ct.ID " +
+	               "WHERE c.IDCliente = " + id;
 		ArrayList<Cuenta> lista = new ArrayList<>();
 
         
@@ -172,6 +176,7 @@ public class CuentaDaoImpl implements CuentaDao {
                 cuenta.setIdTipoDeCuenta(rs.getInt("IDTipoDeCuenta"));
                 cuenta.setFechaDeCreacion(rs.getDate("FechaDeCreacion"));
                 cuenta.setCbu(rs.getString("CBU"));
+                cuenta.setDescripcionTipoDeCuenta(rs.getString("DescripcionTipoDeCuenta"));
                 cuenta.setSaldo(rs.getDouble("Saldo"));
                 cuenta.setEstado(rs.getBoolean("Estado"));
                 

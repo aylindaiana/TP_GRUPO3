@@ -1,14 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="entidad.Usuario" %>
+<%@ page import="entidad.Cuenta" %>
+<%@ page import="java.util.List" %>
+
+<%
+Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
+List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Home Cliente</title>
-    <link rel="stylesheet" 
-        href="${pageContext.request.contextPath}/resources/css/homeCliente.css">
-        
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+<link rel="stylesheet" 
+    href="${pageContext.request.contextPath}/resources/css/homeCliente.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -20,20 +29,22 @@
 	    <div class="collapse navbar-collapse" id="navbarText">
 	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
+	          <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/HomeClienteServlet">Home</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/PrestamosClienteServlet">Prestamo</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/PrestamosClienteServlet">Préstamo</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
 	        </li>
 	      </ul>	  
 	      <span class="navbar-text d-flex flex-row">
-		    <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp"><%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null" %></a>
+		    <a class="nav-link align-self-center justify-content-center" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">
+		        <%= (session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null" %>
+		    </a>
 		    <a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="btn btn-danger">Log Out</a>
 		  </span>
 	    </div>
@@ -54,41 +65,40 @@
                     
                     <div class="info-field">
                         <label class="field-label">Nombre:</label>
-                        <span class="field-value">Juan</span>
+                        <span class="field-value"><%= usuario.getNombre() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Apellido:</label>
-                        <span class="field-value">Pérez</span>
+                        <span class="field-value"><%= usuario.getApellido() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">DNI:</label>
-                        <span class="field-value">12.345.678</span>
+                        <span class="field-value"><%= usuario.getDni() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">CUIL:</label>
-                        <span class="field-value">20-12345678-9</span>
+                        <span class="field-value"><%= usuario.getCuil() %></span>
                     </div> 
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Sexo:</label>
-                        <span class="field-value">Masculino</span>
+                        <span class="field-value"><%= usuario.getSexo() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Nacionalidad:</label>
-                        <span class="field-value">Argentina</span>
+                        <span class="field-value"><%= usuario.getNacionalidad() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Fecha de Nacimiento:</label>
-                        <span class="field-value">15/03/1985</span>
+                        <span class="field-value"><%= usuario.getFechaDeNacimiento() %></span>
                     </div>
                 </div>
             </div>
-
 
             <div class="col-md-4">
                 <div class="info-container">
@@ -96,31 +106,30 @@
                     
                     <div class="info-field">
                         <label class="field-label">Teléfono:</label>
-                        <span class="field-value">11-4567-8901</span>
+                        <span class="field-value"><%= usuario.getTelefono() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Email:</label>
-                        <span class="field-value">juan.perez@email.com</span>
+                        <span class="field-value"><%= usuario.getCorreoElectronico() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Dirección:</label>
-                        <span class="field-value">Av. Corrientes 1234</span>
+                        <span class="field-value"><%= usuario.getDireccion() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Localidad:</label>
-                        <span class="field-value">Ciudad Autónoma de Buenos Aires</span>
+                        <span class="field-value"><%= usuario.getLocalidad() %></span>
                     </div>
                     
                     <div class="info-field mt-3">
                         <label class="field-label">Provincia:</label>
-                        <span class="field-value">CABA</span>
+                        <span class="field-value"><%= usuario.getProvincia() %></span>
                     </div>
                 </div>
             </div>
-
 
             <div class="col-md-4">
                 <div class="info-container">
@@ -128,12 +137,12 @@
                     
                     <div class="info-field">
                         <label class="field-label">Usuario:</label>
-                        <span class="field-value">jperez123</span>
+                        <span class="field-value"><%= session.getAttribute("idNombre") %></span>
                     </div>
                     
                     <div class="info-field mt-3">
-                        <label class="field-label">Estado de Cuenta:</label>
-                        <span class="field-value status-active">Activa</span>
+                        <label class="field-label">Estado:</label>
+                        <span class="field-value status-active"><%= usuario.isEstado() ? "Activo" : "Inactivo" %></span>
                     </div>
                 </div>
             </div>
@@ -143,52 +152,33 @@
             <div class="col-12">
                 <div class="info-container">
                     <h5 class="section-title">Resumen de Cuentas</h5>
-                    
+
+                    <% for (Cuenta cuenta : cuentas) { %>
                     <div class="cuenta-resumen">
                         <div class="row align-items-center">
                             <div class="col-md-2">
                                 <strong>Cuenta N°:</strong><br>
-                                <span>X123</span>
+                                <span><%= cuenta.getId() %></span>
                             </div>
                             <div class="col-md-3">
                                 <strong>Tipo:</strong><br>
-                                <span>Caja de Ahorro</span>
+                                <span><%= cuenta.getDescripcionTipoDeCuenta() %></span>
                             </div>
                             <div class="col-md-3">
                                 <strong>Saldo Actual:</strong><br>
-                                <span class="saldo-positivo">$250.000,00</span>
+                                <span class="saldo-positivo">$<%= cuenta.getSaldo() %></span>
                             </div>
                             <div class="col-md-4">
                                 <strong>CBU:</strong><br>
-                                <span class="cbu-text">0170123456789012345678</span>
+                                <span class="cbu-text"><%= cuenta.getCbu() %></span>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="cuenta-resumen">
-                        <div class="row align-items-center">
-                            <div class="col-md-2">
-                                <strong>Cuenta N°:</strong><br>
-                                <span>X943</span>
-                            </div>
-                            <div class="col-md-3">
-                                <strong>Tipo:</strong><br>
-                                <span>Cuenta Corriente</span>
-                            </div>
-                            <div class="col-md-3">
-                                <strong>Saldo Actual:</strong><br>
-                                <span class="saldo-positivo">$180.500,50</span>
-                            </div>
-                            <div class="col-md-4">
-                                <strong>CBU:</strong><br>
-                                <span class="cbu-text">0170987654321098765432</span>
-                            </div>
-                        </div>
-                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>
-
     </div>
 </body>
 </html>
+

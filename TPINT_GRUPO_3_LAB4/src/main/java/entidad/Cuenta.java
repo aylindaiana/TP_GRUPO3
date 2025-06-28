@@ -8,6 +8,7 @@ public class Cuenta {
     private int idTipoDeCuenta;
     private Date fechaDeCreacion;
     private String cbu;
+    private String descripcionTipoDeCuenta;
     private double saldo;
     private boolean estado;
     
@@ -71,8 +72,16 @@ public class Cuenta {
         return cbu;
     }
     
+    public String getDescripcionTipoDeCuenta() {
+        return descripcionTipoDeCuenta;
+    }
+    
     public void setCbu(String cbu) {
         this.cbu = cbu;
+    }
+    
+    public void setDescripcionTipoDeCuenta(String descripcionTipoDeCuenta) {
+        this.descripcionTipoDeCuenta = descripcionTipoDeCuenta;
     }
     
     public double getSaldo() {

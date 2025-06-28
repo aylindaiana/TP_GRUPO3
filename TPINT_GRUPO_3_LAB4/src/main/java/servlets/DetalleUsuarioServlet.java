@@ -30,12 +30,12 @@ public class DetalleUsuarioServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String idParam = request.getParameter("id");
 
-		// cargar lista de cuentas
+		
 
 		if (idParam != null) {
 			try {
 				int id = Integer.parseInt(idParam);
-				Usuario usuario = negocioUsuario.obtenerPorId(id); // Usamos la función que ya tenés creada
+				Usuario usuario = negocioUsuario.obtenerPorId(id); 
 
 				if (usuario != null) {
 					CuentaDao dao = new CuentaDaoImpl();
@@ -52,7 +52,6 @@ public class DetalleUsuarioServlet extends HttpServlet {
 			}
 		}
 
-		// Si no hay ID válido o usuario no encontrado, redireccionamos
 		response.sendRedirect("admin/clientes.jsp?status=errorDetalle");
 	}
 

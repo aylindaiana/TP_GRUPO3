@@ -18,7 +18,7 @@
 	    <div class="collapse navbar-collapse" id="navbarText">
 	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	        <li class="nav-item">
-	          <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/cliente/homeCliente.jsp">Home</a>
+	          <a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/HomeClienteServlet">Home</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link active" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
