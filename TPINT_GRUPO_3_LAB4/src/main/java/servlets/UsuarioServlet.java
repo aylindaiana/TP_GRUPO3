@@ -87,6 +87,16 @@ public class UsuarioServlet extends HttpServlet {
                 request.getRequestDispatcher("admin/altaCliente.jsp").forward(request, response);
                 return;
             }
+            
+            // Validar nombre de usuario duplicado
+            if (negocio.existeNombreUsuario(usuario)) {
+                request.setAttribute("errorNombreUsuario", "El nombre de usuario ya está registrado.");
+                hayError = true;
+                request.getRequestDispatcher("admin/altaCliente.jsp").forward(request, response);
+                return;
+            }
+
+
 
             // Paso 3: Crear objeto Usuario
             Usuario nuevoUsuario = new Usuario();

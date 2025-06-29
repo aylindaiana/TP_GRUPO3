@@ -64,5 +64,11 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
     public boolean existeDni(int dni) {
         return usuarioDao.existeDni(dni);
     }
+    
+    @Override
+    public boolean existeNombreUsuario(String nombreUsuario) {
+        UsuarioCredencialesDao dao = new UsuarioCredencialesImpl();
+        return dao.existeNombreUsuario(nombreUsuario);
+    }
 
 }

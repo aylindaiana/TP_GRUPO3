@@ -12,4 +12,6 @@ public interface NegocioUsuario {
     public boolean eliminarUsuario(int id);
     public boolean activarUsuario(int id);
     public boolean existeDni(int dni);
+    public boolean existeNombreUsuario(String nombreUsuario);
+
 }

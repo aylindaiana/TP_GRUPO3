@@ -82,4 +82,29 @@ public class UsuarioCredencialesImpl implements UsuarioCredencialesDao {
         // Implementar lógica de cierre de sesión si es necesario
         return false;
     }
+    
+    @Override
+    public boolean existeNombreUsuario(String nombreUsuario) {
+        boolean existe = false;
+        Connection cn = Conexion.getConexion().getSQLConexion();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String query = "SELECT COUNT(*) FROM usuario_credenciales WHERE Usuario = ?";
+
+        try {
+            stmt = cn.prepareStatement(query);
+            stmt.setString(1, nombreUsuario);
+            rs = stmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                existe = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return existe;
+    }
+
 }

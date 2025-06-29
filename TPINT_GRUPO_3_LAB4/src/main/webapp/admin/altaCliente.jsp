@@ -146,10 +146,36 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="provincia">Provincia:</label>
-                        <input type="text" id="provincia" name="provincia" required
-                               value="<%= request.getAttribute("provincia") != null ? request.getAttribute("provincia") : "" %>">
-                    </div>
+					    <label for="provincia">Provincia:</label>
+					    <select id="provincia" name="provincia" required class="form-select">
+					        <option value="">Seleccionar provincia...</option>
+					        <option value="Ciudad Autónoma de Buenos Aires" <%= "Ciudad Autónoma de Buenos Aires".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Ciudad Autónoma de Buenos Aires</option>
+					        <option value="Buenos Aires" <%= "Buenos Aires".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Buenos Aires</option>
+					        <option value="Catamarca" <%= "Catamarca".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Catamarca</option>
+					        <option value="Chaco" <%= "Chaco".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Chaco</option>
+					        <option value="Chubut" <%= "Chubut".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Chubut</option>
+					        <option value="Córdoba" <%= "Córdoba".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Córdoba</option>
+					        <option value="Corrientes" <%= "Corrientes".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Corrientes</option>
+					        <option value="Entre Ríos" <%= "Entre Ríos".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Entre Ríos</option>
+					        <option value="Formosa" <%= "Formosa".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Formosa</option>
+					        <option value="Jujuy" <%= "Jujuy".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Jujuy</option>
+					        <option value="La Pampa" <%= "La Pampa".equals(request.getAttribute("provincia")) ? "selected" : "" %>>La Pampa</option>
+					        <option value="La Rioja" <%= "La Rioja".equals(request.getAttribute("provincia")) ? "selected" : "" %>>La Rioja</option>
+					        <option value="Mendoza" <%= "Mendoza".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Mendoza</option>
+					        <option value="Misiones" <%= "Misiones".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Misiones</option>
+					        <option value="Neuquén" <%= "Neuquén".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Neuquén</option>
+					        <option value="Río Negro" <%= "Río Negro".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Río Negro</option>
+					        <option value="Salta" <%= "Salta".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Salta</option>
+					        <option value="San Juan" <%= "San Juan".equals(request.getAttribute("provincia")) ? "selected" : "" %>>San Juan</option>
+					        <option value="San Luis" <%= "San Luis".equals(request.getAttribute("provincia")) ? "selected" : "" %>>San Luis</option>
+					        <option value="Santa Cruz" <%= "Santa Cruz".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Santa Cruz</option>
+					        <option value="Santa Fe" <%= "Santa Fe".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Santa Fe</option>
+					        <option value="Santiago del Estero" <%= "Santiago del Estero".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Santiago del Estero</option>
+					        <option value="Tierra del Fuego" <%= "Tierra del Fuego".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Tierra del Fuego</option>
+					        <option value="Tucumán" <%= "Tucumán".equals(request.getAttribute("provincia")) ? "selected" : "" %>>Tucumán</option>
+					    </select>
+					</div>
+
 
                     <div class="form-group">
                         <label for="email">Correo electrónico:</label>
@@ -172,11 +198,15 @@
         <!-- Sección Inferior - Credenciales -->
         <div class="credentials-section">
             <h2>Credenciales de acceso</h2>
-            <div class="form-group">
-                <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" required
-                       value="<%= request.getAttribute("usuario") != null ? request.getAttribute("usuario") : "" %>">
-            </div>
+           <div class="form-group">
+			    <label for="usuario">Usuario:</label>
+			    <input type="text" id="usuario" name="usuario" required
+			           value="<%= request.getAttribute("usuario") != null ? request.getAttribute("usuario") : "" %>">
+			    <small class="text-danger">
+			        <%= request.getAttribute("errorNombreUsuario") != null ? request.getAttribute("errorNombreUsuario") : "" %>
+			    </small>
+			</div>
+
 
             <div class="form-group">
                 <label for="password">Contraseña:</label>
