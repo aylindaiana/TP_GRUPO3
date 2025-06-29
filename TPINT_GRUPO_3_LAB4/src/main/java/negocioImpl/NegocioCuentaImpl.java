@@ -48,9 +48,9 @@ public class NegocioCuentaImpl implements NegocioCuenta{
             return false;
         }
         
-        if (!cuenta.getCbu().equals(cuentaExistente.getCbu()) ) {
-            return false;
-        }
+      //  if (!cuenta.getCbu().equals(cuentaExistente.getCbu()) ) {
+        //    return false;
+       // }
         
         return cuentaDao.modificar(cuenta);
     }
@@ -85,6 +85,17 @@ public class NegocioCuentaImpl implements NegocioCuenta{
     {
     	return cuentaDao.activar(id);
     }
+    
+    @Override
+    public boolean existeCBU(String cbu) {
+        return cuentaDao.existeCBU(cbu);
+    }
+    
+    @Override
+    public boolean existeCBUExceptoId(String cbu, int idCuenta) {
+        return cuentaDao.existeCBUExceptoId(cbu, idCuenta);
+    }
+
 
 	@Override
 	public boolean cantidadCuentas(int id) {

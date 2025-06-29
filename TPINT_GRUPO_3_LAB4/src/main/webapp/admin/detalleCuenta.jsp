@@ -81,6 +81,12 @@
                 <input type="text" class="form-control" name="cbu" id="cbu" required
                        value="<%= cuenta != null ? cuenta.getCbu() : "" %>">
             </div>
+            <div class="mb-3">
+        		<label for="fechaCreacion" class="form-label">Fecha de creación</label>
+        		<input type="date" class="form-control" name="fechaCreacion" id="fechaCreacion"
+               value="<%= cuenta != null && cuenta.getFechaDeCreacion() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(cuenta.getFechaDeCreacion()) : "" %>" 
+               required>
+    		</div>
 
             <% if ("editar".equals(modo)) { %>
                 <div class="mb-3">

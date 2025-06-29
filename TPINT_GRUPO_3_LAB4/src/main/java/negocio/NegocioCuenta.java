@@ -12,6 +12,10 @@ public interface NegocioCuenta {
     public List<Cuenta> listarCliente(int idCliente);
     public boolean inactivarCuenta(int id);
     public boolean activarCuenta(int id);
+    public boolean existeCBU(String cbu);
+    public boolean existeCBUExceptoId(String cbu, int idCuenta);
+
+
 
     public boolean cantidadCuentas(int id);
 	public void bajaCuentasUsuario(int id);

@@ -36,7 +36,7 @@ CREATE TABLE `cuenta` (
   `IDCliente` int NOT NULL,
   `IDTipoDeCuenta` int DEFAULT NULL,
   `FechaDeCreacion` date DEFAULT NULL,
-  `CBU` varchar(45) DEFAULT NULL,
+  `CBU` varchar(45) DEFAULT NULL UNIQUE,
   `Saldo` double DEFAULT NULL,
   `Estado` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`,`IDCliente`)
@@ -439,6 +439,52 @@ DELIMITER $$
 
 CALL SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO(?);
 
+
+/* SP - Listar clientes completos en cuentas Admin*/
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_CUENTAS;
+DELIMITER $$
+
+CREATE PROCEDURE SP_LISTAR_CUENTAS()
+BEGIN
+	SELECT 
+		CU.ID,
+        CU.IDCliente,
+		CONCAT(U.Nombre, ' ', U.Apellido) AS NombreCliente,
+		CU.IDTipoDeCuenta,
+		CU.FechaDeCreacion,
+		CU.CBU,
+		CU.Saldo,
+		CU.Estado
+	FROM cuenta CU
+	INNER JOIN usuario U ON CU.IDCliente = U.ID
+	INNER JOIN cuenta_tipos CT ON CU.IDTipoDeCuenta = CT.ID;
+END$$
+
+DELIMITER ;
+/*CALL SP_LISTAR_CUENTAS();*/
+
+DROP PROCEDURE IF EXISTS SP_OBTENER_CUENTA_POR_ID;
+DELIMITER $$
+
+CREATE PROCEDURE SP_OBTENER_CUENTA_POR_ID(IN cuentaId INT)
+BEGIN
+    SELECT 
+        CU.ID,
+        CU.IDCliente,
+        CU.IDTipoDeCuenta,
+        CU.FechaDeCreacion,
+        CU.CBU,
+        CU.Saldo,
+        CU.Estado,
+        CONCAT(U.Nombre, ' ', U.Apellido) AS NombreCliente
+    FROM cuenta CU
+    INNER JOIN usuario U ON CU.IDCliente = U.ID
+    WHERE CU.ID = cuentaId;
+END$$
+
+DELIMITER ;
+/*CALL SP_OBTENER_CUENTA_POR_ID(1);*/
 
 
 /* Al crear usuario, trigger para crear automaticamente credenciales (en nulo pero que se cree el registro relacionado con su id) */

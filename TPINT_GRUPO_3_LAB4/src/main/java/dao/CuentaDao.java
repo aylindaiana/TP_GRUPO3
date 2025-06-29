@@ -9,6 +9,9 @@ public interface CuentaDao {
     public List<Cuenta> listar();
     public boolean bajaLogica(int id);
     public boolean activar(int id);
+    public boolean existeCBU(String cbu);
+    public boolean existeCBUExceptoId(String cbu, int idCuenta);
+    
     
     public boolean cantidadCuentas(int id);
     //borrador para pruebas de prestamos------------------------------------------------------------------------------------------------------------------------------

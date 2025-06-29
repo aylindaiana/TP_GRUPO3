@@ -100,10 +100,15 @@
         <table>
             <thead>
                 <tr>
+                	<th>Nro Cuenta</th>
+                	<th>ID cliente</th>
                 	<th>Cliente</th> 
-                    <th>Nombre cuenta</th>
+                    <th>CBU</th>
                     <th>Tipo de cuenta</th>
-                    <th></th>
+                    <th>Fecha de Creacion</th>
+                    <th>Saldo</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
 			<tbody>
@@ -113,9 +118,12 @@
 			        for (Cuenta cuenta : cuentas) {
 			%>
 			    <tr>
-			        <td><%= cuenta.getIdCliente() %></td>
+			    	<td><%= cuenta.getId() %></td>
+			    	<td><%= cuenta.getIdCliente() %></td>
+			        <td><%= cuenta.getNombreCliente() %></td>
 			        <td>..................<%= cuenta.getCbu().substring(cuenta.getCbu().length() - 3) %></td>
 			        <td><%= cuenta.getIdTipoDeCuenta() == 1 ? "Cuenta corriente" : "Cuenta de ahorro" %></td>
+			        <td><%= cuenta.getFechaDeCreacion() %></td>
 			        <td>$<%= String.format("%.2f", cuenta.getSaldo()) %></td>
 			        <td>
 			            <span class="badge <%= cuenta.isEstado() ? "bg-success" : "bg-danger" %>">

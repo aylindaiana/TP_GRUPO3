@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.Date;
 
 @WebServlet("/DetalleCuentaServlet")
 public class DetalleCuentaServlet extends HttpServlet {
@@ -51,6 +52,17 @@ public class DetalleCuentaServlet extends HttpServlet {
 	        int tipoCuenta = Integer.parseInt(request.getParameter("tipoCuenta"));
 	        double saldo = Double.parseDouble(request.getParameter("saldo"));
 	        String cbu = request.getParameter("cbu");
+	        String fechaCreacionStr = request.getParameter("fechaCreacion");
+	        java.util.Date fechaCreacion = null;
+
+	        try {
+	            if (fechaCreacionStr != null && !fechaCreacionStr.isEmpty()) {
+	                fechaCreacion = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(fechaCreacionStr);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
 	
 	          Cuenta cuenta = new Cuenta();
 	          cuenta.setId(idCuenta);
@@ -63,6 +75,25 @@ public class DetalleCuentaServlet extends HttpServlet {
 	          }
 	          cuenta.setCbu(cbu);
 	          cuenta.setEstado(true);
+	          if (fechaCreacion != null) {
+	        	    cuenta.setFechaDeCreacion(new java.sql.Date(fechaCreacion.getTime()));
+	          }
+	          
+	          if ("crear".equalsIgnoreCase(modo) && negocioCuenta.existeCBU(cbu)) {
+	        	    request.setAttribute("error", "Ya existe una cuenta con ese CBU.");
+	        	    request.setAttribute("cuenta", cuenta); 
+	        	    request.setAttribute("modo", "crear");
+	        	    request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
+	        	    return;
+	          }
+	          if ("editar".equalsIgnoreCase(modo) && negocioCuenta.existeCBUExceptoId(cbu, idCuenta)) {
+	        	    request.setAttribute("error", "Ya existe otra cuenta con ese CBU.");
+	        	    request.setAttribute("cuenta", cuenta); 
+	        	    request.setAttribute("modo", "editar");
+	        	    request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
+	        	    return;
+	          }
+
 	
 	          boolean resultado;
 	          if ("editar".equalsIgnoreCase(modo)) {
@@ -86,6 +117,7 @@ public class DetalleCuentaServlet extends HttpServlet {
 	          }else {
 	          	response.sendRedirect("CuentaAdminServlet");
 	          }
+
 	
 	      } catch (Exception e) {
 	          e.printStackTrace();

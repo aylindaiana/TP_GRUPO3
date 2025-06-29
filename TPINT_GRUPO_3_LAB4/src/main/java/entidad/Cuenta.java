@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Cuenta {
     private int id;
     private int idCliente;
+    private String nombreCliente;
     private int idTipoDeCuenta;
     private Date fechaDeCreacion;
     private String cbu;
@@ -52,6 +53,13 @@ public class Cuenta {
         this.idCliente = idCliente;
     }
     
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
     public int getIdTipoDeCuenta() {
         return idTipoDeCuenta;
     }

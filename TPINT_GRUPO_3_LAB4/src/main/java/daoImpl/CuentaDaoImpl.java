@@ -9,13 +9,17 @@ import entidad.Cuenta;
 
 public class CuentaDaoImpl implements CuentaDao {
 
-    private static final String SELECT_ALL = "SELECT * FROM cuenta";
+    private static final String SELECT_ALL = "CALL SP_LISTAR_CUENTAS()";
     private static final String INSERT = "INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE cuenta SET IDCliente = ?, IDTipoDeCuenta = ?, FechaDeCreacion = ?, CBU = ?, Saldo = ?, Estado = ? WHERE ID = ?";
-    private static final String SELECT_BY_ID = "SELECT * FROM cuenta WHERE ID = ?";
+    private static final String SELECT_BY_ID = "CALL SP_OBTENER_CUENTA_POR_ID(?)";
     private static final String BAJA_LOGICA = "UPDATE cuenta SET Estado = 0 WHERE ID = ?";
     private static final String ACTIVAR = "UPDATE cuenta SET Estado = 1 WHERE ID = ?";
     private static final String CUENTAS_ACTIVAS_CLIENTE = "SELECT COUNT(*) FROM cuenta WHERE IDCliente = ? AND Estado = 1";
+    private static final String EXISTE_CBU = "SELECT COUNT(*) FROM cuenta WHERE CBU = ?";
+    private static final String EXISTE_CBU_EXCEPTO_ID = "SELECT COUNT(*) FROM cuenta WHERE CBU = ? AND ID <> ?";
+
+
     
     private static final String BUSCAR_CUENTAS_ASIGNADAS = "CALL sp_buscar_cuentas_asignadas(?)";
     private static final String BAJA_CLIENTE_BAJA_CUENTAS = "UPDATE cuenta SET Estado = 0 WHERE IDCliente = ?";
@@ -128,6 +132,7 @@ public class CuentaDaoImpl implements CuentaDao {
         Cuenta c = new Cuenta();
         c.setId(rs.getInt("ID"));
         c.setIdCliente(rs.getInt("IDCliente"));
+        c.setNombreCliente(rs.getString("NombreCliente"));
         c.setIdTipoDeCuenta(rs.getInt("IDTipoDeCuenta"));
         c.setFechaDeCreacion(rs.getDate("FechaDeCreacion"));
         c.setCbu(rs.getString("CBU"));
@@ -151,6 +156,45 @@ public class CuentaDaoImpl implements CuentaDao {
         }
         return cantidad;
     }
+    
+    @Override
+    public boolean existeCBU(String cbu) {
+        boolean existe = false;
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+
+        try (PreparedStatement stmt = conexion.prepareStatement(EXISTE_CBU)) {
+            stmt.setString(1, cbu);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return existe;
+    }
+    
+    @Override
+    public boolean existeCBUExceptoId(String cbu, int idCuenta) {
+        boolean existe = false;
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+
+        try (PreparedStatement stmt = conexion.prepareStatement(EXISTE_CBU_EXCEPTO_ID)) {
+            stmt.setString(1, cbu);
+            stmt.setInt(2, idCuenta);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return existe;
+    }
+
+
     
     //borrador para probar seccion prestamos----------------------------------------------------------------------------------------------------------------------
 	@Override
