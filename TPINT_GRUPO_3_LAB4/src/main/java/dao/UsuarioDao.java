@@ -12,6 +12,6 @@ public interface UsuarioDao {
     public boolean bajaLogica(int id);
     public boolean activar(int id);
     public boolean existeDni(int dni);
+    public List<Usuario> listarPaginado(int offset, int limit);
+    public int contarUsuarios();
 }
-
-

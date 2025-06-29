@@ -70,5 +70,16 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
         UsuarioCredencialesDao dao = new UsuarioCredencialesImpl();
         return dao.existeNombreUsuario(nombreUsuario);
     }
+    
+    @Override
+    public List<Usuario> obtenerUsuariosPaginados(int pagina, int cantidadPorPagina) {
+        int offset = (pagina - 1) * cantidadPorPagina;
+        return usuarioDao.listarPaginado(offset, cantidadPorPagina);
+    }
+
+    @Override
+    public int contarUsuarios() {
+        return usuarioDao.contarUsuarios();
+    }
 
 }

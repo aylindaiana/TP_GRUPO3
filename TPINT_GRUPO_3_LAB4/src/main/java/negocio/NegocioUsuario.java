@@ -13,5 +13,6 @@ public interface NegocioUsuario {
     public boolean activarUsuario(int id);
     public boolean existeDni(int dni);
     public boolean existeNombreUsuario(String nombreUsuario);
-
+    public List<Usuario> obtenerUsuariosPaginados(int pagina, int cantidadPorPagina);
+    public int contarUsuarios();
 }

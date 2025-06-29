@@ -268,5 +268,63 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
         return existe;
     }
+    
+    
+    @Override
+    public List<Usuario> listarPaginado(int offset, int limit) {
+        List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM usuario LIMIT ? OFFSET ?";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+
+        try {
+            stmt = conexion.prepareStatement(sql);
+            stmt.setInt(1, limit);
+            stmt.setInt(2, offset);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                lista.add(mapearUsuario(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return lista;
+    }
+
+    @Override
+    public int contarUsuarios() {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM usuario";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+
+        try {
+            stmt = conexion.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return total;
+    }
 
 }
