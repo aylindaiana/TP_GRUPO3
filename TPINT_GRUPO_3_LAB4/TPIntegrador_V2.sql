@@ -23,13 +23,15 @@ CREATE TABLE `usuario` (
 
 CREATE TABLE `usuario_credenciales` (
   `ID` int NOT NULL AUTO_INCREMENT,
-  `IDCliente` int DEFAULT NULL,
+  `IDCliente` int NOT NULL,
   `IDTipo` int DEFAULT NULL,
   `Usuario` varchar(45) DEFAULT NULL,
   `Contraseña` varchar(45) DEFAULT NULL,
   `Estado` tinyint DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`IDCliente`) REFERENCES `usuario`(`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 CREATE TABLE `cuenta` (
   `ID` int NOT NULL AUTO_INCREMENT,
