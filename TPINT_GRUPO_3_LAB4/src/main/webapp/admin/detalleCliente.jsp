@@ -128,13 +128,16 @@
 				</div>
 				<div class="col-md-3">
 					<label class="form-label">Localidad</label> <input type="text"
-						class="form-control" value="<%=usuario.getLocalidad()%>" readonly>
+						class="form-control" value="<%=usuario.getNombreLocalidad()%>"
+						readonly>
 				</div>
 				<div class="col-md-3">
 					<label class="form-label">Provincia</label> <input type="text"
-						class="form-control" value="<%=usuario.getProvincia()%>" readonly>
+						class="form-control" value="<%=usuario.getNombreProvincia()%>"
+						readonly>
 				</div>
 			</div>
+
 
 			<hr class="mt-4 mb-3">
 
@@ -213,7 +216,7 @@
 								cliente puede tener hasta 3 cuentas</small>
 						</div>
 						<div class="col-md-4 text-end">
-							<input type="hidden" name="idUser" value="<%= usuario.getId()%>">
+							<input type="hidden" name="idUser" value="<%=usuario.getId()%>">
 							<button type="submit" class="btn btn-success btn-sm"
 								name="agregarCuenta">Agregar Cuenta</button>
 						</div>

@@ -31,8 +31,8 @@ public class GuardarModificacionUsuarioServlet extends HttpServlet {
             String nacionalidad = request.getParameter("nacionalidad");
             String fechaNacimiento = request.getParameter("fechaNacimiento");
             String direccion = request.getParameter("direccion");
-            String localidad = request.getParameter("localidad");
-            String provincia = request.getParameter("provincia");
+            int idLocalidad = Integer.parseInt(request.getParameter("localidad"));
+            int idProvincia = Integer.parseInt(request.getParameter("provincia"));
             String correo = request.getParameter("correo");
             String telefono = request.getParameter("telefono");
 
@@ -47,8 +47,8 @@ public class GuardarModificacionUsuarioServlet extends HttpServlet {
             usuarioModificado.setNacionalidad(nacionalidad);
             usuarioModificado.setFechaDeNacimiento(Date.valueOf(fechaNacimiento));
             usuarioModificado.setDireccion(direccion);
-            usuarioModificado.setLocalidad(localidad);
-            usuarioModificado.setProvincia(provincia);
+            usuarioModificado.setIdLocalidad(idLocalidad);
+            usuarioModificado.setIdProvincia(idProvincia);
             usuarioModificado.setCorreoElectronico(correo);
             usuarioModificado.setTelefono(telefono);
 
@@ -67,4 +67,3 @@ public class GuardarModificacionUsuarioServlet extends HttpServlet {
         }
     }
 }
-

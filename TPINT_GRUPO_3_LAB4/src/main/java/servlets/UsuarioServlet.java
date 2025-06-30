@@ -108,8 +108,8 @@ public class UsuarioServlet extends HttpServlet {
             nuevoUsuario.setNacionalidad(request.getParameter("nacionalidad"));
             nuevoUsuario.setFechaDeNacimiento(Date.valueOf(request.getParameter("fechaNacimiento")));
             nuevoUsuario.setDireccion(request.getParameter("direccion"));
-            nuevoUsuario.setLocalidad(request.getParameter("localidad"));
-            nuevoUsuario.setProvincia(request.getParameter("provincia"));
+            nuevoUsuario.setIdProvincia(Integer.parseInt(request.getParameter("provincia")));
+            nuevoUsuario.setIdLocalidad(Integer.parseInt(request.getParameter("localidad")));
             nuevoUsuario.setCorreoElectronico(request.getParameter("email"));
             nuevoUsuario.setTelefono(telefono);
             nuevoUsuario.setIdUsuario(2); // Cliente

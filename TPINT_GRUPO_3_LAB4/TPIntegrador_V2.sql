@@ -2,6 +2,19 @@ CREATE DATABASE `tpintegrador`;
 
 USE `tpintegrador`;
 
+
+CREATE TABLE Provincia (
+    ID_Provincia INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre_Provincia VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Localidad (
+    ID_Localidad INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre_Localidad VARCHAR(100) NOT NULL,
+    ID_Provincia INT NOT NULL,
+    FOREIGN KEY (ID_Provincia) REFERENCES Provincia(ID_Provincia)
+);
+
 CREATE TABLE `usuario` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) DEFAULT NULL,
@@ -12,13 +25,15 @@ CREATE TABLE `usuario` (
   `Nacionalidad` varchar(45) DEFAULT NULL,
   `FechaDeNacimiento` date DEFAULT NULL,
   `Direccion` varchar(45) DEFAULT NULL,
-  `Localidad` varchar(45) DEFAULT NULL,
-  `Provincia` varchar(45) DEFAULT NULL,
+  `ID_Localidad` int DEFAULT NULL,
+  `ID_Provincia` int DEFAULT NULL,
   `CorreoElectronico` varchar(100) DEFAULT NULL,
   `Telefono` varchar(45) DEFAULT NULL,
   `IDUsuario` int DEFAULT NULL,
   `Estado` tinyint DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`ID_Localidad`) REFERENCES Localidad(ID_Localidad),
+  FOREIGN KEY (`ID_Provincia`) REFERENCES Provincia(ID_Provincia)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `usuario_credenciales` (
@@ -109,8 +124,120 @@ CREATE TABLE `prestamo_rechazado` (
 -----------------------------------------------------------------------------------------------------------------------------------
 Precargado 
 -----------------------------------------------------------------------------------------------------------------------------------*/
+
+-- Provincias
+INSERT INTO Provincia (ID_Provincia, Nombre_Provincia) VALUES
+(1, 'Buenos Aires'),
+(2, 'Buenos Aires-GBA'),
+(3, 'Capital Federal'),
+(4, 'Catamarca'),
+(5, 'Chaco'),
+(6, 'Chubut'),
+(7, 'Córdoba'),
+(8, 'Corrientes'),
+(9, 'Entre Ríos'),
+(10, 'Formosa'),
+(11, 'Jujuy'),
+(12, 'La Pampa'),
+(13, 'La Rioja'),
+(14, 'Mendoza'),
+(15, 'Misiones'),
+(16, 'Neuquén'),
+(17, 'Río Negro'),
+(18, 'Salta'),
+(19, 'San Juan'),
+(20, 'San Luis'),
+(21, 'Santa Cruz'),
+(22, 'Santa Fe'),
+(23, 'Santiago del Estero'),
+(24, 'Tierra del Fuego'),
+(25, 'Tucumán');
+
+-- Localidades
+INSERT INTO Localidad (Nombre_Localidad, ID_Provincia) VALUES
+('La Plata', 1),
+('Mar del Plata', 1),
+('Bahía Blanca', 1),
+('Lanús', 2),
+('Quilmes', 2),
+('Morón', 2),
+('Palermo', 3),
+('Recoleta', 3),
+('Belgrano', 3),
+('San Fernando del Valle', 4),
+('Belén', 4),
+('Tinogasta', 4),
+('Resistencia', 5),
+('Sáenz Peña', 5),
+('Villa Ángela', 5),
+('Rawson', 6),
+('Comodoro Rivadavia', 6),
+('Trelew', 6),
+('Córdoba Capital', 7),
+('Villa Carlos Paz', 7),
+('Río Cuarto', 7),
+('Corrientes', 8),
+('Goya', 8),
+('Paso de los Libres', 8),
+('Paraná', 9),
+('Concordia', 9),
+('Gualeguaychú', 9),
+('Formosa', 10),
+('Clorinda', 10),
+('Pirané', 10),
+('San Salvador de Jujuy', 11),
+('Humahuaca', 11),
+('La Quiaca', 11),
+('Santa Rosa', 12),
+('General Pico', 12),
+('Toay', 12),
+('La Rioja', 13),
+('Chilecito', 13),
+('Aimogasta', 13),
+('Mendoza', 14),
+('San Rafael', 14),
+('Godoy Cruz', 14),
+('Posadas', 15),
+('Oberá', 15),
+('Eldorado', 15),
+('Neuquén', 16),
+('San Martín de los Andes', 16),
+('Cutral Có', 16),
+('Viedma', 17),
+('Bariloche', 17),
+('General Roca', 17),
+('Salta', 18),
+('Tartagal', 18),
+('Orán', 18),
+('San Juan', 19),
+('Caucete', 19),
+('Rawson', 19),
+('San Luis', 20),
+('Villa Mercedes', 20),
+('Merlo', 20),
+('Río Gallegos', 21),
+('Caleta Olivia', 21),
+('El Calafate', 21),
+('Santa Fe', 22),
+('Rosario', 22),
+('Rafaela', 22),
+('Santiago del Estero', 23),
+('La Banda', 23),
+('Frías', 23),
+('Ushuaia', 24),
+('Río Grande', 24),
+('Tolhuin', 24),
+('San Miguel de Tucumán', 25),
+('Tafí Viejo', 25),
+('Concepción', 25);
+
+
 /* Usuario admin */
-INSERT INTO `tpintegrador`.`usuario` (`ID`, `Nombre`, `Apellido`, `Dni`, `Cuil`, `Sexo`, `Nacionalidad`, `FechaDeNacimiento`, `Direccion`, `Localidad`, `Provincia`, `CorreoElectronico`, `Telefono`, `IDUsuario`, `Estado`) VALUES ('1', 'admin', 'admin', '1', '1', 'M', 'Argentina', '2000-01-01', 'Casa admin 1', 'Tigre', 'Buenos Aires', 'admin@correo.com', '123', '1', 1);
+INSERT INTO `tpintegrador`.`usuario` 
+(`ID`, `Nombre`, `Apellido`, `Dni`, `Cuil`, `Sexo`, `Nacionalidad`, `FechaDeNacimiento`, 
+ `Direccion`, `ID_Localidad`, `ID_Provincia`, `CorreoElectronico`, `Telefono`, `IDUsuario`, `Estado`) 
+VALUES (1, 'admin', 'admin', 1, 1, 'M', 'Argentina', '2000-01-01', 'Casa admin 1', 2, 1, 'admin@correo.com', '123', 1, 1);
+
 
 /* Credenciales admin */
 INSERT INTO `tpintegrador`.`usuario_credenciales` (`ID`, `IDCliente`, `IDTipo`, `Usuario`, `Contraseña`, `Estado`) VALUES ('1', '1', '1', 'admin', '1234', '1');
