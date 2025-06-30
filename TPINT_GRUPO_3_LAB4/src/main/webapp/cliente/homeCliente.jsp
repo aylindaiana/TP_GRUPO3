@@ -32,7 +32,7 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 	          <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/HomeClienteServlet">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/cliente/cuentas.jsp">Cuentas</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/CuentasClienteServlet">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/PrestamosClienteServlet">Préstamo</a>
