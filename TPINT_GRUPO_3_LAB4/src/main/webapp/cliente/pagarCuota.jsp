@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="entidad.Cuenta"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -48,31 +50,52 @@
 	  </div>
 	</nav>
 
+	<%
+	
+	List<Cuenta> cuentas = (List<Cuenta>)request.getAttribute("listaCuentas");
+	int IDCuota = (int)request.getAttribute("IDCuota");
+	double montoCuota = (double)request.getAttribute("montoCuota");
+	
+	%>
+
 	<div class="container text-center" id="general-container">
 		<div class="col-md-6 mx-auto" id="historial-container">
-			<div class="row">
-				<b>Pagar cuota numero X</b> Seleccione cuenta <select
-					class="btn btn-secondary btn-lg dropdown-toggle">
-					<option>Cuenta 1</option>
-					<option>Cuenta 2</option>
-					<option>Cuenta 3</option>
-				</select>
-			</div>
-
-			<br>
-			<div class="row">
-				<div class="col" id="montos-container">Monto: $2000</div>
-			</div>
-
-
-			<br>
-			<div class="row">
-				<a href="verPrestamo.jsp" class="btn btn-success">Confirmar</a>
-			</div>
-			<br>
-			<div class="row">
-				<a href="verPrestamo.jsp" class="btn btn-danger">Cancelar</a>
-			</div>
+			<form method="post" action="${pageContext.request.contextPath}/PagarCuotaServlet">
+				<div class="row">
+					<b>Pagar cuota </b> Seleccione cuenta 
+					
+					<select class="btn btn-secondary btn-lg dropdown-toggle"  name="cuentaSeleccionada">
+						<%
+						
+						for(Cuenta aux : cuentas){
+							%>
+							<option value="<%= aux.getId() %>">Cuenta <%=aux.getCbu() %></option>
+							<%
+						} 
+						%>
+					</select>
+				
+				</div>
+	
+				<br>
+				<div class="row">
+					<div class="col" id="montos-container">Monto: $<%=montoCuota %></div>
+				</div>
+	
+	
+				<br>
+				<div class="row">
+					
+					<input type="hidden" name="IDCuota" value="<%=IDCuota%>">
+					<input type="hidden" name="montoCuota" value="<%=montoCuota%>">
+				
+					<button type="submit" class="btn btn-success">Confirmar</button>
+				</div>
+				<br>
+				<div class="row">
+					<a href="verPrestamo.jsp" class="btn btn-danger">Cancelar</a>
+				</div>
+			</form>
 		</div>
 	</div>
 

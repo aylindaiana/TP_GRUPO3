@@ -14,6 +14,7 @@ public class CuotaDaoImpl implements CuotaDao{
 	
 	private final String INSERT = "CALL SP_INSERTAR_CUOTA(?, ?, ?, ?, ?, ?, ?)";
 	private final String LISTAR_CUOTAS_POR_PRESTAMO = "CALL SP_LISTAR_CUOTAS_POR_PRESTAMO(?)";
+	private final String PAGAR_CUOTA = "UPDATE cuotas SET Estado = 1 WHERE ID = ?";
 	
 	@Override
 	public boolean insertar(Cuota cuota) {
@@ -80,6 +81,34 @@ public class CuotaDaoImpl implements CuotaDao{
         }
 
         return null;
+	}
+
+	@Override
+	public boolean pagarCuota(int id) {
+
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		
+		String query = PAGAR_CUOTA;
+		PreparedStatement st;
+		Boolean exito = false;
+        
+		try {
+			st = cn.prepareStatement(query); 
+	        st.setInt(1, id);
+	        if(st.executeUpdate() > 0) {
+	            cn.commit();
+	            exito = true;
+	        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+		}
+		
+		return exito;
 	}
 
 }

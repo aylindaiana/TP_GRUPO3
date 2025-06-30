@@ -1,3 +1,4 @@
+<%@page import="entidad.Prestamo"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -94,6 +95,14 @@
 							<%
 							}
 							%>
+							
+							<%
+							if (request.getAttribute("valorErroneo") != null) {
+							%>
+							<label style="color: red;">Ingrese un valor valido</label>
+							<%
+							}
+							%>
 						</div>
 					</div>
 					<div class="row">
@@ -154,25 +163,44 @@
 							<th>Numero de prestamo</th>
 							<th>Estado</th>
 						</tr>
+						
+						
+						<%
+						List<Prestamo> prestamos = (List<Prestamo>)request.getAttribute("listaPrestamos");
+						for(Prestamo aux : prestamos)
+						{
+						%>
+						
 						<tr>
-							<td>prestamo 1</td>
-							<td><a href="verPrestamo.jsp" class="btn btn-success">ver</a></td>
+							<td>identificacion: <%= aux.getID() %></td>
+							
+							<%
+							switch(aux.getAutorizacion())
+							{
+								case 1:
+	
+									%>
+									<td><a href="${pageContext.request.contextPath}/VerPrestamoServlet?IDPrestamo=<%=aux.getID() %>" class="btn btn-success">ver</a></td>
+									<%
+									break;
+								case 2:
+									%>
+									<td><a href="" class="btn btn-warning">pendiente</a></td>
+									<%
+									break;
+								case 3:
+									%>
+									<td><a href="${pageContext.request.contextPath}/cliente/verPrestamo.jsp" class="btn btn-danger">rechazado</a></td>
+									<%
+									break;
+							}
+							%>
+							
 						</tr>
 
-						<tr>
-							<td>prestamo 2</td>
-							<td><a href="" class="btn btn-warning">pendiente</a></td>
-						</tr>
-
-						<tr>
-							<td>prestamo 3</td>
-							<td><a href="" class="btn btn-warning">pendiente</a></td>
-						</tr>
-
-						<tr>
-							<td>prestamo 4</td>
-							<td><a href="verPrestamo.jsp" class="btn btn-danger">rechazado</a></td>
-						</tr>
+						<%
+						}
+						%>
 					</table>
 				</div>
 

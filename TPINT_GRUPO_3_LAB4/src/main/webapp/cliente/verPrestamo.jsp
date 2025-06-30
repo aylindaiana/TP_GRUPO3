@@ -1,3 +1,5 @@
+<%@page import="entidad.Cuota"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -52,12 +54,12 @@
 	<div class="container text-center" id="general-container">
 		<div class="col" id="historial-container">
 			<div class="row">
-				<b>PRESTAMO NUMERO 1</b>
+				<b>PRESTAMO </b>
 			</div>
 
 			<div class="row">
 
-				<form action="">
+				<form action="${pageContext.request.contextPath}/PagarCuotaServlet" method="get">
 					<table class="table table-hover">
 						<tr class="table-info">
 							<th>Numero de Cuota</th>
@@ -65,33 +67,37 @@
 							<th>Fecha limite</th>
 							<th>Estado cuota</th>
 						</tr>
-						<tr>
-							<td>1</td>
-							<td>$2000</td>
-							<td>14/06/2025</td>
-							<td><a href="#" class="btn btn-success">Pagado</a></td>
-						</tr>
-
-						<tr>
-							<td>2</td>
-							<td>$2000</td>
-							<td>14/07/2025</td>
-							<td><a href="pagarCuota.jsp" class="btn btn-warning">Pagar</a></td>
-						</tr>
-
-						<tr>
-							<td>3</td>
-							<td>$2000</td>
-							<td>14/08/2025</td>
-							<td><a href="pagarCuota.jsp" class="btn btn-warning">Pagar</a></td>
-						</tr>
-
-						<tr>
-							<td>4</td>
-							<td>$2000</td>
-							<td>14/09/2025</td>
-							<td><a href="pagarCuota.jsp" class="btn btn-warning">Pagar</a></td>
-						</tr>
+						<%
+						List<Cuota> cuotas = (List<Cuota>)request.getAttribute("listaCuotas");
+						for(Cuota aux : cuotas)
+						{
+						%>
+							
+							<tr>
+								<td><%=aux.getNumeroCuota() %></td>
+								<td><%=aux.getMonto() %></td>
+								<td><%=aux.getFechaPago() %></td>
+								<%
+								if(aux.getEstado() == 1){
+								%>
+								<td><button type="submit" class="btn btn-success" disabled>Pagado</button></td>									
+								<%
+								}
+								else
+								{
+								%>
+								<td>
+								<input type="hidden" name="IDCuota" value="<%=aux.getID() %>">
+								<input type="hidden" name="montoCuota" value="<%=aux.getMonto() %>">
+								<button type="submit" class="btn btn-warning">Pagar</button>
+								</td>
+								<%
+								}
+								%>	
+							</tr>
+						<%
+						}
+						%>
 					</table>
 				</form>
 			</div>

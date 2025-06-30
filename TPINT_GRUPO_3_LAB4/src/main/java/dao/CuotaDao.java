@@ -9,4 +9,5 @@ public interface CuotaDao {
 
 	public boolean insertar(Cuota cuota);              
 	public List<Cuota> listarCuotasPorPrestamo(int id) ;  
+	public boolean pagarCuota(int id);          
 }

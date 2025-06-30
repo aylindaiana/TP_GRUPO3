@@ -110,5 +110,26 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 		
 		dao.bajaCuentasUsuario(id);
 	}
+
+	@Override
+	public List<Cuenta> listarCuentas(int id) {
+		return cuentaDao.listarCuentas(id);
+	}
+
+	@Override
+	public void recargarCuenta(int IDCuenta, double montoSolicitado) {
+		cuentaDao.recargarCuenta(IDCuenta, montoSolicitado);
+		
+	}
+
+	@Override
+	public int cuentasActivasPorCliente(int idCliente) {
+		return cuentaDao.cuentasActivasPorCliente(idCliente);
+	}
+
+	@Override
+	public void debitarCuenta(int IDCuenta, double montoDebito) {
+		cuentaDao.debitarCuenta(IDCuenta, montoDebito); 
+	}
 	
 }

@@ -16,6 +16,11 @@ import dao.PrestamoDao;
 import daoImpl.CuentaDaoImpl;
 import daoImpl.PrestamoDaoImpl;
 import entidad.Cuenta;
+import entidad.Prestamo;
+import negocio.NegocioCuenta;
+import negocio.NegocioPrestamo;
+import negocioImpl.NegocioCuentaImpl;
+import negocioImpl.NegocioPrestamoImpl;
 
 /**
  * Servlet implementation class PrestamosClienteServlet
@@ -23,22 +28,23 @@ import entidad.Cuenta;
 @WebServlet("/PrestamosClienteServlet")
 public class PrestamosClienteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    NegocioPrestamo pNegocio = new NegocioPrestamoImpl();
+	CuentaDao daoCuentas = new CuentaDaoImpl(); 
+    
     public PrestamosClienteServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		CuentaDao daoCuentas = new CuentaDaoImpl(); 
 
-		HttpSession session = request.getSession();
-        int idCliente = (int) session.getAttribute("id");
-        String id = String.valueOf(idCliente);
+		String id = precargarIDCliente(request.getSession());
         
 	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
-
+	    List<Prestamo> prestamos = pNegocio.obtenerPorIdCliente(Integer.parseInt(id));
+	    
 	    request.setAttribute("listaCuentas", cuentas);
+	    request.setAttribute("listaPrestamos", prestamos);
 	    
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente/prestamos.jsp");
 	    dispatcher.forward(request, response);
@@ -48,6 +54,25 @@ public class PrestamosClienteServlet extends HttpServlet {
 		
 		if(request.getParameter("btn-solicitarPrestamo") != null && request.getParameter("btnradio") != null && request.getParameter("txtMontoSolicitado") != null && !request.getParameter("txtMontoSolicitado").isEmpty()) {
 						
+			if(Double.parseDouble(request.getParameter("txtMontoSolicitado")) <= 0) {
+				boolean bandera = false;
+				
+	            request.setAttribute("valorErroneo", bandera);
+
+	    		String id = precargarIDCliente(request.getSession());
+	    		
+	            NegocioPrestamo cNegocio = new NegocioPrestamoImpl();
+	            
+	    	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
+	    	    List<Prestamo> prestamos = cNegocio.obtenerPorIdCliente(Integer.parseInt(id));
+	    	    
+	    	    request.setAttribute("listaCuentas", cuentas);
+	    	    request.setAttribute("listaPrestamos", prestamos);
+	    	    
+				RequestDispatcher rd = request.getRequestDispatcher("/cliente/prestamos.jsp");
+			    rd.forward(request, response);
+			}
+			
 			double montoTotal = 0;
             double montoSolicitado = Double.parseDouble(request.getParameter("txtMontoSolicitado"));
             int cuotas = Integer.parseInt(request.getParameter("btnradio"));
@@ -63,15 +88,35 @@ public class PrestamosClienteServlet extends HttpServlet {
 
 			RequestDispatcher rd = request.getRequestDispatcher("/cliente/solicitarPrestamo.jsp");
 		    rd.forward(request, response);
+		    
+		    
 		}
 		else {
 			boolean bandera = false;
 
             request.setAttribute("incompleto", bandera);
 			
+
+    		CuentaDao daoCuentas = new CuentaDaoImpl(); 
+
+    		HttpSession session = request.getSession();
+            int idCliente = (int) session.getAttribute("id");
+            String id = String.valueOf(idCliente);
+            NegocioPrestamo cNegocio = new NegocioPrestamoImpl();
+            
+    	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
+    	    List<Prestamo> prestamos = cNegocio.obtenerPorIdCliente(idCliente);
+    	    
+    	    request.setAttribute("listaCuentas", cuentas);
+    	    request.setAttribute("listaPrestamos", prestamos);
+            
 			RequestDispatcher rd = request.getRequestDispatcher("/cliente/prestamos.jsp");
 		    rd.forward(request, response);
 		}
 	}
 
+	private String precargarIDCliente(HttpSession session) {
+        int idCliente = (int) session.getAttribute("id");
+        return String.valueOf(idCliente);
+	}
 }

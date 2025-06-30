@@ -19,4 +19,5 @@ public interface CuentaDao {
 	public void recargarCuenta(int IDCuenta, double montoSolicitado);
 	int cuentasActivasPorCliente(int idCliente);
 	public void bajaCuentasUsuario(int id);
+	public void debitarCuenta(int IDCuenta, double montoDebito);
 }

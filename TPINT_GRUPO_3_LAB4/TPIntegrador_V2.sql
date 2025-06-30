@@ -286,6 +286,92 @@ BEGIN
 END$$
 DELIMITER ;
 
+/* SP actualizacion estado prestamo*/
+
+DROP PROCEDURE IF EXISTS SP_ACTUALIZACION_DE_ESTADO_PRESTAMO $$
+
+DELIMITER $$
+CREATE PROCEDURE SP_ACTUALIZACION_DE_ESTADO_PRESTAMO(
+	IN I_IDPrestamo INT,
+    IN I_Estado TINYINT
+)
+BEGIN
+	UPDATE prestamos SET Estado = I_Estado WHERE IDPrestamo = I_IDPrestamo;
+END$$
+DELIMITER $$
+
+/*CALL SP_ACTUALIZACION_DE_ESTADO_PRESTAMO(?, ?)*/
+
+
+
+/* sp actualizacion de tablas relacionadas a prestamos, en base al cambio de estao en un prestamo */
+
+DROP PROCEDURE IF EXISTS SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO $$
+
+DELIMITER $$
+CREATE PROCEDURE SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(
+	/*CARGADOS (PRESTAMOS)*/
+	IN I_IDPrestamo INT, 
+    IN I_IDCuenta INT, /* SE USA COMO CUENTA DESTINO*/
+    IN I_Estado TINYINT,
+    IN I_CantidadCuotas INT,
+    
+    /*AUTOCALCULADO .JAVA (CUENTA Y MOVIMIENTOS)*/
+    IN I_Importe DOUBLE,
+    
+    /*AUTOCALCULADOS .JAVA (MOVIMIENTOS)*/
+    IN I_CuentaOrigen INT, /*¿¿¿DE DONDE PROVIENE ESTE???*/
+    IN I_Fecha DATE,
+    IN I_Comentario VARCHAR(45),
+    
+    /*AUTOCALCULADOS .jAVA CUOTAS*/
+    
+    /*AUTOCALCULADOS PRESTAMO RECHAZADO*/
+    IN I_MotivoRechazo VARCHAR(45)
+)
+BEGIN
+	/*declaraciones necesarias para cargar en el apartado de cuotas*/
+	DECLARE ultimo_id_movimiento INT;
+    DECLARE i INT DEFAULT 1;
+    DECLARE numeroCuota INT;
+    DECLARE fecha DATE;
+    SET fecha = I_Fecha;
+    
+    CALL SP_ACTUALIZACION_DE_ESTADO_PRESTAMO(I_IDPrestamo, I_Estado);
+    
+    IF(I_ESTADO = 1) THEN
+    
+		CALL sp_recargar_cuenta(I_Importe, I_IDCuenta);
+    
+		/*el tipo de movimiento siempre es 2 ya que se trata del alta de un prestamo*/
+		CALL SP_INSERTAR_MOVIMIENTO(I_CuentaOrigen, I_IDCuenta, I_Importe, I_Fecha, I_Comentario, 2);
+    
+		SET ultimo_id_movimiento = FN_ULTIMO_ID_MOVIMIENTO_GENERADO();
+        /*a fecha se le setea el valor del mes siguiente (por consecuente la primer cuota se paga al siguiente mes)*/
+		SET fecha = DATE_ADD(fecha, INTERVAL 1 MONTH);
+        
+		WHILE i <= I_CantidadCuotas DO
+            SET numeroCuota = i;
+			CALL SP_INSERTAR_CUOTA(I_IDPrestamo, numeroCuota, (I_Importe / I_CantidadCuotas), fecha, ultimo_id_movimiento, 0);
+			
+            SET i = i + 1;
+			SET fecha = DATE_ADD(fecha, INTERVAL 1 MONTH);
+		END WHILE;
+        
+    ELSEIF(I_ESTADO = 2) THEN
+		
+		CALL SP_INSERTAR_PRESTAMO_RECHAZADO(I_IDPrestamo, I_MotivoRechazo);
+        
+    END IF;
+END$$
+DELIMITER $$
+
+
+/*CALL SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(?, ?, ?, ?, ?, ?, ?, ?, ?)*/
+
+
+
+
 /* SP Pago prestamo */
 
 
@@ -295,11 +381,10 @@ DELIMITER ;
 
 
 
-DROP PROCEDURE IF EXISTS SP_INSERTAR_MOVIMIENTO$$
+DROP PROCEDURE IF EXISTS SP_INSERTAR_MOVIMIENTO $$
 
 DELIMITER $$
 CREATE PROCEDURE SP_INSERTAR_MOVIMIENTO(
-    IN I_ID INT,
     IN I_IDCuentaOrigen INT,
     IN I_IDCuentaDestino INT,
     IN I_Monto INT,
@@ -308,12 +393,12 @@ CREATE PROCEDURE SP_INSERTAR_MOVIMIENTO(
     IN I_IDTipodeMovimiento INT
 )
 BEGIN
-	INSERT INTO movimientos (ID, IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento)
-    VALUES (I_ID, I_IDCuentaOrigen, I_IDCuentaDestino, I_Monto, I_Fecha, I_Comentario, I_IDTipodeMovimiento);
+	INSERT INTO movimientos ( IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento)
+    VALUES (I_IDCuentaOrigen, I_IDCuentaDestino, I_Monto, I_Fecha, I_Comentario, I_IDTipodeMovimiento);
 END$$
 DELIMITER $$
 
-CALL SP_INSERTAR_MOVIMIENTO(?, ?, ?, ?, ?, ?, ?);
+/*CALL SP_INSERTAR_MOVIMIENTO(?, ?, ?, ?, ?, ?);*/
 
 
 
@@ -350,17 +435,22 @@ CALL SP_LISTAR_MOVIMIENTOS();
 
 
 
-DROP PROCEDURE IF EXISTS SP_ULTIMO_ID_MOVIMIENTO_GENERADO$$
+DROP FUNCTION IF EXISTS FN_ULTIMO_ID_MOVIMIENTO_GENERADO;
 
 DELIMITER $$
-CREATE PROCEDURE SP_ULTIMO_ID_MOVIMIENTO_GENERADO(
-)
+
+CREATE FUNCTION FN_ULTIMO_ID_MOVIMIENTO_GENERADO()
+RETURNS INT
+DETERMINISTIC
 BEGIN
-	SELECT ID FROM movimientos ORDER BY ID DESC LIMIT 1;
+    DECLARE ultimoID INT;
+    
+    SELECT ID INTO ultimoID
+    FROM movimientos ORDER BY ID DESC LIMIT 1;
+    
+    RETURN ultimoID;
 END$$
-DELIMITER $$
-
-CALL SP_ULTIMO_ID_MOVIMIENTO_GENERADO();
+DELIMITER ;
 
 /*------------------------------------------------------------------------------------------------------------------------------------
 cuotas */
@@ -368,9 +458,9 @@ cuotas */
 
 DROP PROCEDURE IF EXISTS SP_INSERTAR_CUOTA$$
 
+
 DELIMITER $$
 CREATE PROCEDURE SP_INSERTAR_CUOTA(
-    IN I_ID INT,
     IN I_IDPrestamo INT,
     IN I_NumeroCuota INT,
     IN I_Monto INT,
@@ -379,17 +469,17 @@ CREATE PROCEDURE SP_INSERTAR_CUOTA(
     IN I_Estado TINYINT
 )
 BEGIN
-	INSERT INTO cuotas (ID, IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado)
-    VALUES (I_ID, I_IDPrestamo, I_NumeroCuota, I_Monto, I_FechaPago, I_IDMovimiento, I_Estado);
+	INSERT INTO cuotas (IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado)
+    VALUES (I_IDPrestamo, I_NumeroCuota, I_Monto, I_FechaPago, I_IDMovimiento, I_Estado);
 END$$
 DELIMITER $$
 
-CALL SP_INSERTAR_CUOTA(?, ?, ?, ?, ?, ?, ?);
+/*CALL SP_INSERTAR_CUOTA(?, ?, ?, ?, ?, ?);*/
 
 
 
 
-DROP PROCEDURE IF EXISTS SP_LISTAR_CUOTAS_POR_PRESTAMO$$
+DROP PROCEDURE IF EXISTS SP_LISTAR_CUOTAS_POR_PRESTAMO $$
 
 DELIMITER $$
 CREATE PROCEDURE SP_LISTAR_CUOTAS_POR_PRESTAMO(
@@ -397,35 +487,36 @@ CREATE PROCEDURE SP_LISTAR_CUOTAS_POR_PRESTAMO(
 )
 BEGIN
 	SELECT ID, IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado FROM cuotas 
-    WHERE ID = I_ID;
+    WHERE IDPrestamo = I_ID;
 END$$
 DELIMITER $$
 
-CALL SP_LISTAR_CUOTAS_POR_PRESTAMO(?);
+/*CALL SP_LISTAR_CUOTAS_POR_PRESTAMO(?);*/
+
 
 /*------------------------------------------------------------------------------------------------------------------------------------
 prestamo rechazado */
 
 
-DROP PROCEDURE IF EXISTS SP_INSERTAR_PRESTAMO_RECHAZADO$$
+
+DROP PROCEDURE IF EXISTS SP_INSERTAR_PRESTAMO_RECHAZADO $$
 
 DELIMITER $$
 CREATE PROCEDURE SP_INSERTAR_PRESTAMO_RECHAZADO(
-    IN I_ID INT,
     IN I_IDPrestamo INT,
     IN I_MotivoRechazo VARCHAR(45)
 )
 BEGIN
-	INSERT INTO prestamo_rechazado (ID, IDPrestamo, MotivoRechazo)
-    VALUES (I_ID, I_IDPrestamo, I_MotivoRechazo);
+	INSERT INTO prestamo_rechazado (IDPrestamo, MotivoRechazo)
+    VALUES (I_IDPrestamo, I_MotivoRechazo);
 END$$
 DELIMITER $$
 
-CALL SP_INSERTAR_PRESTAMO_RECHAZADO(?, ?, ?);
+/*CALL SP_INSERTAR_PRESTAMO_RECHAZADO(?, ?);*/
 
 
 
-DROP PROCEDURE IF EXISTS SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO$$
+DROP PROCEDURE IF EXISTS SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO $$
 
 DELIMITER $$
 CREATE PROCEDURE SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO(
@@ -433,11 +524,11 @@ CREATE PROCEDURE SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO(
 )
 BEGIN
 	SELECT ID, IDPrestamo, MotivoRechazo FROM prestamo_rechazado 
-    WHERE ID = I_ID;
+    WHERE IDPrestamo = I_ID;
 END$$
 DELIMITER $$
 
-CALL SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO(?);
+/*CALL SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO(?);*/
 
 
 /* SP - Listar clientes completos en cuentas Admin*/

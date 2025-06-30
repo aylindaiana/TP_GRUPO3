@@ -18,11 +18,11 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String CUENTAS_ACTIVAS_CLIENTE = "SELECT COUNT(*) FROM cuenta WHERE IDCliente = ? AND Estado = 1";
     private static final String EXISTE_CBU = "SELECT COUNT(*) FROM cuenta WHERE CBU = ?";
     private static final String EXISTE_CBU_EXCEPTO_ID = "SELECT COUNT(*) FROM cuenta WHERE CBU = ? AND ID <> ?";
-
-
-    
     private static final String BUSCAR_CUENTAS_ASIGNADAS = "CALL sp_buscar_cuentas_asignadas(?)";
     private static final String BAJA_CLIENTE_BAJA_CUENTAS = "UPDATE cuenta SET Estado = 0 WHERE IDCliente = ?";
+    private static final String RECARGAR_CUENTA = "CALL sp_recargar_cuenta(?, ?)";
+    
+    private static final String DEBITAR_CUENTA = "UPDATE cuenta SET Saldo = Saldo - ? WHERE ID = ?";
     
     
     @Override
@@ -194,9 +194,6 @@ public class CuentaDaoImpl implements CuentaDao {
         return existe;
     }
 
-
-    
-    //borrador para probar seccion prestamos----------------------------------------------------------------------------------------------------------------------
 	@Override
 	public List<Cuenta> listarCuentas(int id){
 		Connection cn = Conexion.getConexion().getSQLConexion();
@@ -239,7 +236,7 @@ public class CuentaDaoImpl implements CuentaDao {
 
 		Connection cn = Conexion.getConexion().getSQLConexion();
 		
-		String query = "CALL sp_recargar_cuenta(?, ?)";
+		String query = RECARGAR_CUENTA;
 		PreparedStatement st;
         
 		try {
@@ -351,5 +348,30 @@ public class CuentaDaoImpl implements CuentaDao {
 			try { cn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
 		}
 		
+	}
+
+	@Override
+	public void debitarCuenta(int IDCuenta, double montoDebito) {
+
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		
+		String query = DEBITAR_CUENTA;
+		PreparedStatement st;
+        
+		try {
+			st = cn.prepareStatement(query);
+			st.setDouble(1, montoDebito);
+	        st.setInt(2, IDCuenta);
+	        if(st.executeUpdate() > 0) {
+	            cn.commit();
+	        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+		}
 	}
 }
