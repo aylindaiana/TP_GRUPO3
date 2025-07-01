@@ -22,8 +22,22 @@ public class CuentaAdminServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         NegocioCuenta negocioCuenta = new NegocioCuentaImpl();
+        
+        String filtroCliente = request.getParameter("filtroCliente");
+        String filtroCBU = request.getParameter("filtroCBU");
 
         List<Cuenta> cuentas = negocioCuenta.listar();
+        
+        boolean hayFiltroCliente = filtroCliente != null && !filtroCliente.trim().isEmpty();
+        boolean hayFiltroCBU = filtroCBU != null && !filtroCBU.trim().isEmpty();
+        
+        if (hayFiltroCliente || hayFiltroCBU) {
+            cuentas = negocioCuenta.buscar(filtroCliente, filtroCBU);
+            request.setAttribute("busquedaAnterior", filtroCliente);
+            request.setAttribute("cbuAnterior", filtroCBU);
+        } else {
+            cuentas = negocioCuenta.listar(); 
+        }
 
         request.setAttribute("listaCuentas", cuentas);
         request.getRequestDispatcher("/admin/cuentasAdmin.jsp").forward(request, response);

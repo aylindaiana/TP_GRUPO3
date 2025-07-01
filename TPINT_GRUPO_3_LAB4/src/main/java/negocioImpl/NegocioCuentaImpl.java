@@ -126,6 +126,12 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 	public int cuentasActivasPorCliente(int idCliente) {
 		return cuentaDao.cuentasActivasPorCliente(idCliente);
 	}
+	
+	@Override
+	public List<Cuenta> buscar(String nombreCliente, String cbu) {
+	    return cuentaDao.buscar(nombreCliente, cbu);
+	}
+
 
 	@Override
 	public void debitarCuenta(int IDCuenta, double montoDebito) {

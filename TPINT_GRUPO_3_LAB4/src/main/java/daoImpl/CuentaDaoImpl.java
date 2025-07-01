@@ -21,6 +21,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String BUSCAR_CUENTAS_ASIGNADAS = "CALL sp_buscar_cuentas_asignadas(?)";
     private static final String BAJA_CLIENTE_BAJA_CUENTAS = "UPDATE cuenta SET Estado = 0 WHERE IDCliente = ?";
     private static final String RECARGAR_CUENTA = "CALL sp_recargar_cuenta(?, ?)";
+    private static final String BUSCAR_CUENTAS = "CALL SP_BUSCAR_FILTRO(?, ?)";
     
     private static final String DEBITAR_CUENTA = "UPDATE cuenta SET Saldo = Saldo - ? WHERE ID = ?";
     
@@ -349,6 +350,47 @@ public class CuentaDaoImpl implements CuentaDao {
 		}
 		
 	}
+    @Override
+    public List<Cuenta> buscar(String nombreCliente, String cbu) {
+        List<Cuenta> lista = new ArrayList<>();
+        Connection cn = Conexion.getConexion().getSQLConexion();;
+
+        try {
+            CallableStatement cs = cn.prepareCall(BUSCAR_CUENTAS);
+
+            if (nombreCliente == null || nombreCliente.trim().isEmpty()) {
+                cs.setNull(1, Types.VARCHAR);
+            } else {
+                cs.setString(1, (nombreCliente == null) ? "" : nombreCliente.trim());
+            }
+
+            if (cbu == null || cbu.trim().isEmpty()) {
+                cs.setNull(2, Types.VARCHAR);
+            } else {
+                cs.setString(2, (cbu == null) ? "" : cbu.trim());
+            }
+
+            ResultSet rs = cs.executeQuery();
+
+            while (rs.next()) {
+                Cuenta cuenta = new Cuenta();
+                cuenta.setId(rs.getInt("ID"));
+                cuenta.setIdCliente(rs.getInt("IDCliente"));
+                cuenta.setNombreCliente(rs.getString("nombre") + " " + rs.getString("apellido"));
+                cuenta.setCbu(rs.getString("CBU"));
+                cuenta.setIdTipoDeCuenta(rs.getInt("IDTipoDeCuenta"));
+                cuenta.setFechaDeCreacion(rs.getDate("FechaDeCreacion"));
+                cuenta.setSaldo(rs.getFloat("Saldo"));
+                cuenta.setEstado(rs.getBoolean("Estado"));
+                lista.add(cuenta);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
 
 	@Override
 	public void debitarCuenta(int IDCuenta, double montoDebito) {

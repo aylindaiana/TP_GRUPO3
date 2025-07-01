@@ -61,30 +61,31 @@
             </div>
     	</div>
 		<div class="row mt-3">
-            <div class="col-12">
-                <div class="search-container">
-                    <div class="row align-items-end">
-                        <div class="col-md-4">
-                            <label for="busqueda" class="form-label"><strong>Búsqueda:</strong></label>
-                            <input type="text" class="form-control" id="busqueda" placeholder="Buscar cliente..."
-                            value="<%= request.getAttribute("busquedaAnterior") != null ? request.getAttribute("busquedaAnterior") : "" %>">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="cbu" class="form-label"><strong>CBU:</strong></label>
-                            <input type="text" class="form-control" id="cbu" placeholder="Buscar por CBU..."
-                            value="<%= request.getAttribute("cbuAnterior") != null ? request.getAttribute("cbuAnterior") : "" %>">
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-secondary">Buscar</button>
-                           
-                           <a href="${pageContext.request.contextPath}/ListarCuentasServlet?accion=limpiar" 
-                                   class="btn btn-outline-secondary ms-2">Limpiar</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+		    <div class="col-12">
+		        <form method="get" action="${pageContext.request.contextPath}/CuentaAdminServlet">
+		            <div class="row align-items-end">
+		                <div class="col-md-4">
+		                    <label for="filtroCliente" class="form-label"><strong>Búsqueda:</strong></label>
+		                    <input type="text" class="form-control" id="filtroCliente" name="filtroCliente"
+		                        placeholder="Buscar cliente..." 
+		                        value="<%= request.getAttribute("busquedaAnterior") != null ? request.getAttribute("busquedaAnterior") : "" %>">
+		                </div>
+		                <div class="col-md-4">
+		                    <label for="filtroCBU" class="form-label"><strong>CBU:</strong></label>
+		                    <input type="text" class="form-control" id="filtroCBU" name="filtroCBU"
+		                        placeholder="Buscar por CBU..." 
+		                        value="<%= request.getAttribute("cbuAnterior") != null ? request.getAttribute("cbuAnterior") : "" %>">
+		                </div>
+		                <div class="col-md-4 d-flex align-items-end">
+		                    <button type="submit" class="btn btn-secondary">Buscar</button>
+		                    <a href="${pageContext.request.contextPath}/CuentaAdminServlet" class="btn btn-outline-secondary ms-2">Limpiar</a>
+		                </div>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+
+       
         <div class="row mt-3">
 		    <div class="col-12 text-end">
 				<a href="${pageContext.request.contextPath}/DetalleCuentaServlet?modo=crear" class="btn btn-primary">

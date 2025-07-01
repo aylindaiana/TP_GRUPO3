@@ -706,6 +706,62 @@ END$$
 DELIMITER ;
 /*CALL SP_OBTENER_CUENTA_POR_ID(1);*/
 
+/*DROP PROCEDURE IF EXISTS SP_BUSCAR_FILTRO;*/
+DELIMITER $$
+
+CREATE PROCEDURE SP_BUSCAR_FILTRO (
+    IN filtroCliente VARCHAR(255),
+    IN filtroCBU VARCHAR(255)
+)
+BEGIN
+    IF filtroCliente IS NOT NULL AND filtroCliente != '' THEN
+        SELECT 
+            c.ID,
+            c.IDCliente,
+            cli.Nombre,
+            cli.Apellido,
+            c.CBU,
+            c.IDTipoDeCuenta,
+            c.FechaDeCreacion,
+            c.Saldo,
+            c.Estado
+        FROM cuenta c
+        INNER JOIN usuario cli ON cli.ID = c.IDCliente
+        WHERE CONCAT(cli.Nombre, ' ', cli.Apellido) LIKE CONCAT('%', filtroCliente, '%');
+
+    ELSEIF filtroCBU IS NOT NULL AND filtroCBU != '' THEN
+        SELECT 
+            c.ID,
+            c.IDCliente,
+            cli.Nombre,
+            cli.Apellido,
+            c.CBU,
+            c.IDTipoDeCuenta,
+            c.FechaDeCreacion,
+            c.Saldo,
+            c.Estado
+        FROM cuenta c
+        INNER JOIN usuario cli ON cli.ID = c.IDCliente
+        WHERE c.CBU LIKE CONCAT('%', filtroCBU, '%');
+    END IF;
+END $$
+
+DELIMITER ;
+
+
+/*CALL SP_BUSCAR_FILTRO("admin", 324324231111111);*/
+-- Cliente 1: Juan Pérez
+/*
+INSERT INTO usuario (nombre, apellido, dni)
+VALUES ('Rami', 'Gomez', '12345678');
+
+-- Cliente 2: María Gómez
+INSERT INTO usuario (nombre, apellido, dni)
+VALUES ('Nahuel', 'Ramos', '87654321');*/
+
+
+/*******************************************************/
+
 
 /* Al crear usuario, trigger para crear automaticamente credenciales (en nulo pero que se cree el registro relacionado con su id) */
 
