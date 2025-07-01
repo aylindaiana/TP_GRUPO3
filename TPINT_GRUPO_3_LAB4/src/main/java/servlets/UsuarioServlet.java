@@ -101,7 +101,7 @@ public class UsuarioServlet extends HttpServlet {
             // Paso 3: Crear objeto Usuario
             Usuario nuevoUsuario = new Usuario();
             nuevoUsuario.setDni(dniInt);
-            nuevoUsuario.setCuil(Integer.parseInt(cuil));
+            nuevoUsuario.setCuil(Long.parseLong(cuil));
             nuevoUsuario.setNombre(request.getParameter("nombre"));
             nuevoUsuario.setApellido(request.getParameter("apellido"));
             nuevoUsuario.setSexo(request.getParameter("sexo"));

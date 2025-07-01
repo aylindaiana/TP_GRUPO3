@@ -138,4 +138,9 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 		cuentaDao.debitarCuenta(IDCuenta, montoDebito); 
 	}
 	
+	@Override
+	public int contarCuentasPorUsuario(int idUsuario) {
+		return cuentaDao.contarCuentasDeUsuario(idUsuario);
+	}
+	
 }

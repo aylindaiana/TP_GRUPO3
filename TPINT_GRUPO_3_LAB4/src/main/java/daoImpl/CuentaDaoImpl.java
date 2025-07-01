@@ -22,7 +22,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String BAJA_CLIENTE_BAJA_CUENTAS = "UPDATE cuenta SET Estado = 0 WHERE IDCliente = ?";
     private static final String RECARGAR_CUENTA = "CALL sp_recargar_cuenta(?, ?)";
     private static final String BUSCAR_CUENTAS = "CALL SP_BUSCAR_FILTRO(?, ?)";
-    
+    private static final String CONTAR_CUENTAS_ASIGNADA_A_CLIENTE = "CALL sp_buscar_cuentas_asignadas_a_cliente(?)";
     private static final String DEBITAR_CUENTA = "UPDATE cuenta SET Saldo = Saldo - ? WHERE ID = ?";
     
     
@@ -415,5 +415,27 @@ public class CuentaDaoImpl implements CuentaDao {
                 e2.printStackTrace();
             }
 		}
+	}
+	
+	@Override
+	public int contarCuentasDeUsuario(int idusuario)
+	{
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		PreparedStatement st;
+        
+        try  {
+
+            st = cn.prepareStatement(CONTAR_CUENTAS_ASIGNADA_A_CLIENTE);
+            st.setInt(1, idusuario);
+        	
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int resultado = rs.getInt(1);
+                return resultado;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
 	}
 }

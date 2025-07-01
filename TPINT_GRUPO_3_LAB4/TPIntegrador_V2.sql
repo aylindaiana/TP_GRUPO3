@@ -20,7 +20,7 @@ CREATE TABLE `usuario` (
   `Nombre` varchar(45) DEFAULT NULL,
   `Apellido` varchar(45) DEFAULT NULL,
   `Dni` int DEFAULT NULL,
-  `Cuil` int DEFAULT NULL,
+  `Cuil` long DEFAULT NULL,
   `Sexo` varchar(45) DEFAULT NULL,
   `Nacionalidad` varchar(45) DEFAULT NULL,
   `FechaDeNacimiento` date DEFAULT NULL,
@@ -309,7 +309,7 @@ CREATE PROCEDURE buscar_cliente_id(
 	IN id int
 )
 BEGIN 
-	SELECT ID, Nombre, Apellido, Dni, Cuil, Sexo, Nacionalidad, FechaDeNacimiento, Direccion, Localidad, Provincia, CorreoElectronico, Telefono, IDUsuario, Estado
+	SELECT ID, Nombre, Apellido, Dni, Cuil, Sexo, Nacionalidad, FechaDeNacimiento, Direccion, ID_Localidad, ID_Provincia, CorreoElectronico, Telefono, IDUsuario, Estado
     FROM usuario
     where ID = id;
 END$$
@@ -350,6 +350,27 @@ DELIMITER ;
 
 CALL sp_buscar_cuentas_asignadas(1);
 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_buscar_cuentas_asignadas_a_cliente$$ 
+CREATE PROCEDURE sp_buscar_cuentas_asignadas_a_cliente(
+	IN id int
+)
+BEGIN 
+	DECLARE cantidad INT;
+
+	SELECT count(CU.ID) 
+    INTO cantidad
+    FROM cuenta CU
+    INNER JOIN usuario US
+    ON CU.IDCliente = US.ID
+    where US.ID = id AND CU.Estado = 1;
+    
+    SELECT cantidad AS resultado;
+END$$
+DELIMITER ;
+
+CALL sp_buscar_cuentas_asignadas_a_cliente(1);
 
 /* SP Asignacion cuenta a cliente */
 
@@ -544,7 +565,7 @@ BEGIN
 END$$
 DELIMITER $$
 
-CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(?);
+CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(1);
 
 
 

@@ -29,7 +29,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             stmt.setString(1, u.getNombre());
             stmt.setString(2, u.getApellido());
             stmt.setInt(3, u.getDni());
-            stmt.setInt(4, u.getCuil());
+            stmt.setLong(4, u.getCuil());
             stmt.setString(5, u.getSexo());
             stmt.setString(6, u.getNacionalidad());
             stmt.setDate(7, u.getFechaDeNacimiento());
@@ -60,7 +60,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             stmt.setString(1, u.getNombre());
             stmt.setString(2, u.getApellido());
             stmt.setInt(3, u.getDni());
-            stmt.setInt(4, u.getCuil());
+            stmt.setLong(4, u.getCuil());
             stmt.setString(5, u.getSexo());
             stmt.setString(6, u.getNacionalidad());
             stmt.setDate(7, u.getFechaDeNacimiento());
@@ -123,7 +123,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             stmt.setString(1, u.getNombre());
             stmt.setString(2, u.getApellido());
             stmt.setInt(3, u.getDni());
-            stmt.setInt(4, u.getCuil());
+            stmt.setLong(4, u.getCuil());
             stmt.setString(5, u.getSexo());
             stmt.setString(6, u.getNacionalidad());
             stmt.setDate(7, u.getFechaDeNacimiento());
@@ -156,7 +156,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
         u.setNombre(rs.getString("Nombre"));
         u.setApellido(rs.getString("Apellido"));
         u.setDni(rs.getInt("Dni"));
-        u.setCuil(rs.getInt("Cuil"));
+        u.setCuil(rs.getLong("Cuil"));
         u.setSexo(rs.getString("Sexo"));
         u.setNacionalidad(rs.getString("Nacionalidad"));
         u.setFechaDeNacimiento(rs.getDate("FechaDeNacimiento"));

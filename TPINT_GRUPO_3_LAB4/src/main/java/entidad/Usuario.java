@@ -7,7 +7,7 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private int dni;
-    private int cuil;
+    private long cuil;
     private String sexo;
     private String nacionalidad;
     private Date fechaDeNacimiento;
@@ -25,7 +25,7 @@ public class Usuario {
         super();
     }
 
-    public Usuario(int id, String nombre, String apellido, int dni, int cuil, String sexo, String nacionalidad,
+    public Usuario(int id, String nombre, String apellido, int dni, long cuil, String sexo, String nacionalidad,
                    Date fechaDeNacimiento, String direccion, int idLocalidad, int idProvincia,
                    String correoElectronico, String telefono, int idUsuario, boolean estado) {
         super();
@@ -58,8 +58,8 @@ public class Usuario {
     public int getDni() { return dni; }
     public void setDni(int dni) { this.dni = dni; }
 
-    public int getCuil() { return cuil; }
-    public void setCuil(int cuil) { this.cuil = cuil; }
+    public long getCuil() { return cuil; }
+    public void setCuil(long cuil) { this.cuil = cuil; }
 
     public String getSexo() { return sexo; }
     public void setSexo(String sexo) { this.sexo = sexo; }

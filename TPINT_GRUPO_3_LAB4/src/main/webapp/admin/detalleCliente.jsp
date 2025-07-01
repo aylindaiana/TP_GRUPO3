@@ -207,7 +207,9 @@
 
 
 
-			<form method="post" action="DetalleUsuarioServlet">
+			<form method="post" action=DetalleCuentaServlet>
+				<input type="hidden" name="modo" value="crear">
+    			<input type="hidden" name="idUser" value="<%=usuario.getId()%>">
 				<div
 					class="cuenta-item border border-dashed p-3 text-muted bg-light">
 					<div class="row align-items-center">
@@ -223,11 +225,6 @@
 					</div>
 				</div>
 			</form>
-
-
-
-
-
 
 			<div class="text-center mt-4">
 				<a href="${pageContext.request.contextPath}/ListarUsuariosServlet"

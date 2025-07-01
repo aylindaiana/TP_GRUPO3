@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="entidad.Usuario" %>
+<%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,10 +72,6 @@
                             <input type="text" class="form-control" id="busqueda" placeholder="Buscar cliente...">
                         </div>
                         <div class="col-md-4">
-                            <label for="cbu" class="form-label"><strong>CBU:</strong></label>
-                            <input type="text" class="form-control" id="cbu" placeholder="Buscar por CBU...">
-                        </div>
-                        <div class="col-md-4">
                             <button type="button" class="btn btn-secondary">Buscar</button>
                             <button type="button" class="btn btn-outline-secondary ms-2">Limpiar</button>
                         </div>
@@ -92,7 +89,6 @@
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>DNI</th>
-                                <th>CBU</th>
                                 <th>Nro de cuentas</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
@@ -110,18 +106,12 @@
                                 <td><%= usuario.getApellido() %></td>
                                 <td><%= usuario.getDni() %></td>
                                 <td>
-                                    <%
-                                        // Acá se debería obtener el CBU y cantidad de cuentas del usuario desde la base
-                                        // Por ahora hay valores de ejemplo:
-                                    %>
-                                    0170123456789012345678
-                                </td>
-                                <td>
-                                    <%
-                                        // Ejemplo: mostrar cantidad de cuentas
-                                    %>
-                                    2
-                                </td>
+								  <%
+								    Map<Integer, Integer> cuentasPorUsuario = (Map<Integer, Integer>) request.getAttribute("cuentasPorUsuario");
+								    int cantidadCuentas = cuentasPorUsuario.get(usuario.getId());
+								  %>
+								  <%= cantidadCuentas %>
+								</td>
                                <td>
                                     <%
                                         if(usuario.isEstado()) {

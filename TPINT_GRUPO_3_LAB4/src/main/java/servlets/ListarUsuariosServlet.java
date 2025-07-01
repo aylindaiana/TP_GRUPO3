@@ -7,15 +7,22 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import entidad.Usuario;
+import entidad.Cuenta;
 import negocio.NegocioUsuario;
 import negocioImpl.NegocioUsuarioImpl;
+import negocio.NegocioCuenta;
+import negocioImpl.NegocioCuentaImpl;
 
 @WebServlet("/ListarUsuariosServlet")
 public class ListarUsuariosServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private NegocioUsuario negocioUsuario = new NegocioUsuarioImpl();
+    private NegocioCuenta negocioCuenta = new NegocioCuentaImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,11 +44,20 @@ public class ListarUsuariosServlet extends HttpServlet {
 
         // Obtener usuarios de la página actual
         List<Usuario> usuarios = negocioUsuario.obtenerUsuariosPaginados(pagina, cantidadPorPagina);
+        
+        Map<Integer, Integer> cuentasPorUsuario = new HashMap<>();
+        for (Usuario usuario : usuarios) {
+            int cantidad = negocioCuenta.contarCuentasPorUsuario(usuario.getId());
+            cuentasPorUsuario.put(usuario.getId(), cantidad);
+        }
+        
+        
         int totalUsuarios = negocioUsuario.contarUsuarios();
         int totalPaginas = (int) Math.ceil((double) totalUsuarios / cantidadPorPagina);
 
         // Atributos para el JSP
         request.setAttribute("obtenerTodos", usuarios);
+        request.setAttribute("cuentasPorUsuario", cuentasPorUsuario);
         request.setAttribute("paginaActual", pagina);
         request.setAttribute("totalPaginas", totalPaginas);
         request.setAttribute("cantidadPorPagina", cantidadPorPagina);
