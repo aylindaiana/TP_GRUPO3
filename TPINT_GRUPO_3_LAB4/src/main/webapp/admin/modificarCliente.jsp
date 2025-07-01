@@ -1,14 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="entidad.Usuario" %>
+<%@ page import="entidad.Provincia" %>
+<%@ page import="entidad.Localidad" %>
+<%@ page import="java.util.List" %>
 <%
-    Usuario usuario = (Usuario) request.getAttribute("usuarioModificar");
+Usuario usuario = (Usuario) request.getAttribute("usuarioModificar");
+List<Provincia> provincias = (List<Provincia>) request.getAttribute("provincias");
+List<Localidad> localidades = (List<Localidad>) request.getAttribute("localidades");
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Modificar Cliente</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Modificar Cliente</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -71,13 +76,29 @@
                 <label>Dirección</label>
                 <input type="text" name="direccion" class="form-control" value="<%= usuario.getDireccion() %>">
             </div>
+
             <div class="col-md-3">
                 <label>Localidad</label>
-                <input type="text" name="localidad" class="form-control" value="<%= usuario.getLocalidad() %>">
+                <select name="localidad" class="form-select">
+                    <option value="">Seleccionar localidad...</option>
+                    <% for (Localidad loc : localidades) { %>
+                        <option value="<%= loc.getIdLocalidad() %>"
+                        <%= (loc.getIdLocalidad() == usuario.getIdLocalidad()) ? "selected" : "" %>>
+                        <%= loc.getNombreLocalidad() %></option>
+                    <% } %>
+                </select>
             </div>
+
             <div class="col-md-3">
                 <label>Provincia</label>
-                <input type="text" name="provincia" class="form-control" value="<%= usuario.getProvincia() %>">
+                <select name="provincia" class="form-select">
+                    <option value="">Seleccionar provincia...</option>
+                    <% for (Provincia prov : provincias) { %>
+                        <option value="<%= prov.getIdProvincia() %>"
+                        <%= (prov.getIdProvincia() == usuario.getIdProvincia()) ? "selected" : "" %>>
+                        <%= prov.getNombreProvincia() %></option>
+                    <% } %>
+                </select>
             </div>
         </div>
 
