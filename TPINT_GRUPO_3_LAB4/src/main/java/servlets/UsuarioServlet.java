@@ -56,7 +56,7 @@ public class UsuarioServlet extends HttpServlet {
         }
 
 
-        // Paso 2: Setear todos los atributos (para mantener los datos)
+        // Paso 2: Setear todos los atributos
         request.setAttribute("dni", dni);
         request.setAttribute("cuil", cuil);
         request.setAttribute("telefono", telefono);
@@ -73,7 +73,7 @@ public class UsuarioServlet extends HttpServlet {
 
         // Si hay errores de validación, volver al formulario
         if (hayError) {
-            request.getRequestDispatcher("admin/altaCliente.jsp").forward(request, response);
+        	request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
             return;
         }
 
@@ -84,7 +84,7 @@ public class UsuarioServlet extends HttpServlet {
             int dniInt = Integer.parseInt(dni);
             if (negocio.existeDni(dniInt)) {
                 request.setAttribute("errorDni", "El DNI ya está registrado.");
-                request.getRequestDispatcher("admin/altaCliente.jsp").forward(request, response);
+                request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
                 return;
             }
             
@@ -92,7 +92,7 @@ public class UsuarioServlet extends HttpServlet {
             if (negocio.existeNombreUsuario(usuario)) {
                 request.setAttribute("errorNombreUsuario", "El nombre de usuario ya está registrado.");
                 hayError = true;
-                request.getRequestDispatcher("admin/altaCliente.jsp").forward(request, response);
+                request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
                 return;
             }
 
@@ -118,14 +118,14 @@ public class UsuarioServlet extends HttpServlet {
             boolean insertadoOK = negocio.agregarUsuarioConCredenciales(nuevoUsuario, usuario, password);
 
             if (insertadoOK) {
-                response.sendRedirect("admin/altaCliente.jsp?status=success");
+            	response.sendRedirect("FormularioClienteServlet?status=success");
             } else {
-                response.sendRedirect("admin/altaCliente.jsp?status=error");
+            	response.sendRedirect("FormularioClienteServlet?status=error");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("admin/altaCliente.jsp?status=error");
+            response.sendRedirect("FormularioClienteServlet?status=error");
         }
     }
 }

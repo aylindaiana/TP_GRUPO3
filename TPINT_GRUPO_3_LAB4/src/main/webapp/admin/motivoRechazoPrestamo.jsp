@@ -31,7 +31,7 @@
 	          <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/admin/homeAdmin.jsp">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/altaCliente.jsp">Alta Clientes</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta Clientes</a>
 	        </li>
 	        <li class="nav-item">
   				<a class="nav-link" href="${pageContext.request.contextPath}/ListarUsuariosServlet">Clientes</a>
