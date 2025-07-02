@@ -38,10 +38,18 @@ List<Localidad> localidades = (List<Localidad>) request.getAttribute("localidade
             <div class="col-md-4">
                 <label>DNI</label>
                 <input type="text" name="dni" class="form-control" value="<%= usuario.getDni() %>" required>
+                <% if (request.getAttribute("errorDni") != null) { %>
+				    <div class="text-danger"><%= request.getAttribute("errorDni") %></div>
+				<% } %>
+                
             </div>
             <div class="col-md-4">
                 <label>CUIL</label>
                 <input type="text" name="cuil" class="form-control" value="<%= usuario.getCuil() %>" required>
+                <% if (request.getAttribute("errorCuil") != null) { %>
+				    <div class="text-danger"><%= request.getAttribute("errorCuil") %></div>
+				<% } %>
+                
             </div>
             <div class="col-md-4">
                 <label>Sexo</label>
@@ -68,6 +76,10 @@ List<Localidad> localidades = (List<Localidad>) request.getAttribute("localidade
             <div class="col-md-6">
                 <label>Teléfono</label>
                 <input type="text" name="telefono" class="form-control" value="<%= usuario.getTelefono() %>">
+                <% if (request.getAttribute("errorTelefono") != null) { %>
+				    <div class="text-danger"><%= request.getAttribute("errorTelefono") %></div>
+				<% } %>
+                
             </div>
         </div>
 

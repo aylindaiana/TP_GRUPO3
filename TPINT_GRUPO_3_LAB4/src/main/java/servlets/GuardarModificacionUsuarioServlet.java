@@ -3,6 +3,8 @@ package servlets;
 import entidad.Usuario;
 import negocio.NegocioUsuario;
 import negocioImpl.NegocioUsuarioImpl;
+import daoImpl.ProvinciaDaoImpl;
+import daoImpl.LocalidadDaoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,39 +22,86 @@ public class GuardarModificacionUsuarioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
+        boolean hayError = false;
+
         try {
-            // Obtener parámetros del formulario
+            // Obtener parámetros
             int id = Integer.parseInt(request.getParameter("id"));
-            int dni = Integer.parseInt(request.getParameter("dni"));
-            int cuil = Integer.parseInt(request.getParameter("cuil"));
-            String nombre = request.getParameter("nombre");
-            String apellido = request.getParameter("apellido");
-            String sexo = request.getParameter("sexo");
-            String nacionalidad = request.getParameter("nacionalidad");
-            String fechaNacimiento = request.getParameter("fechaNacimiento");
-            String direccion = request.getParameter("direccion");
-            int idLocalidad = Integer.parseInt(request.getParameter("localidad"));
-            int idProvincia = Integer.parseInt(request.getParameter("provincia"));
-            String correo = request.getParameter("correo");
+            String dniStr = request.getParameter("dni");
+            String cuilStr = request.getParameter("cuil");
             String telefono = request.getParameter("telefono");
 
-            // Crear objeto Usuario actualizado
+            // Validaciones numéricas
+            if (dniStr == null || !dniStr.matches("\\d+")) {
+                request.setAttribute("errorDni", "Sólo se permiten números en DNI");
+                hayError = true;
+            }
+            if (cuilStr == null || !cuilStr.matches("\\d+")) {
+                request.setAttribute("errorCuil", "Sólo se permiten números en CUIL");
+                hayError = true;
+            }
+            if (telefono == null || !telefono.matches("\\d+")) {
+                request.setAttribute("errorTelefono", "Sólo se permiten números en Teléfono");
+                hayError = true;
+            }
+
+            // Guardar valores ingresados para repoblar en el JSP si hay errores
+            request.setAttribute("dni", dniStr);
+            request.setAttribute("cuil", cuilStr);
+            request.setAttribute("telefono", telefono);
+            request.setAttribute("nombre", request.getParameter("nombre"));
+            request.setAttribute("apellido", request.getParameter("apellido"));
+            request.setAttribute("sexo", request.getParameter("sexo"));
+            request.setAttribute("nacionalidad", request.getParameter("nacionalidad"));
+            request.setAttribute("fechaNacimiento", request.getParameter("fechaNacimiento"));
+            request.setAttribute("direccion", request.getParameter("direccion"));
+            request.setAttribute("localidad", request.getParameter("localidad"));
+            request.setAttribute("provincia", request.getParameter("provincia"));
+            request.setAttribute("correo", request.getParameter("correo"));
+
+            // Obtener datos actuales
+            Usuario usuarioActual = negocioUsuario.obtenerPorId(id);
+            if (usuarioActual == null) {
+                response.sendRedirect("ListarUsuariosServlet?status=error");
+                return;
+            }
+
+            // Validación de DNI duplicado si fue modificado
+            if (!hayError && usuarioActual.getDni() != Integer.parseInt(dniStr) && negocioUsuario.existeDni(Integer.parseInt(dniStr))) {
+                request.setAttribute("errorDni", "El DNI ya está registrado.");
+                hayError = true;
+            }
+
+            if (hayError) {
+                // Cargar provincias y localidades
+                ProvinciaDaoImpl provinciaDao = new ProvinciaDaoImpl();
+                LocalidadDaoImpl localidadDao = new LocalidadDaoImpl();
+
+                request.setAttribute("usuarioModificar", usuarioActual);
+                request.setAttribute("provincias", provinciaDao.listarProvincias());
+                request.setAttribute("localidades", localidadDao.listarTodas());
+
+                request.getRequestDispatcher("/admin/modificarCliente.jsp").forward(request, response);
+                return;
+            }
+
+            // Crear objeto actualizado
             Usuario usuarioModificado = new Usuario();
             usuarioModificado.setId(id);
-            usuarioModificado.setDni(dni);
-            usuarioModificado.setCuil(cuil);
-            usuarioModificado.setNombre(nombre);
-            usuarioModificado.setApellido(apellido);
-            usuarioModificado.setSexo(sexo);
-            usuarioModificado.setNacionalidad(nacionalidad);
-            usuarioModificado.setFechaDeNacimiento(Date.valueOf(fechaNacimiento));
-            usuarioModificado.setDireccion(direccion);
-            usuarioModificado.setIdLocalidad(idLocalidad);
-            usuarioModificado.setIdProvincia(idProvincia);
-            usuarioModificado.setCorreoElectronico(correo);
+            usuarioModificado.setDni(Integer.parseInt(dniStr));
+            usuarioModificado.setCuil(Integer.parseInt(cuilStr));
+            usuarioModificado.setNombre(request.getParameter("nombre"));
+            usuarioModificado.setApellido(request.getParameter("apellido"));
+            usuarioModificado.setSexo(request.getParameter("sexo"));
+            usuarioModificado.setNacionalidad(request.getParameter("nacionalidad"));
+            usuarioModificado.setFechaDeNacimiento(Date.valueOf(request.getParameter("fechaNacimiento")));
+            usuarioModificado.setDireccion(request.getParameter("direccion"));
+            usuarioModificado.setIdLocalidad(Integer.parseInt(request.getParameter("localidad")));
+            usuarioModificado.setIdProvincia(Integer.parseInt(request.getParameter("provincia")));
+            usuarioModificado.setCorreoElectronico(request.getParameter("correo"));
             usuarioModificado.setTelefono(telefono);
 
-            // Ejecutar modificación
+            // Guardar
             boolean modificadoOK = negocioUsuario.modificarUsuario(usuarioModificado);
 
             if (modificadoOK) {
