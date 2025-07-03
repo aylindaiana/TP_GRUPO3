@@ -51,9 +51,10 @@ public class PrestamoRechazadoDaoImpl implements PrestamoRechazadoDao{
 		try {
         	PreparedStatement st;
 			st = cn.prepareStatement(query);
+			st.setInt(1, IDPrestamo);
             ResultSet rs = st.executeQuery();
             
-            while (rs.next()) {
+            if (rs.next()) {
                 prestamoRechazado.setID(rs.getInt("ID"));
                 prestamoRechazado.setIDPrestamo(rs.getInt("IDPrestamo"));
                 prestamoRechazado.setMotivoRechazo(rs.getString("MotivoRechazo"));

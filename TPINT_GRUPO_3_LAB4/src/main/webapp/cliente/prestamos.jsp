@@ -153,6 +153,7 @@
 
 			<div class="col" id="historial-container">
 
+			<form action="${pageContext.request.contextPath}/VerPrestamoServlet" method="post">
 				<div class="row">
 					<b>HISTORIAL</b>
 				</div>
@@ -178,19 +179,22 @@
 							switch(aux.getAutorizacion())
 							{
 								case 1:
-	
 									%>
-									<td><a href="${pageContext.request.contextPath}/VerPrestamoServlet?IDPrestamo=<%=aux.getID() %>" class="btn btn-success">ver</a></td>
+									<td>
+										<button name="verCuotas" value="<%=aux.getID() %>" class="btn btn-success">ver</button>
+									</td>
 									<%
 									break;
 								case 2:
 									%>
-									<td><a href="" class="btn btn-warning">pendiente</a></td>
+									<td><button class="btn btn-warning" disabled>pendiente</button></td>
 									<%
 									break;
 								case 3:
 									%>
-									<td><a href="${pageContext.request.contextPath}/cliente/verPrestamo.jsp" class="btn btn-danger">rechazado</a></td>
+									<td>
+										<button name="verRechazo" value="<%=aux.getID() %>" class="btn btn-danger">rechazado</button>
+									</td>
 									<%
 									break;
 							}
@@ -204,6 +208,7 @@
 					</table>
 				</div>
 
+			</form>
 			</div>
 
 		</div>

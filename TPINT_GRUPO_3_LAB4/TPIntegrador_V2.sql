@@ -113,7 +113,7 @@ CREATE TABLE `usuario_tipos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `prestamo_rechazado` (
-  `ID` int NOT NULL,
+  `ID` int NOT NULL AUTO_INCREMENT,
   `IDPrestamo` int NOT NULL,
   `MotivoRechazo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
@@ -413,6 +413,25 @@ BEGIN
 	WHERE ID = id;
 END$$
 DELIMITER $$
+
+
+/* SP listar prestamos por id prestamo */
+
+DROP PROCEDURE IF EXISTS SP_BUSCAR_PRESTAMO_POR_ID
+
+DELIMITER $$
+CREATE PROCEDURE SP_BUSCAR_PRESTAMO_POR_ID(
+    IN I_ID INT
+)
+BEGIN
+	SELECT ID, IDCliente, IDCuenta, FechaDeAlta, Importe, PlazoPago, ImporteMensual, CantidadCuotas, Autorizacion
+	FROM prestamos
+    WHERE ID = I_ID;
+END$$
+DELIMITER $$
+
+CALL SP_BUSCAR_PRESTAMO_POR_ID(1);
+
 
 /* SP listar prestamos por cliente */
 

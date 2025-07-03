@@ -1,3 +1,5 @@
+<%@page import="entidad.Prestamo"%>
+<%@page import="entidad.PrestamoRechazado"%>
 <%@page import="entidad.Cuota"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -51,7 +53,12 @@
 	</nav>
 
 
-	<div class="container text-center" id="general-container">
+		<div class="container text-center" id="general-container">
+		
+<%
+	if((List<Cuota>)request.getAttribute("listaCuotas") != null){
+%>
+	
 		<div class="col" id="historial-container">
 			<div class="row">
 				<b>PRESTAMO </b>
@@ -103,10 +110,25 @@
 			</div>
 
 		</div>
+	
+	
+<%
+	}
+%>
 		
-		<br>
 		
 		
+		
+<%
+	if((PrestamoRechazado)request.getAttribute("motivoRechazo") != null){
+	
+	//agregar el desarrollo de mostrar los datos reales de cada prestamo y sus motivos de rechazo.
+	Prestamo prestamo = (Prestamo)request.getAttribute("datosPrestamo");
+	PrestamoRechazado rechazo = (PrestamoRechazado)request.getAttribute("motivoRechazo");
+	
+	
+%>
+	
 		<div class="col" id="historial-container">
 
 			<div class="row">
@@ -122,20 +144,25 @@
 							<th>Motivo de rechazo</th>
 						</tr>
 						<tr>
-							<td>36</td>
-							<td>$2000000</td>
-							<td>18/06/2025</td>
+							<td><%= prestamo.getCantidadCuotas() %></td>
+							<td>$<%= prestamo.getImporte()/1.5 %></td>
+							<td><%= prestamo.getFechaDeAlta() %></td>
 							<td>
-								<textarea rows="8" cols="50" readonly style="resize: none;">el monto solicitado excede la cantidad a brindar para alguien con un historial crediticio casi nulo.
+								<textarea rows="8" cols="50" readonly style="resize: none;"><%=rechazo.getMotivoRechazo() %>
 								</textarea>
 							</td>
 						</tr>
 
 					</table>
-					<a href="prestamos.jsp" class="btn btn-primary">Regresar</a>
+					<a href="${pageContext.request.contextPath}/PrestamosClienteServlet" class="btn btn-primary">Regresar</a>
 			</div>
 
 		</div>
+	
+<%
+	}
+%>		
+
 	</div>
 
 </body>

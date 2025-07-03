@@ -14,4 +14,5 @@ public interface PrestamoDao {
 	public boolean actualizacionDeTablasEnBase_EstadoPrestamo(int IDPrestamo, int IDCuentaDestino, int EstadoPrestamo, 
 			int CantidadCuotas, double ImporteSolicitado, int IDCuentaOrigen, 
 			Date FechaSolicitudPrestamo, String ComentarioMovimiento, String MotivoRechazoPrestamo);     
+	public Prestamo obtenerPorIDPrestamo(int id);
 }

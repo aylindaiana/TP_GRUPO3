@@ -20,6 +20,8 @@ public class PrestamoDaoImpl implements PrestamoDao{
 
 	static String ACTUALIZAR_ESTADO_PRESTAMO = "CALL SP_ACTUALIZACION_DE_ESTADO_PRESTAMO(?, ?)";
 	static String ACTUALIZAR_TABLAS_EN_BASE_A_ESTADO_PRESTAMO = "CALL SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+	static String BUSCAR_PRESTAMO_POR_ID = " CALL SP_BUSCAR_PRESTAMO_POR_ID(?)";
 	
 	@Override
 	public boolean insertar(Prestamo prestamo) {
@@ -194,4 +196,37 @@ public class PrestamoDaoImpl implements PrestamoDao{
 		
 	}
 
+
+	@Override
+	public Prestamo obtenerPorIDPrestamo(int id) {
+
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		String query = BUSCAR_PRESTAMO_POR_ID;
+		Prestamo prestamo = new Prestamo();
+
+        
+        try {
+        	PreparedStatement st;
+			st = cn.prepareStatement(query);
+	        st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            
+            if (rs.next()) {
+                prestamo.setID(rs.getInt("ID"));
+                prestamo.setIDCliente(rs.getString("IDCliente"));
+                prestamo.setIDCuenta(rs.getInt("IDCuenta"));
+                prestamo.setFechaDeAlta(rs.getDate("FechaDeAlta"));
+                prestamo.setImporte(rs.getDouble("Importe"));
+                prestamo.setPlazoPago(rs.getInt("PlazoPago"));
+                prestamo.setImporteMensual(rs.getInt("ImporteMensual"));
+                prestamo.setCantidadCuotas(rs.getInt("CantidadCuotas"));
+                prestamo.setAutorizacion(rs.getInt("Autorizacion"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return prestamo;
+
+	}
 }
