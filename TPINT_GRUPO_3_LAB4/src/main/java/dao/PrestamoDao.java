@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import entidad.Cuenta;
@@ -15,4 +16,7 @@ public interface PrestamoDao {
 			int CantidadCuotas, double ImporteSolicitado, int IDCuentaOrigen, 
 			Date FechaSolicitudPrestamo, String ComentarioMovimiento, String MotivoRechazoPrestamo);     
 	public Prestamo obtenerPorIDPrestamo(int id);
+	
+	 /* Prueba para reporte */
+	public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta);
 }

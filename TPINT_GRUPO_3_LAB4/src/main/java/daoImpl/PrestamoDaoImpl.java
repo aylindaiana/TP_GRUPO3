@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	static String ACTUALIZAR_TABLAS_EN_BASE_A_ESTADO_PRESTAMO = "CALL SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	static String BUSCAR_PRESTAMO_POR_ID = " CALL SP_BUSCAR_PRESTAMO_POR_ID(?)";
+	
+	private final String CONTAR_PRESTAMOS_APROBADOS = "CALL SP_CONTAR_PRESTAMOS_APROBADOS(?, ?)";
+
 	
 	@Override
 	public boolean insertar(Prestamo prestamo) {
@@ -229,4 +233,28 @@ public class PrestamoDaoImpl implements PrestamoDao{
         return prestamo;
 
 	}
+	 /* Prueba para reporte */
+	
+	@Override
+	public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta) {
+	    int total = 0;
+
+	    try (Connection cn = Conexion.getConexion().getSQLConexion();
+	         PreparedStatement st = cn.prepareStatement(CONTAR_PRESTAMOS_APROBADOS)) {
+
+	        st.setDate(1, Date.valueOf(desde));
+	        st.setDate(2, Date.valueOf(hasta));
+
+	        ResultSet rs = st.executeQuery();
+	        if (rs.next()) {
+	            total = rs.getInt("total");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return total;
+	}
+
 }

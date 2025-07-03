@@ -1,6 +1,7 @@
 package negocioImpl;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import entidad.Prestamo;
@@ -48,4 +49,10 @@ public class NegocioPrestamoImpl implements NegocioPrestamo{
 		
 		return dao.obtenerPorIDPrestamo(id);
 	}
+	
+	/* prueba para los Reportes. */
+    @Override
+    public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta) {
+        return dao.contarPrestamosAprobados(desde, hasta);
+    }
 }

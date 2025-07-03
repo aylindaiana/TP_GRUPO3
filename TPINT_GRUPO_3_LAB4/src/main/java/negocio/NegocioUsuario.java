@@ -1,5 +1,6 @@
 package negocio;
 
+import java.time.LocalDate;
 import java.util.List;
 import entidad.Usuario;
 
@@ -15,4 +16,7 @@ public interface NegocioUsuario {
     public boolean existeNombreUsuario(String nombreUsuario);
     public List<Usuario> obtenerUsuariosPaginados(int pagina, int cantidadPorPagina);
     public int contarUsuarios();
+    
+    /* Prueba para reporte */
+    public int contarNuevosClientes(LocalDate desde, LocalDate hasta);
 }

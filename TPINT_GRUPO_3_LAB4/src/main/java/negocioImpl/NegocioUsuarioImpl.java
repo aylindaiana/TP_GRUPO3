@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import dao.UsuarioDao;
@@ -80,6 +81,12 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
     @Override
     public int contarUsuarios() {
         return usuarioDao.contarUsuarios();
+    }
+    
+    /* Prueba para reporte */
+    @Override
+    public int contarNuevosClientes(LocalDate desde, LocalDate hasta) {
+        return usuarioDao.contarNuevosClientes(desde, hasta);
     }
 
 }

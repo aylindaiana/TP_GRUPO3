@@ -1,6 +1,7 @@
 package daoImpl;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,10 @@ public class UsuarioDaoImpl implements UsuarioDao {
         "WHERE u.ID = ?";
     private static final String BAJA_LOGICA = "UPDATE usuario SET Estado = 0 WHERE ID = ?";
     private static final String ACTIVAR = "UPDATE usuario SET Estado = 1 WHERE ID = ?";
+    
+    /* Prueba para reporte */
+    private final String SP_CONTAR_NUEVOS_CLIENTES = "CALL SP_CONTAR_NUEVOS_CLIENTES(?, ?)";
+
 
     @Override
     public boolean insertar(Usuario u) {
@@ -263,5 +268,27 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
         return total;
     }
+    
+    /* Prueba para reporte */
+    @Override
+    public int contarNuevosClientes(LocalDate desde, LocalDate hasta) {
+        int total = 0;
+        try (Connection cn = Conexion.getConexion().getSQLConexion();
+             PreparedStatement st = cn.prepareStatement(SP_CONTAR_NUEVOS_CLIENTES)) {
+
+            st.setDate(1, Date.valueOf(desde));
+            st.setDate(2, Date.valueOf(hasta));
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
 }
 

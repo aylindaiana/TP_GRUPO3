@@ -891,6 +891,88 @@ END$$
 
 DELIMITER ;
 
+/*pruebas para los Reportes. */
+DELIMITER $$
+CREATE PROCEDURE SP_TOTAL_POR_TIPO(
+    IN tipoMovimiento INT,
+    IN fechaDesde DATE, IN fechaHasta DATE
+)
+BEGIN
+    SELECT IFNULL(SUM(Monto), 0) AS total
+    FROM movimientos
+    WHERE IDTipodeMovimiento = tipoMovimiento
+      AND Fecha BETWEEN fechaDesde AND fechaHasta; 
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE SP_CONTAR_PRESTAMOS_APROBADOS(
+    IN fechaDesde DATE,
+    IN fechaHasta DATE
+)
+BEGIN
+    SELECT COUNT(*) AS total 
+    FROM prestamos
+    WHERE Autorizacion = 1 
+      AND FechaDeAlta BETWEEN fechaDesde AND fechaHasta;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE SP_CONTAR_PRESTAMOS_RECHAZADOS(
+    IN fechaDesde DATE,
+    IN fechaHasta DATE
+)
+BEGIN
+    SELECT COUNT(*) AS total 
+    FROM prestamo_rechazado
+    WHERE IDPrestamo IN (
+        SELECT ID FROM prestamos
+        WHERE FechaDeAlta BETWEEN fechaDesde AND fechaHasta
+    );
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE SP_CONTAR_CUOTAS_PAGADAS(
+    IN fechaDesde DATE, IN fechaHasta DATE
+)
+BEGIN
+    SELECT COUNT(*) AS total
+    FROM cuotas
+    WHERE Estado = 1
+      AND FechaPago BETWEEN fechaDesde AND fechaHasta;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE SP_TOTAL_RECAUDADO_CUOTAS(
+    IN fechaDesde DATE, IN fechaHasta DATE
+)
+BEGIN
+    SELECT SUM(Monto) AS total
+    FROM cuotas
+    WHERE Estado = 1
+      AND FechaPago BETWEEN fechaDesde AND fechaHasta;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE SP_CONTAR_NUEVOS_CLIENTES(
+    IN fechaDesde DATE, IN fechaHasta DATE
+)
+BEGIN
+    SELECT COUNT(*) AS total
+    FROM usuario
+    WHERE FechaDeNacimiento IS NOT NULL
+      AND FechaDeNacimiento BETWEEN fechaDesde AND fechaHasta;
+END $$
+DELIMITER ;
+
+
+/* Pruebas para los Reportes. */
+
 SELECT * FROM usuario;
 SELECT * FROM usuario_credenciales;
 SELECT * FROM cuenta;

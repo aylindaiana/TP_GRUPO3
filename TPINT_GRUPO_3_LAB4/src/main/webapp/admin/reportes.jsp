@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="entidad.Reporte" %>
+<%
+    Reporte reporte = (Reporte) request.getAttribute("reporte");
+%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +43,7 @@
 	          <a class="nav-link active" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a>
@@ -54,7 +59,28 @@
 
     <div class="container mt-4">
         <h1 class="page-title">Reportes del Sistema</h1>
+        
+        <% if (request.getAttribute("error") != null) { %>
+		    <div class="alert alert-danger">
+		        <%= request.getAttribute("error") %>
+		    </div>
+		<% } %>
+        
 
+		<form action="ReportesServlet" method="get" class="row mb-4">
+		    <div class="col-md-3">
+		        <label>Desde:</label>
+		        <input type="date" name="fechaInicio" class="form-control" required>
+		    </div>
+		    <div class="col-md-3">
+		        <label>Hasta:</label>
+		        <input type="date" name="fechaFin" class="form-control" required>
+		    </div>
+		    <div class="col-md-2 d-flex align-items-end">
+		        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+		    </div>
+		</form>
+		
         <div class="summary-grid">
             <div class="info-card">
                 <div class="info-card-header">
@@ -62,16 +88,16 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">✓ Ingresos:</span>
-                    <span class="metric-value metric-positive">$50,000</span>
+                    <span class="metric-value metric-positive">$<%= (reporte != null) ? reporte.getTotalMovimientosIngresos() : 0 %></span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">✗ Egresos:</span>
-                    <span class="metric-value metric-negative">$28,000</span>
+                    <span class="metric-value metric-negative">$<%= (reporte != null) ? reporte.getTotalMovimientosEgresos() : 0 %></span>
                 </div>
                 <hr>
                 <div class="metric-row">
                     <span class="metric-label">📊 Diferencia:</span>
-                    <span class="metric-value metric-primary">$22,000</span>
+                    <span class="metric-value metric-primary">$<%= (reporte != null) ? reporte.getTotalMovimientosIngresos() - reporte.getTotalMovimientosEgresos() : 0 %></span>
                 </div>
             </div>
 
@@ -81,11 +107,11 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">✓ Aprobados:</span>
-                    <span class="metric-value metric-positive">12 ($120,000)</span>
+                    <span class="metric-value metric-positive"><%= (reporte != null) ? reporte.getPrestamosAprobados() : 0 %></span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">✗ Rechazados:</span>
-                    <span class="metric-value metric-negative">4 ($40,000)</span>
+                    <span class="metric-value metric-negative"><%= (reporte != null) ? reporte.getPrestamosRechazados() : 0 %></span>
                 </div>
             </div>
 
@@ -95,11 +121,11 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">Total cuotas:</span>
-                    <span class="metric-value">25</span>
+                    <span class="metric-value"><%= (reporte != null) ? reporte.getCuotasPagadas() : 0 %></span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">Total recaudado:</span>
-                    <span class="metric-value metric-positive">$12,500</span>
+                    <span class="metric-value metric-positive"> $<%= (reporte != null) ? reporte.getTotalRecaudado() : 0 %></span>
                 </div>
             </div>
 
@@ -109,18 +135,19 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">📦 Caja de ahorro:</span>
-                    <span class="metric-value">28</span>
+                    <span class="metric-value">1</span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">🏛️ Cuenta corriente:</span>
-                    <span class="metric-value">16</span>
+                    <span class="metric-value">2</span>
                 </div>
                 <hr>
                 <div class="metric-row">
                     <span class="metric-label">📋 Total cuentas activas:</span>
-                    <span class="metric-value metric-primary">44</span>
+                    <span class="metric-value metric-primary">3</span>
                 </div>
             </div>
+            
 
             <div class="info-card">
                 <div class="info-card-header">
@@ -128,7 +155,7 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">Total:</span>
-                    <span class="metric-value">12</span>
+                    <span class="metric-value"><%= (reporte != null) ? reporte.getNuevosClientes() : 0 %></span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">🏙️ Provincia con más altas:</span>
@@ -142,19 +169,19 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">➡️ Transferencias:</span>
-                    <span class="metric-value">45</span>
+                    <span class="metric-value">1</span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">⬆️ Altas de cuenta:</span>
-                    <span class="metric-value">18</span>
+                    <span class="metric-value">2</span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">💰 Pagos de préstamo:</span>
-                    <span class="metric-value">25</span>
+                    <span class="metric-value">3</span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">📈 Altas de préstamos:</span>
-                    <span class="metric-value">12</span>
+                    <span class="metric-value">4</span>
                 </div>
             </div>
         </div>

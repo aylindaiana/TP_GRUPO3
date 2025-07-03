@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import entidad.Cuota;
@@ -32,6 +33,16 @@ public class NegocioCuotaImpl implements NegocioCuota{
 	
 		return dao.pagarCuota(id);
 	}
+	
+    @Override
+    public int contarCuotasPagadas(LocalDate desde, LocalDate hasta) {
+        return dao.contarCuotasPagadas(desde, hasta);
+    }
+
+    @Override
+    public double totalRecaudadoEnCuotas(LocalDate desde, LocalDate hasta) {
+        return dao.totalRecaudadoEnCuotas(desde, hasta);
+    }
 	
 }
 

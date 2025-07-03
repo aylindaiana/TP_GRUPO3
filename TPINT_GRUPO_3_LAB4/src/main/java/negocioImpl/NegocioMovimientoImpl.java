@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import dao.MovimientoDao;
@@ -43,5 +44,10 @@ public class NegocioMovimientoImpl implements NegocioMovimiento{
 	    return dao.listarUltimosMovimientos(idCliente, limite);
 	}
 	
-
+	/* Prueba para reporte */
+    @Override
+    public double obtenerTotalxTipo(int tipoMovimiento, LocalDate desde, LocalDate hasta) {
+    	MovimientoDao dao = new MovimientoDaoImpl();
+        return dao.obtenerTotalxTipo(tipoMovimiento, desde, hasta);
+    }
 }

@@ -1,9 +1,11 @@
 package daoImpl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,11 @@ public class CuotaDaoImpl implements CuotaDao{
 	private final String INSERT = "CALL SP_INSERTAR_CUOTA(?, ?, ?, ?, ?, ?, ?)";
 	private final String LISTAR_CUOTAS_POR_PRESTAMO = "CALL SP_LISTAR_CUOTAS_POR_PRESTAMO(?)";
 	private final String PAGAR_CUOTA = "UPDATE cuotas SET Estado = 1 WHERE ID = ?";
+	
+	/* Prueba para reporte */
+	private final String CONTAR_CUOTAS_PAGADAS = "CALL SP_CONTAR_CUOTAS_PAGADAS(?, ?)";
+	private final String TOTAL_RECAUDADO_CUOTAS = "CALL SP_TOTAL_RECAUDADO_CUOTAS(?, ?)";
+
 	
 	@Override
 	public boolean insertar(Cuota cuota) {
@@ -110,5 +117,44 @@ public class CuotaDaoImpl implements CuotaDao{
 		
 		return exito;
 	}
+	
+	/* Prueba para reporte */
+	
+	@Override
+	public int contarCuotasPagadas(LocalDate desde, LocalDate hasta) {
+	    int total = 0;
+	    try (Connection cn = Conexion.getConexion().getSQLConexion();
+	         PreparedStatement st = cn.prepareStatement(CONTAR_CUOTAS_PAGADAS)) {
+
+	        st.setDate(1, Date.valueOf(desde));
+	        st.setDate(2, Date.valueOf(hasta));
+
+	        ResultSet rs = st.executeQuery();
+	        if (rs.next()) total = rs.getInt("total");
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return total;
+	}
+
+	@Override
+	public double totalRecaudadoEnCuotas(LocalDate desde, LocalDate hasta) {
+	    double total = 0;
+	    try (Connection cn = Conexion.getConexion().getSQLConexion();
+	         PreparedStatement st = cn.prepareStatement(TOTAL_RECAUDADO_CUOTAS)) {
+
+	        st.setDate(1, Date.valueOf(desde));
+	        st.setDate(2, Date.valueOf(hasta));
+
+	        ResultSet rs = st.executeQuery();
+	        if (rs.next()) total = rs.getDouble("total");
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return total;
+	}
+
 
 }

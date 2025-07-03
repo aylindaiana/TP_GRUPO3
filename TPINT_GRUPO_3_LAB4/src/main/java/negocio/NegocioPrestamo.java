@@ -1,6 +1,7 @@
 package negocio;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import entidad.Prestamo;
@@ -17,4 +18,7 @@ public interface NegocioPrestamo {
 			int IDCuentaOrigen, Date FechaSolicitudPrestamo, String ComentarioMovimiento, String MotivoRechazoPrestamo);     
 
 	public Prestamo obtenerPorIDPrestamo(int id);
+	
+	/* Prueba para reporte */
+	public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta);
 }

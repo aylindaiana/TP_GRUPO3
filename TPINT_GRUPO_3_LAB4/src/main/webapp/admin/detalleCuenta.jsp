@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="entidad.Cuenta" %>
+<%@ page import="entidad.Movimiento" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/clientes.jsp">Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a></li>
-                <li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a></li>
+                <li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a></li>
             </ul>
             <span class="navbar-text d-flex flex-row">
@@ -131,15 +132,32 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Movimiento</th>
+                	<th>Fecha</th>
+                    <th>Tipo de Movimiento</th>
                     <th>Monto</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>IN</td><td class="text-success">+3000</td></tr>
-                <tr><td>TE</td><td class="text-danger">-2000</td></tr>
-                <tr><td>TR</td><td class="text-danger">-13000</td></tr>
-                <tr><td>PC</td><td class="text-danger">-14000</td></tr>
+			    <%
+			        List<Movimiento> movimientos = (List<Movimiento>) request.getAttribute("movimientos");
+			        if (movimientos != null && !movimientos.isEmpty()) {
+			            for (Movimiento m : movimientos) {
+			    %>
+			        <tr>
+			            <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(m.getFecha()) %></td>
+			            <td><%= m.getIDTipodeMovimiento() %> </td>
+			            <td class="<%= m.getMonto() >= 0 ? "text-success" : "text-danger" %>">
+			                <%= m.getMonto() >= 0 ? "+" : "-" %>$<%= Math.abs(m.getMonto()) %>
+			            </td>
+			        </tr>
+			    <%
+			            }
+			        } else {
+			    %>
+			        <tr><td colspan="3">No hay movimientos en esta cuenta.</td></tr>
+			    <%
+			        }
+			    %>
             </tbody>
         </table>
     </div>

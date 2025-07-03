@@ -1,14 +1,17 @@
 package servlets;
 
 import entidad.Cuenta;
+import entidad.Movimiento;
 import negocio.NegocioCuenta;
 import negocioImpl.NegocioCuentaImpl;
+import negocioImpl.NegocioMovimientoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 @WebServlet("/DetalleCuentaServlet")
 public class DetalleCuentaServlet extends HttpServlet {
@@ -29,6 +32,10 @@ public class DetalleCuentaServlet extends HttpServlet {
 
                 if (cuenta != null) {
                     request.setAttribute("cuenta", cuenta);
+                    NegocioMovimientoImpl movimiento = new NegocioMovimientoImpl();
+                    List<Movimiento> movimientos = movimiento.listarMovimientosPorCliente(idCuenta);
+                    request.setAttribute("movimientos", movimientos);
+                    
                     request.setAttribute("modo", "editar");
                 } else {
                     request.setAttribute("error", "Cuenta no encontrada.");

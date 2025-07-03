@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	private final String LISTAR_MOVIMIENTOS_POR_CLIENTE = "CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(?)";
 	private final String LISTAR_MOVIMIENTOS = "CALL SP_LISTAR_MOVIMIENTOS()";
 	private final String ULTIMO_ID_GENERADO = "CALL SP_ULTIMO_ID_MOVIMIENTO_GENERADO()";
+	private final String TOTAL_POR_TIPO = "CALL SP_TOTAL_POR_TIPO(?, ?, ?)";
 	private final String LISTAR_ULTIMOS_POR_CLIENTE = 
 		    "SELECT * FROM movimientos WHERE IDCuentaOrigen IN "
 		    + "(SELECT ID FROM cuenta WHERE IDCliente = ?) "
@@ -53,6 +55,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 		
 		return exito;
 	}
+	
 
 	@Override
 	public List<Movimiento> listarMovimientosPorCliente(int id) {
@@ -166,7 +169,31 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	    }
 	    return lista;
 	}
+	 /* Prueba para reporte */
 
+	@Override
+	public double obtenerTotalxTipo(int tipoMovimiento, LocalDate desde, LocalDate hasta) {
+	    Connection cn = Conexion.getConexion().getSQLConexion();
+	    String query = TOTAL_POR_TIPO;
+	    double total = 0;
+
+	    try {
+	        PreparedStatement st = cn.prepareStatement(query);
+	        st.setInt(1, tipoMovimiento);
+	        st.setDate(2, java.sql.Date.valueOf(desde));
+	        st.setDate(3, java.sql.Date.valueOf(hasta));
+
+	        ResultSet rs = st.executeQuery();
+
+	        if (rs.next()) {
+	            total = rs.getDouble("total");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return total;
+	}
 
 	
 }

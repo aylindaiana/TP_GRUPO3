@@ -1,5 +1,6 @@
 package dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import entidad.Usuario;
 
@@ -14,4 +15,7 @@ public interface UsuarioDao {
     public boolean existeDni(int dni);
     public List<Usuario> listarPaginado(int offset, int limit);
     public int contarUsuarios();
+    
+    /* Prueba para reporte */
+    public int contarNuevosClientes(LocalDate desde, LocalDate hasta);
 }

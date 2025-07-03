@@ -1,9 +1,11 @@
 package daoImpl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import dao.PrestamoRechazadoDao;
 import entidad.PrestamoRechazado;
@@ -12,6 +14,9 @@ public class PrestamoRechazadoDaoImpl implements PrestamoRechazadoDao{
 
 	private static final String INSERT = "CALL SP_INSERTAR_PRESTAMO_RECHAZADO(?, ?, ?)";
 	private static final String SELECT_MOTIVO_PRESTAMO_RECHAZADO = "CALL SP_SELECT_MOTIVO_PRESTAMO_RECHAZADO(?)";
+	
+	private final String CONTAR_PRESTAMOS_RECHAZADOS = "CALL SP_CONTAR_PRESTAMOS_RECHAZADOS(?, ?)";
+
 	
 	@Override
 	public boolean insert(PrestamoRechazado prestamoRechazado) {
@@ -65,5 +70,29 @@ public class PrestamoRechazadoDaoImpl implements PrestamoRechazadoDao{
         }
         return prestamoRechazado;
 	}
+	
+	/* Prueba para reporte */ 
+	@Override
+	public int contarRechazos(LocalDate desde, LocalDate hasta) {
+	    int total = 0;
+
+	    try (Connection cn = Conexion.getConexion().getSQLConexion();
+	         PreparedStatement st = cn.prepareStatement(CONTAR_PRESTAMOS_RECHAZADOS)) {
+
+	        st.setDate(1, Date.valueOf(desde));
+	        st.setDate(2, Date.valueOf(hasta));
+
+	        ResultSet rs = st.executeQuery();
+	        if (rs.next()) {
+	            total = rs.getInt("total");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return total;
+	}
+
 
 }
