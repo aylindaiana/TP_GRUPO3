@@ -122,3 +122,33 @@ h4 {
     font-size: 0.9em;
     font-style: italic;
 }
+
+/* === Caja exclusiva Transferencias === */
+.info-container.transferencia {
+  padding: 20px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Título dentro de la caja Transferencia */
+.info-container.transferencia .section-title {
+  font-weight: 600;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+/* Grupo de botones solo para Transferencia */
+.transfer-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Espacio entre botones */
+}
+
+/* Botones dentro del grupo Transferencia */
+.transfer-buttons button {
+  min-width: 250px;
+  border-radius: 25px;
+}

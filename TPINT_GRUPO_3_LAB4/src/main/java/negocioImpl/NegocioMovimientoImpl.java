@@ -37,5 +37,11 @@ public class NegocioMovimientoImpl implements NegocioMovimiento{
 		return dao.ultimoIDGenerado();
 	}
 	
+	@Override
+	public List<Movimiento> listarUltimosMovimientos(int idCliente, int limite) {
+	    MovimientoDao dao = new MovimientoDaoImpl();
+	    return dao.listarUltimosMovimientos(idCliente, limite);
+	}
+	
 
 }

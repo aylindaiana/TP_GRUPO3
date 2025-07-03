@@ -11,6 +11,7 @@ public interface CuentaDao {
     public boolean activar(int id);
     public boolean existeCBU(String cbu);
     public boolean existeCBUExceptoId(String cbu, int idCuenta);
+    int obtenerIdCuentaPorCBU(String cbu);
     public List<Cuenta> buscar(String nombreCliente, String cbu);
     
     

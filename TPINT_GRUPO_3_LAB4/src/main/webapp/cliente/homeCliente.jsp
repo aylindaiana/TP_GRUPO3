@@ -44,7 +44,7 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 						href="${pageContext.request.contextPath}/PrestamosClienteServlet">Préstamo</a>
 					</li>
 					<li class="nav-item"><a class="nav-link"
-						href="${pageContext.request.contextPath}/cliente/transferencias.jsp">Transferir</a>
+						href="${pageContext.request.contextPath}/TransferenciasHomeServlet">Transferir</a>
 					</li>
 				</ul>
 				<span class="navbar-text d-flex flex-row"> <a

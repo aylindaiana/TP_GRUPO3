@@ -7,4 +7,5 @@ public interface UsuarioCredencialesDao {
 	public boolean cerrarSesion();
 	public boolean agregarCredenciales(UsuarioCredenciales credenciales);
 	public boolean existeNombreUsuario(String nombreUsuario);
+	int obtenerIDClientePorCredencial(int idCredencial);
 }

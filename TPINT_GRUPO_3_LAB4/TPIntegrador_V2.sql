@@ -553,17 +553,24 @@ DELIMITER $$
 
 
 
-DROP PROCEDURE IF EXISTS SP_LISTAR_MOVIMIENTOS_POR_CLIENTE$$
-
+DROP PROCEDURE IF EXISTS SP_LISTAR_MOVIMIENTOS_POR_CLIENTE;
 DELIMITER $$
+
 CREATE PROCEDURE SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(
-    IN I_ID INT
+    IN I_IDCliente INT
 )
 BEGIN
-	SELECT ID, IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento FROM movimientos 
-    WHERE ID = I_ID;
+    SELECT M.*
+    FROM movimientos M
+    WHERE 
+        M.IDCuentaOrigen IN (SELECT ID FROM cuenta WHERE IDCliente = I_IDCliente)
+        OR
+        M.IDCuentaDestino IN (SELECT ID FROM cuenta WHERE IDCliente = I_IDCliente)
+    ORDER BY Fecha DESC
+    LIMIT 5;
 END$$
-DELIMITER $$
+DELIMITER ;
+
 
 CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(1);
 
@@ -769,6 +776,108 @@ END $$
 
 DELIMITER ;
 
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS sp_transferir $$
+
+CREATE PROCEDURE sp_transferir(
+    IN p_CuentaOrigen INT,
+    IN p_CuentaDestino INT,
+    IN p_Monto DOUBLE,
+    IN p_Fecha DATE,
+    IN p_Comentario VARCHAR(45)
+)
+BEGIN
+    DECLARE saldoOrigen DOUBLE;
+
+    -- 1) Obtener saldo actual de la cuenta origen
+    SELECT Saldo INTO saldoOrigen FROM cuenta WHERE ID = p_CuentaOrigen;
+
+    -- 2) Verificar que haya saldo suficiente
+    IF saldoOrigen >= p_Monto THEN
+        -- 3) Descontar saldo cuenta origen
+        UPDATE cuenta 
+        SET Saldo = Saldo - p_Monto 
+        WHERE ID = p_CuentaOrigen;
+
+        -- 4) Sumar saldo cuenta destino
+        UPDATE cuenta 
+        SET Saldo = Saldo + p_Monto 
+        WHERE ID = p_CuentaDestino;
+
+        -- 5) Registrar movimiento tipo transferencia (IDTipodeMovimiento = 4)
+        CALL SP_INSERTAR_MOVIMIENTO(
+            p_CuentaOrigen, 
+            p_CuentaDestino, 
+            p_Monto, 
+            p_Fecha, 
+            p_Comentario, 
+            4
+        );
+
+    ELSE
+        -- Si no alcanza el saldo, lanza error controlado
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Saldo insuficiente para realizar la transferencia';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+/*DROP PROCEDURE IF EXISTS sp_transferir $$*/
+
+CREATE PROCEDURE sp_transferir(
+    IN p_CuentaOrigen INT,
+    IN p_CuentaDestino INT,
+    IN p_Monto DOUBLE,
+    IN p_Fecha DATE,
+    IN p_Comentario VARCHAR(45)
+)
+BEGIN
+    DECLARE saldoOrigen DOUBLE;
+
+    -- 1) Obtener saldo actual de la cuenta origen
+    SELECT Saldo INTO saldoOrigen FROM cuenta WHERE ID = p_CuentaOrigen;
+
+    -- 2) Verificar que haya saldo suficiente
+    IF saldoOrigen >= p_Monto THEN
+        -- 3) Descontar saldo cuenta origen
+        UPDATE cuenta 
+        SET Saldo = Saldo - p_Monto 
+        WHERE ID = p_CuentaOrigen;
+
+        -- 4) Sumar saldo cuenta destino
+        UPDATE cuenta 
+        SET Saldo = Saldo + p_Monto 
+        WHERE ID = p_CuentaDestino;
+
+        -- 5) Registrar movimiento tipo transferencia (IDTipodeMovimiento = 4)
+        CALL SP_INSERTAR_MOVIMIENTO(
+            p_CuentaOrigen, 
+            p_CuentaDestino, 
+            p_Monto, 
+            p_Fecha, 
+            p_Comentario, 
+            4
+        );
+
+    ELSE
+        -- Si no alcanza el saldo, lanza error controlado
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Saldo insuficiente para realizar la transferencia';
+    END IF;
+END$$
+
+DELIMITER ;
+
+SELECT * FROM usuario;
+SELECT * FROM usuario_credenciales;
+SELECT * FROM cuenta;
+SELECT * FROM movimientos;
+
+
 
 /*CALL SP_BUSCAR_FILTRO("admin", 324324231111111);*/
 -- Cliente 1: Juan Pérez
@@ -785,4 +894,7 @@ VALUES ('Nahuel', 'Ramos', '87654321');*/
 
 
 /* Al crear usuario, trigger para crear automaticamente credenciales (en nulo pero que se cree el registro relacionado con su id) */
+
+
+CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(3);
 

@@ -27,6 +27,7 @@ public class ServletLogin extends HttpServlet {
 
 		if (accion != null && accion.equals("cerrar")) {
 			request.getSession().removeAttribute("id");
+			request.getSession().removeAttribute("idCliente");
 			request.getSession().removeAttribute("idTipoUsuario");
 			RequestDispatcher rd = request.getRequestDispatcher("/public/login.jsp");
 			rd.forward(request, response);
@@ -51,28 +52,30 @@ public class ServletLogin extends HttpServlet {
 
 			if (idLogin != -1) {
 				request.getSession().setAttribute("id", idLogin);
-
+				
+				int idCliente = dao.obtenerIDClientePorCredencial(idLogin);
+				request.getSession().setAttribute("idCliente", idCliente);							
+				
 				// check nombre usuario
 				UsuarioDao userDao = new UsuarioDaoImpl();
-				Usuario user = userDao.obtenerPorId(idLogin);
+				Usuario user = userDao.obtenerPorId(idCliente);
 				String nombre = user.getNombre();
 				System.out.println(nombre);
 				request.getSession().setAttribute("idNombre", nombre);
 
 				// check tipo usuario
 				usuarioTipoDao uDao = new usuarioTipoDaoImpl();
-				int idTipoUsuario = uDao.buscarTipoId(idLogin);
+				int idTipoUsuario = uDao.buscarTipoId(idLogin);				
 
 				// guardar id usuario y id tipo de usuario en sesion
+				request.getSession().setAttribute("idTipoUsuario", idTipoUsuario);
 				// si es admin
 				if (idTipoUsuario == 1) {
-					request.getSession().setAttribute("idTipoUsuario", idTipoUsuario);
 					RequestDispatcher rd = request.getRequestDispatcher("/admin/homeAdmin.jsp");
 					rd.forward(request, response);
-				}
+				} 
 				// si es cliente
 				else if (idTipoUsuario == 2) {
-					request.getSession().setAttribute("idTipoUsuario", idTipoUsuario);
 					RequestDispatcher rd = request.getRequestDispatcher("/HomeClienteServlet");
 					rd.forward(request, response);
 				}
@@ -80,6 +83,8 @@ public class ServletLogin extends HttpServlet {
 				// mensaje de error: podrías redirigir a login con mensaje
 				response.sendRedirect(request.getContextPath() + "/public/login.jsp?error=1");
 			}
+			
+			
 		}
 	}
 }

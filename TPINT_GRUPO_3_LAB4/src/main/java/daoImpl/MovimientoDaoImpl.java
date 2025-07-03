@@ -16,6 +16,10 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	private final String LISTAR_MOVIMIENTOS_POR_CLIENTE = "CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(?)";
 	private final String LISTAR_MOVIMIENTOS = "CALL SP_LISTAR_MOVIMIENTOS()";
 	private final String ULTIMO_ID_GENERADO = "CALL SP_ULTIMO_ID_MOVIMIENTO_GENERADO()";
+	private final String LISTAR_ULTIMOS_POR_CLIENTE = 
+		    "SELECT * FROM movimientos WHERE IDCuentaOrigen IN "
+		    + "(SELECT ID FROM cuenta WHERE IDCliente = ?) "
+		    + "ORDER BY Fecha DESC LIMIT ?";
 	
 	@Override
 	public boolean insertar(Movimiento movimiento) {
@@ -136,6 +140,33 @@ public class MovimientoDaoImpl implements MovimientoDao{
 
         return ultimoID;
 	}
+	
+	@Override
+	public List<Movimiento> listarUltimosMovimientos(int idCliente, int limite) {
+	    Connection cn = Conexion.getConexion().getSQLConexion();
+	    ArrayList<Movimiento> lista = new ArrayList<>();
+	    try {
+	        PreparedStatement st = cn.prepareStatement(LISTAR_ULTIMOS_POR_CLIENTE);
+	        st.setInt(1, idCliente);
+	        st.setInt(2, limite);
+	        ResultSet rs = st.executeQuery();
+	        while (rs.next()) {
+	            Movimiento movimiento = new Movimiento();
+	            movimiento.setID(rs.getInt("ID"));
+	            movimiento.setIDCuentaOrigen(rs.getInt("IDCuentaOrigen"));
+	            movimiento.setIDCuentaDestino(rs.getInt("IDCuentaDestino"));
+	            movimiento.setMonto(rs.getDouble("Monto"));
+	            movimiento.setFecha(rs.getDate("Fecha"));
+	            movimiento.setComentario(rs.getString("Comentario"));
+	            movimiento.setIDTipodeMovimiento(rs.getInt("IDTipodeMovimiento"));
+	            lista.add(movimiento);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
 
 	
 }

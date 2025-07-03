@@ -18,6 +18,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String CUENTAS_ACTIVAS_CLIENTE = "SELECT COUNT(*) FROM cuenta WHERE IDCliente = ? AND Estado = 1";
     private static final String EXISTE_CBU = "SELECT COUNT(*) FROM cuenta WHERE CBU = ?";
     private static final String EXISTE_CBU_EXCEPTO_ID = "SELECT COUNT(*) FROM cuenta WHERE CBU = ? AND ID <> ?";
+    private static final String SELECT_ID_BY_CBU = "SELECT ID FROM cuenta WHERE CBU = ? AND Estado = 1";
     private static final String BUSCAR_CUENTAS_ASIGNADAS = "CALL sp_buscar_cuentas_asignadas(?)";
     private static final String BAJA_CLIENTE_BAJA_CUENTAS = "UPDATE cuenta SET Estado = 0 WHERE IDCliente = ?";
     private static final String RECARGAR_CUENTA = "CALL sp_recargar_cuenta(?, ?)";
@@ -194,6 +195,25 @@ public class CuentaDaoImpl implements CuentaDao {
 
         return existe;
     }
+    
+    @Override
+    public int obtenerIdCuentaPorCBU(String cbu) {
+        int id = -1;
+        Connection cn = Conexion.getConexion().getSQLConexion();
+
+        try (PreparedStatement st = cn.prepareStatement(SELECT_ID_BY_CBU)) {
+            st.setString(1, cbu);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("ID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
 
 	@Override
 	public List<Cuenta> listarCuentas(int id){

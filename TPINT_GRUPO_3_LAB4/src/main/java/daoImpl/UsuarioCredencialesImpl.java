@@ -106,5 +106,23 @@ public class UsuarioCredencialesImpl implements UsuarioCredencialesDao {
 
         return existe;
     }
+    
+    @Override
+    public int obtenerIDClientePorCredencial(int idCredencial) {
+        int idCliente = -1;
+        String sql = "SELECT IDCliente FROM usuario_credenciales WHERE ID = ?";
+        Connection cn = Conexion.getConexion().getSQLConexion();
+
+        try (PreparedStatement st = cn.prepareStatement(sql)) {
+            st.setInt(1, idCredencial);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                idCliente = rs.getInt("IDCliente");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return idCliente;
+    }
 
 }
