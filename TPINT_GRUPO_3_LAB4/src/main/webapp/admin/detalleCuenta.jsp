@@ -17,7 +17,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/homeAdmin.jsp">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta Clientes</a></li>
-                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/clientes.jsp">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}//ListarUsuariosServlet">Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a></li>
                 <li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a></li>
@@ -104,7 +104,7 @@
             </button>
         </form>
 
-        <% if (cuenta != null) { %>
+        <% if (cuenta != null && "editar".equals(modo)) { %>
             <form action="${pageContext.request.contextPath}/InactivarCuentaServlet" method="post" class="d-inline" onsubmit="return confirmarEliminacion();">
                 <input type="hidden" name="id" value="<%= cuenta.getId() %>">
                 <% if (cuenta.isEstado()) { %>
@@ -118,6 +118,40 @@
                     <button type="submit" class="btn btn-success">Activar</button>
                 <% } %>
             </form>
+            <div class="tabla-movimientos mt-4">
+	        <h4>Movimientos</h4>
+		        <table class="table">
+		            <thead>
+		                <tr>
+		                	<th>Fecha</th>
+		                    <th>Tipo de Movimiento</th>
+		                    <th>Monto</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+					    <%
+					        List<Movimiento> movimientos = (List<Movimiento>) request.getAttribute("movimientos");
+					        if (movimientos != null && !movimientos.isEmpty()) {
+					            for (Movimiento m : movimientos) {
+					    %>
+					        <tr>
+					            <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(m.getFecha()) %></td>
+					            <td><%= m.getIDTipodeMovimiento() %> </td>
+					            <td class="<%= m.getMonto() >= 0 ? "text-success" : "text-danger" %>">
+					                <%= m.getMonto() >= 0 ? "+" : "-" %>$<%= Math.abs(m.getMonto()) %>
+					            </td>
+					        </tr>
+					    <%
+					            }
+					        } else {
+					    %>
+					        <tr><td colspan="3">No hay movimientos en esta cuenta.</td></tr>
+					    <%
+					        }
+					    %>
+		            </tbody>
+		        </table>
+    		</div>
         <% } %>
 
         <div class="mt-3">
@@ -127,40 +161,7 @@
         <div class="alert alert-warning">No se encontró la cuenta.</div>
     <% } %>
 
-    <div class="tabla-movimientos mt-4">
-        <h4>Movimientos</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                	<th>Fecha</th>
-                    <th>Tipo de Movimiento</th>
-                    <th>Monto</th>
-                </tr>
-            </thead>
-            <tbody>
-			    <%
-			        List<Movimiento> movimientos = (List<Movimiento>) request.getAttribute("movimientos");
-			        if (movimientos != null && !movimientos.isEmpty()) {
-			            for (Movimiento m : movimientos) {
-			    %>
-			        <tr>
-			            <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(m.getFecha()) %></td>
-			            <td><%= m.getIDTipodeMovimiento() %> </td>
-			            <td class="<%= m.getMonto() >= 0 ? "text-success" : "text-danger" %>">
-			                <%= m.getMonto() >= 0 ? "+" : "-" %>$<%= Math.abs(m.getMonto()) %>
-			            </td>
-			        </tr>
-			    <%
-			            }
-			        } else {
-			    %>
-			        <tr><td colspan="3">No hay movimientos en esta cuenta.</td></tr>
-			    <%
-			        }
-			    %>
-            </tbody>
-        </table>
-    </div>
+    
 </div>
 
 <script>

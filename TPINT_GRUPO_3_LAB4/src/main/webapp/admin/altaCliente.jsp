@@ -70,7 +70,7 @@
 		role="alert" style="max-width: 600px; margin: 20px auto;">
 		✅ Cliente agregado exitosamente.
 		<button type="button" class="btn-close" data-bs-dismiss="alert"
-			aria-label="Close" onclick="window.location.href='homeAdmin.jsp'"></button>
+			aria-label="Close" onclick="window.location.href='ListarUsuariosServlet'"></button>
 	</div>
 	<%
 	} else if ("error".equals(status)) {
@@ -79,7 +79,7 @@
 		role="alert" style="max-width: 600px; margin: 20px auto;">
 		❌ Hubo un error al agregar el cliente. Intente nuevamente.
 		<button type="button" class="btn-close" data-bs-dismiss="alert"
-			aria-label="Close" onclick="window.location.href='homeAdmin.jsp'"></button>
+			aria-label="Close"></button>
 	</div>
 	<%
 	}

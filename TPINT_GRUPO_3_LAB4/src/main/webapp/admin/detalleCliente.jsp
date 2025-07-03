@@ -41,13 +41,13 @@
 						href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta
 							Clientes</a></li>
 					<li class="nav-item"><a class="nav-link active"
-						href="${pageContext.request.contextPath}/admin/clientes.jsp">Clientes</a>
+						href="${pageContext.request.contextPath}/ListarUsuariosServlet">Clientes</a>
 					</li>
 					<li class="nav-item"><a class="nav-link"
 						href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 					</li>
 					<li class="nav-item"><a class="nav-link"
-						href="${pageContext.request.contextPath}/admin/cuentasAdmin.jsp">Cuentas</a>
+						href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a>
 					</li>
 					<li class="nav-item"><a class="nav-link"
 						href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a>
@@ -207,7 +207,7 @@
 
 
 
-			<form method="post" action=DetalleCuentaServlet>
+			<form method="post" action=DetalleCuentaServlet?modo=crear>
 				<input type="hidden" name="modo" value="crear">
     			<input type="hidden" name="idUser" value="<%=usuario.getId()%>">
 				<div
@@ -219,8 +219,8 @@
 						</div>
 						<div class="col-md-4 text-end">
 							<input type="hidden" name="idUser" value="<%=usuario.getId()%>">
-							<button type="submit" class="btn btn-success btn-sm"
-								name="agregarCuenta">Agregar Cuenta</button>
+							<a href="${pageContext.request.contextPath}/DetalleCuentaServlet?modo=crear"
+								class="btn btn-secondary btn-lg me-3">Agregar cuenta</a>
 						</div>
 					</div>
 				</div>
