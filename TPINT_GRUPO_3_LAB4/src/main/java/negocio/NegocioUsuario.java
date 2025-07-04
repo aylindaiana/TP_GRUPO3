@@ -16,6 +16,7 @@ public interface NegocioUsuario {
     public boolean existeNombreUsuario(String nombreUsuario);
     public List<Usuario> obtenerUsuariosPaginados(int pagina, int cantidadPorPagina);
     public int contarUsuarios();
+	public List<Usuario> listarClientes();
     
     /* Prueba para reporte */
     public int contarNuevosClientes(LocalDate desde, LocalDate hasta);

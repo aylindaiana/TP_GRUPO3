@@ -14,7 +14,8 @@ public interface UsuarioDao {
     public boolean activar(int id);
     public boolean existeDni(int dni);
     public List<Usuario> listarPaginado(int offset, int limit);
-    public int contarUsuarios();
+    public int contarUsuarios();   
+    public List<Usuario> listarClientes();
     
     /* Prueba para reporte */
     public int contarNuevosClientes(LocalDate desde, LocalDate hasta);

@@ -1,3 +1,7 @@
+<%@page import="entidad.Prestamo"%>
+<%@page import="entidad.Cuenta"%>
+<%@page import="entidad.Usuario"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -55,45 +59,73 @@
 	  </div>
 	</nav>
 
+	
+	<%
+	
+		List<Usuario> clientes = (List<Usuario>)request.getAttribute("listaClientes");
+		List<Cuenta> cuentas = (List<Cuenta>)request.getAttribute("listaCuentas");
+		List<Prestamo> prestamosPorCliente = (List<Prestamo>)request.getAttribute("listaPrestamos");
+		double montoSolicitadoTotal = (double)request.getAttribute("montoSolicitadoTotal");
+		double montoTotalAPagar = (double)request.getAttribute("montoTotalAPagar");
+		
+	%>
+	
+
 	<div class="container text-center"
 		id="general-container">
 		<div class="row">
 			<div class="col-4" id="cuenta-destino-container">
+		<form action="">
 
 				<div class="col">
 					<div class="row">
 						<b>CLIENTES</b>
-						<select class="btn btn-secondary btn-lg dropdown-toggle">
-							<option>Usuario 1</option>
-							<option>Usuario 2</option>
-							<option>Usuario 3</option>
-							<option>Usuario 4</option>
-							<option>Usuario 5</option>
-							<option>Usuario 6</option>
-							<option>Usuario 7</option>
-							<option>Usuario 8</option>
-							<option>Usuario 9</option>
+						<select class="form-select" name="clienteSeleccionada">
+							<%
+								for(Usuario aux : clientes)
+								{
+							%>
+							
+								<option value="<%= aux.getId() %>"><%= aux.getApellido() %> <%= aux.getNombre() %></option>									
+									
+							<%
+								}
+							%>
+						
 						</select>
 					</div>
 					<div class="row">
 						<b>CUENTA DESTINO</b>
-						<select class="btn btn-secondary btn-lg dropdown-toggle">
-							<option>Cuenta 1</option>
-							<option>Cuenta 2</option>
-							<option>Cuenta 3</option>
+						<select class="form-select" name="cuentaSeleccionada">
+							<%
+								for(Cuenta aux : cuentas)
+								{
+							%>
+							
+							    <option value="<%= aux.getId() %>"><%= aux.getCbu() %></option>								
+									
+							<%
+								}
+							%>
+						
 						</select>
 					</div>	
 				</div>
 				<div class="row">Monto solicitado total</div>
 				<div class="row">
 					<div class="col" id="montos-container">
-						<div class="row">$500.000,00</div>
-						<div class="row">$1.000.000,00</div>
+						<div class="row">$<%= montoSolicitadoTotal %></div>
+						<div class="row">$<%= montoTotalAPagar %></div>
 					</div>
 				</div>
 				<div class="row">Monto total a pagar</div>
 
+				<button type="submit" class="btn btn-info" name="btn-buscar">buscar</button>
+			</form>
 			</div>
+			
+			
+			
 			<div class="col" id="historial-container">
 
 				<div class="row">
@@ -106,25 +138,46 @@
 							<th>Numero de prestamo</th>
 							<th>Estado</th>
 						</tr>
+						
+						<%
+						List<Prestamo> prestamos = (List<Prestamo>)request.getAttribute("listaPrestamos");
+						for(Prestamo aux : prestamos)
+						{
+						%>
+						
 						<tr>
-							<td>prestamo 1</td>
-							<td><a href="detallesPrestamo.jsp" class="btn btn-success">ver</a></td>
+							<td>identificacion: <%= aux.getID() %></td>
+							
+							<%
+							switch(aux.getAutorizacion())
+							{
+								case 1:
+									%>
+									<td>
+										<button name="verCuotas" value="<%=aux.getID() %>" class="btn btn-success">ver</button>
+									</td>
+									<%
+									break;
+								case 2:
+									%>
+									<td><button class="btn btn-warning">pendiente</button></td>
+									<%
+									break;
+								case 3:
+									%>
+									<td>
+										<button name="verRechazo" value="<%=aux.getID() %>" class="btn btn-danger">rechazado</button>
+									</td>
+									<%
+									break;
+							}
+							%>
+							
 						</tr>
 
-						<tr>
-							<td>prestamo 2</td>
-							<td><a href="detallesPrestamo.jsp" class="btn btn-warning">pendiente</a></td>
-						</tr>
-
-						<tr>
-							<td>prestamo 3</td>
-							<td><a href="detallesPrestamo.jsp" class="btn btn-warning">pendiente</a></td>
-						</tr>
-
-						<tr>
-							<td>prestamo 4</td>
-							<td><a href="detallesPrestamo.jsp" class="btn btn-danger">rechazado</a></td>
-						</tr>
+						<%
+						}
+						%>
 					</table>
 				</div>
 

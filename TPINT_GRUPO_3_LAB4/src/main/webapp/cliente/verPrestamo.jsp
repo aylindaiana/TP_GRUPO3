@@ -94,6 +94,7 @@
 								{
 								%>
 								<td>
+								<input type="hidden" name="IDPrestamo" value="<%=aux.getIDPrestamo()%>">
 								<input type="hidden" name="IDCuota" value="<%=aux.getID() %>">
 								<input type="hidden" name="montoCuota" value="<%=aux.getMonto() %>">
 								<button type="submit" class="btn btn-warning">Pagar</button>

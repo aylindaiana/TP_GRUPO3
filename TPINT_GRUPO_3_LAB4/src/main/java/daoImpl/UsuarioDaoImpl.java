@@ -21,7 +21,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
         "WHERE u.ID = ?";
     private static final String BAJA_LOGICA = "UPDATE usuario SET Estado = 0 WHERE ID = ?";
     private static final String ACTIVAR = "UPDATE usuario SET Estado = 1 WHERE ID = ?";
-    
+
+    private final String SP_LISTAR_CLIENTES = "CALL SP_LISTAR_CLIENTES()";
     /* Prueba para reporte */
     private final String SP_CONTAR_NUEVOS_CLIENTES = "CALL SP_CONTAR_NUEVOS_CLIENTES(?, ?)";
 
@@ -289,6 +290,39 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
         return total;
     }
+
+	@Override
+	public List<Usuario> listarClientes() {
+        List<Usuario> lista = new ArrayList<>();
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+        
+        try (PreparedStatement stmt = conexion.prepareStatement(SP_LISTAR_CLIENTES);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+            	Usuario u = new Usuario();
+                u.setId(rs.getInt("ID"));
+                u.setNombre(rs.getString("Nombre"));
+                u.setApellido(rs.getString("Apellido"));
+                u.setDni(rs.getInt("Dni"));
+                u.setCuil(rs.getLong("Cuil"));
+                u.setSexo(rs.getString("Sexo"));
+                u.setNacionalidad(rs.getString("Nacionalidad"));
+                u.setFechaDeNacimiento(rs.getDate("FechaDeNacimiento"));
+                u.setDireccion(rs.getString("Direccion"));
+                u.setIdLocalidad(rs.getInt("ID_Localidad"));
+                u.setIdProvincia(rs.getInt("ID_Provincia"));
+                u.setCorreoElectronico(rs.getString("CorreoElectronico"));
+                u.setTelefono(rs.getString("Telefono"));
+                u.setIdUsuario(rs.getInt("IDUsuario"));
+                u.setEstado(rs.getBoolean("Estado"));
+            	
+                lista.add(u);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+	}
 
 }
 

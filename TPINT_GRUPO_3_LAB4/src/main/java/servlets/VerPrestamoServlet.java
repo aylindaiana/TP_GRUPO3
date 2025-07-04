@@ -72,6 +72,21 @@ public class VerPrestamoServlet extends HttpServlet {
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente/verPrestamo.jsp");
 		    dispatcher.forward(request, response);
 		}
+		
+
+		if(request.getParameter("IDPrestamo") != null) {
+
+			int IDPrestamo = Integer.parseInt(request.getParameter("IDPrestamo"));
+			
+			List<Cuota> cuotas = cNegocio.listarCuotasPorPrestamo(IDPrestamo);
+			
+			
+		    request.setAttribute("listaCuotas", cuotas);
+		    
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente/verPrestamo.jsp");
+		    dispatcher.forward(request, response);
+		    
+		}
 	}
 
 }

@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import negocio.NegocioCuenta;
 import negocio.NegocioPrestamo;
+import negocioImpl.NegocioCuentaImpl;
 import negocioImpl.NegocioPrestamoImpl;
 import dao.PrestamoDao;
 import daoImpl.PrestamoDaoImpl;
@@ -30,7 +32,10 @@ import entidad.Prestamo;
 @WebServlet("/SolicitarPrestamoServlet")
 public class SolicitarPrestamoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private NegocioPrestamo pNegocio = new NegocioPrestamoImpl(); 
+    private NegocioCuenta cNegocio = new NegocioCuentaImpl(); 
+    
+	
     public SolicitarPrestamoServlet() {
         super();
     }
@@ -42,8 +47,6 @@ public class SolicitarPrestamoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if(request.getParameter("btn-confirmar") != null) { 
-			CuentaDao daoCuentas = new CuentaDaoImpl(); 
-			NegocioPrestamo negocio = new NegocioPrestamoImpl();
 			HttpSession session = request.getSession();
 			
 			double montoTotal = Double.parseDouble(request.getParameter("total"));
@@ -74,13 +77,15 @@ public class SolicitarPrestamoServlet extends HttpServlet {
             prestamo.setAutorizacion(2);
             
             
-            negocio.solicitarPrestamo(prestamo);
+            pNegocio.solicitarPrestamo(prestamo);
             
             
-            //se tiene que volver a cargar las cuentas
-    	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
+            //se tiene que volver a cargar las cuentas y prestamos
+    	    List<Cuenta> cuentas = cNegocio.listarCuentas(Integer.parseInt(id));
+    	    List<Prestamo> prestamos = pNegocio.obtenerPorIdCliente(Integer.parseInt(id));
 
     	    request.setAttribute("listaCuentas", cuentas);
+    	    request.setAttribute("listaPrestamos", prestamos);
 
 			RequestDispatcher rd = request.getRequestDispatcher("/cliente/prestamos.jsp");
 		    rd.forward(request, response);

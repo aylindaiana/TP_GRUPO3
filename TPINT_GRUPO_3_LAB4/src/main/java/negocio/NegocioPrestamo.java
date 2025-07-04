@@ -17,7 +17,8 @@ public interface NegocioPrestamo {
 			int EstadoPrestamo, int CantidadCuotas, double ImporteSolicitado, 
 			int IDCuentaOrigen, Date FechaSolicitudPrestamo, String ComentarioMovimiento, String MotivoRechazoPrestamo);     
 
-	public Prestamo obtenerPorIDPrestamo(int id);
+	public Prestamo obtenerPorIDPrestamo(int id);           
+    public List<Prestamo> obtenerPorIdCuenta(int id);
 	
 	/* Prueba para reporte */
 	public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta);

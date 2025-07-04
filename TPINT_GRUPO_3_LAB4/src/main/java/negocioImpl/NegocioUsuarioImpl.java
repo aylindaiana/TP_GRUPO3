@@ -89,4 +89,9 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
         return usuarioDao.contarNuevosClientes(desde, hasta);
     }
 
+	@Override
+	public List<Usuario> listarClientes() {
+		return usuarioDao.listarClientes();
+	}
+
 }

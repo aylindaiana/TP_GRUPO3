@@ -31,7 +31,6 @@ public class PagarCuotaServlet extends HttpServlet {
     private NegocioCuota cuotaNegocio = new NegocioCuotaImpl();
     private NegocioCuenta cuentaNegocio = new NegocioCuentaImpl();
     private NegocioPrestamo pNegocio = new NegocioPrestamoImpl();
-	private CuentaDao daoCuentas = new CuentaDaoImpl(); 
     
     public PagarCuotaServlet() {
         super();
@@ -46,11 +45,13 @@ public class PagarCuotaServlet extends HttpServlet {
 		int IDCuota = Integer.parseInt(request.getParameter("IDCuota"));
 		double montoCuota = Double.parseDouble(request.getParameter("montoCuota"));
 		
+		int IDPrestamo = Integer.parseInt(request.getParameter("IDPrestamo"));
 		
 		
 		request.setAttribute("IDCuota", IDCuota);
 	    request.setAttribute("montoCuota", montoCuota);
 	    request.setAttribute("listaCuentas", cuentas);
+		request.setAttribute("IDPrestamo", IDPrestamo);
 	    
 
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente/pagarCuota.jsp");
@@ -59,27 +60,40 @@ public class PagarCuotaServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//agregar funcionalidad para que se realice el debido updte a modo de pagar las cuotas.
+		if(request.getParameter("confirmar") != null)
+		{
 
-		int IDCuenta = Integer.parseInt(request.getParameter("cuentaSeleccionada"));
-
-		int IDCuota = Integer.parseInt(request.getParameter("IDCuota"));
-		double montoCuota = Double.parseDouble(request.getParameter("montoCuota"));
-		
-		cuotaNegocio.pagarCuota(IDCuota);
-		cuentaNegocio.debitarCuenta(IDCuenta, montoCuota);
-				
-		String id = precargarIDCliente(request.getSession());
-        
-	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
-	    List<Prestamo> prestamos = pNegocio.obtenerPorIdCliente(Integer.parseInt(id));
-	    
-	    request.setAttribute("listaCuentas", cuentas);
-	    request.setAttribute("listaPrestamos", prestamos);
-	    
-	    RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente/prestamos.jsp");
-	    dispatcher.forward(request, response);
+			int IDCuenta = Integer.parseInt(request.getParameter("cuentaSeleccionada"));
+			int IDCuota = Integer.parseInt(request.getParameter("IDCuota"));
+			double montoCuota = Double.parseDouble(request.getParameter("montoCuota"));
 			
+			cuotaNegocio.pagarCuota(IDCuota);
+			cuentaNegocio.debitarCuenta(IDCuenta, montoCuota);
+					
+			String id = precargarIDCliente(request.getSession());
+	        
+		    List<Cuenta> cuentas = cuentaNegocio.listarCuentas(Integer.parseInt(id));
+		    List<Prestamo> prestamos = pNegocio.obtenerPorIdCliente(Integer.parseInt(id));
+		    
+		    request.setAttribute("listaCuentas", cuentas);
+		    request.setAttribute("listaPrestamos", prestamos);
+		    
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente/prestamos.jsp");
+		    dispatcher.forward(request, response);
+		    
+		}
+			
+		if(request.getParameter("cancelar") != null)
+		{
+			int IDPrestamo = Integer.parseInt(request.getParameter("IDPrestamo"));
+			
+			request.setAttribute("IDPrestamo", IDPrestamo);
+
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("/VerPrestamoServlet");
+		    dispatcher.forward(request, response);
+		}
+		
+		
 	}
 
 

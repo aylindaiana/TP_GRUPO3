@@ -40,7 +40,7 @@
 	          <a class="nav-link" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/PrestamosAdminServlet">Prestamo</a>
 	        </li>
 	      </ul>		  
 	      <span class="navbar-text d-flex flex-row">

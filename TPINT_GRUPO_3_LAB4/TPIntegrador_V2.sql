@@ -353,6 +353,25 @@ DELIMITER ;
 
 call buscar_cliente_id(1);
 
+/* SP ABML Usuarios */
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_CLIENTES;
+
+DELIMITER $$
+CREATE PROCEDURE SP_LISTAR_CLIENTES()
+BEGIN
+    SELECT 
+		ID, Nombre, Apellido, Dni, Cuil, 
+        Sexo, Nacionalidad, FechaDeNacimiento, 
+        Direccion, ID_Localidad, ID_Provincia, 
+        CorreoElectronico, Telefono, IDUsuario,Estado
+    FROM usuario
+    WHERE ID = 2;
+END$$
+DELIMITER ;
+
+CALL SP_LISTAR_CLIENTES();
+
 /* SP ABML Usuarios (Credenciales) */
 
 /* SP ABML Cuentas */
@@ -490,6 +509,27 @@ BEGIN
 	FROM prestamos;
 END$$
 DELIMITER ;
+
+
+/* SP listar prestamos por cuenta*/
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_PRESTAMOS_POR_CUENTA;
+
+DELIMITER $$
+CREATE PROCEDURE SP_LISTAR_PRESTAMOS_POR_CUENTA(
+	IN I_IDCuenta INT
+)
+BEGIN
+    SELECT 
+		ID, IDCliente, IDCuenta, 
+        FechaDeAlta, Importe, PlazoPago, 
+        ImporteMensual, CantidadCuotas, Autorizacion
+    FROM prestamos
+    WHERE IDCuenta = I_IDCuenta;
+END$$
+DELIMITER ;
+
+CALL SP_LISTAR_PRESTAMOS_POR_CUENTA(4);
 
 /* SP actualizacion estado prestamo*/
 

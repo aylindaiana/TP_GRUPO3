@@ -55,6 +55,7 @@
 	List<Cuenta> cuentas = (List<Cuenta>)request.getAttribute("listaCuentas");
 	int IDCuota = (int)request.getAttribute("IDCuota");
 	double montoCuota = (double)request.getAttribute("montoCuota");
+	int IDPrestamo = (int)request.getAttribute("IDPrestamo");
 	
 	%>
 
@@ -89,11 +90,12 @@
 					<input type="hidden" name="IDCuota" value="<%=IDCuota%>">
 					<input type="hidden" name="montoCuota" value="<%=montoCuota%>">
 				
-					<button type="submit" class="btn btn-success">Confirmar</button>
+					<button type="submit" class="btn btn-success" name="confirmar">Confirmar</button>
 				</div>
 				<br>
 				<div class="row">
-					<a href="verPrestamo.jsp" class="btn btn-danger">Cancelar</a>
+					<input type="hidden" name="IDPrestamo" value="<%=IDPrestamo%>">
+					<button type="submit" class="btn btn-danger" name="cancelar">Cancelar</button>
 				</div>
 			</form>
 		</div>
