@@ -20,7 +20,8 @@ List<Localidad> localidades = (List<Localidad>) request.getAttribute("localidade
 <div class="container mt-5">
     <h2>Modificar Cliente</h2>
 
-    <form action="${pageContext.request.contextPath}/GuardarModificacionUsuarioServlet" method="post">
+    <form id="formModificarCliente" action="${pageContext.request.contextPath}/GuardarModificacionUsuarioServlet" method="post">
+
         <input type="hidden" name="id" value="<%= usuario.getId() %>">
 
         <div class="row mb-3">
@@ -120,6 +121,16 @@ List<Localidad> localidades = (List<Localidad>) request.getAttribute("localidade
         </div>
     </form>
 </div>
+
+<script>
+document.getElementById("formModificarCliente").addEventListener("submit", function(event) {
+    const confirmado = confirm("¿Estás seguro de que deseas guardar los cambios?");
+    if (!confirmado) {
+        event.preventDefault();
+    }
+});
+</script>
+
 
 </body>
 </html>

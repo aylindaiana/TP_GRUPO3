@@ -55,6 +55,26 @@
         </div>
       </div>
     </nav>
+    
+    <%
+    String status = request.getParameter("status");
+    if ("modificado".equals(status)) {
+%>
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert" style="max-width: 600px; margin: 20px auto;">
+        ✅ Se modificó con éxito.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<%
+    } else if ("error".equals(status)) {
+%>
+    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert" style="max-width: 600px; margin: 20px auto;">
+        ❌ Ocurrió un error al modificar al cliente.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<%
+    }
+%>
+    
 
   <div class="container" style="margin-top: 30px;">
         <div class="row">
