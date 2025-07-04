@@ -86,16 +86,19 @@
         <div class="row mt-3">
             <div class="col-12">
                 <div class="search-container">
-                    <div class="row align-items-end">
-                        <div class="col-md-4">
-                            <label for="busqueda" class="form-label"><strong>Búsqueda:</strong></label>
-                            <input type="text" class="form-control" id="busqueda" placeholder="Buscar cliente...">
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-secondary">Buscar</button>
-                            <button type="button" class="btn btn-outline-secondary ms-2">Limpiar</button>
-                        </div>
-                    </div>
+                    <form method="get" action="ListarUsuariosServlet">
+					  <div class="row align-items-end">
+					    <div class="col-md-4">
+					        <label for="busqueda" class="form-label"><strong>Búsqueda por nombre, apellido o DNI:</strong></label>
+					        <input type="text" class="form-control" id="busqueda" name="busqueda" placeholder="Buscar cliente..." value="${busqueda}">
+					    </div>
+					    <div class="col-md-4">
+					        <button type="submit" class="btn btn-secondary">Buscar</button>
+					        <a href="ListarUsuariosServlet" class="btn btn-outline-secondary ms-2">Limpiar</a>
+					    </div>
+					  </div>
+					</form>
+
                 </div>
             </div>
         </div>
@@ -164,26 +167,30 @@
                         </tbody>
                     </table>
                     
+                    <% String busqueda = request.getAttribute("busqueda") != null ? request.getAttribute("busqueda").toString() : ""; %>
+                    
+                    
                     <%-- PAGINACION --%>
                     <%
                         int paginaActual = (request.getAttribute("paginaActual") != null) ? (Integer)request.getAttribute("paginaActual") : 1;
                         int totalPaginas = (request.getAttribute("totalPaginas") != null) ? (Integer)request.getAttribute("totalPaginas") : 1;
                     %>
                     <nav aria-label="Paginación">
-                      <ul class="pagination justify-content-center">
-                        <li class="page-item <%= (paginaActual == 1) ? "disabled" : "" %>">
-                          <a class="page-link" href="ListarUsuariosServlet?page=<%= paginaActual - 1 %>" tabindex="-1">Anterior</a>
-                        </li>
-                        <% for (int i = 1; i <= totalPaginas; i++) { %>
-                          <li class="page-item <%= (i == paginaActual) ? "active" : "" %>">
-                            <a class="page-link" href="ListarUsuariosServlet?page=<%= i %>"><%= i %></a>
-                          </li>
-                        <% } %>
-                        <li class="page-item <%= (paginaActual == totalPaginas) ? "disabled" : "" %>">
-                          <a class="page-link" href="ListarUsuariosServlet?page=<%= paginaActual + 1 %>">Siguiente</a>
-                        </li>
-                      </ul>
-                    </nav>
+					  <ul class="pagination justify-content-center">
+					    <li class="page-item <%= (paginaActual == 1) ? "disabled" : "" %>">
+					      <a class="page-link" href="ListarUsuariosServlet?page=<%= paginaActual - 1 %>&busqueda=<%= busqueda %>" tabindex="-1">Anterior</a>
+					    </li>
+					    <% for (int i = 1; i <= totalPaginas; i++) { %>
+					      <li class="page-item <%= (i == paginaActual) ? "active" : "" %>">
+					        <a class="page-link" href="ListarUsuariosServlet?page=<%= i %>&busqueda=<%= busqueda %>"><%= i %></a>
+					      </li>
+					    <% } %>
+					    <li class="page-item <%= (paginaActual == totalPaginas) ? "disabled" : "" %>">
+					      <a class="page-link" href="ListarUsuariosServlet?page=<%= paginaActual + 1 %>&busqueda=<%= busqueda %>">Siguiente</a>
+					    </li>
+					  </ul>
+					</nav>
+
                     
                 </div>
             </div>

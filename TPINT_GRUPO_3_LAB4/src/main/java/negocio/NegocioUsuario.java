@@ -17,6 +17,9 @@ public interface NegocioUsuario {
     public List<Usuario> obtenerUsuariosPaginados(int pagina, int cantidadPorPagina);
     public int contarUsuarios();
 	public List<Usuario> listarClientes();
+	public List<Usuario> buscarUsuarios(String criterio);
+	public int contarUsuariosFiltrados(String criterio);
+
     
     /* Prueba para reporte */
     public int contarNuevosClientes(LocalDate desde, LocalDate hasta);

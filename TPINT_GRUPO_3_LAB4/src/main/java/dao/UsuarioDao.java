@@ -16,6 +16,9 @@ public interface UsuarioDao {
     public List<Usuario> listarPaginado(int offset, int limit);
     public int contarUsuarios();   
     public List<Usuario> listarClientes();
+    public List<Usuario> buscarUsuarios(String criterio);
+    public int contarUsuariosFiltrados(String criterio);
+
     
     /* Prueba para reporte */
     public int contarNuevosClientes(LocalDate desde, LocalDate hasta);

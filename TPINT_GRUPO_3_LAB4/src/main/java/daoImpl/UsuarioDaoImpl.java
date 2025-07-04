@@ -25,6 +25,19 @@ public class UsuarioDaoImpl implements UsuarioDao {
     private final String SP_LISTAR_CLIENTES = "CALL SP_LISTAR_CLIENTES()";
     /* Prueba para reporte */
     private final String SP_CONTAR_NUEVOS_CLIENTES = "CALL SP_CONTAR_NUEVOS_CLIENTES(?, ?)";
+    
+    private static final String BUSCAR_USUARIOS =
+    	    "SELECT u.*, p.Nombre_Provincia, l.Nombre_Localidad " +
+    	    "FROM usuario u " +
+    	    "JOIN Provincia p ON u.ID_Provincia = p.ID_Provincia " +
+    	    "JOIN Localidad l ON u.ID_Localidad = l.ID_Localidad " +
+    	    "WHERE u.Nombre LIKE ? OR u.Apellido LIKE ? OR CAST(u.Dni AS CHAR) LIKE ? " +
+    	    "LIMIT ? OFFSET ?";
+
+    	private static final String CONTAR_FILTRADOS =
+    	    "SELECT COUNT(*) FROM usuario " +
+    	    "WHERE Nombre LIKE ? OR Apellido LIKE ? OR CAST(Dni AS CHAR) LIKE ?";
+
 
 
     @Override
@@ -323,6 +336,49 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
         return lista;
 	}
+	
+	@Override
+	public List<Usuario> buscarUsuarios(String criterio) {
+	    List<Usuario> lista = new ArrayList<>();
+	    Connection conexion = Conexion.getConexion().getSQLConexion();
+	    try (PreparedStatement stmt = conexion.prepareStatement(BUSCAR_USUARIOS)) {
+	        String like = "%" + criterio + "%";
+	        stmt.setString(1, like);
+	        stmt.setString(2, like);
+	        stmt.setString(3, like);
+	        stmt.setInt(4, 10); // Limit
+	        stmt.setInt(5, 0);  // Offset
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            while (rs.next()) {
+	                lista.add(mapearUsuario(rs));
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
+	@Override
+	public int contarUsuariosFiltrados(String criterio) {
+	    int total = 0;
+	    Connection conexion = Conexion.getConexion().getSQLConexion();
+	    try (PreparedStatement stmt = conexion.prepareStatement(CONTAR_FILTRADOS)) {
+	        String like = "%" + criterio + "%";
+	        stmt.setString(1, like);
+	        stmt.setString(2, like);
+	        stmt.setString(3, like);
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                total = rs.getInt(1);
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return total;
+	}
+
 
 }
 

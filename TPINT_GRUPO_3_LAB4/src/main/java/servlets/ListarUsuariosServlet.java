@@ -26,43 +26,48 @@ public class ListarUsuariosServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int pagina = 1;               // Página por defecto
-        int cantidadPorPagina = 10;   // Siempre mostrar 10 usuarios por página
+        int pagina = 1;
+        int cantidadPorPagina = 10;
 
-        // Leer el número de página de la request
         String paramPagina = request.getParameter("page");
+        String busqueda = request.getParameter("busqueda");
 
         try {
             if (paramPagina != null) {
                 pagina = Integer.parseInt(paramPagina);
             }
         } catch (NumberFormatException e) {
-            pagina = 1; // Valor por defecto si hay error
+            pagina = 1;
         }
 
-        if (pagina < 1) pagina = 1;
+        boolean esBusqueda = busqueda != null && !busqueda.trim().isEmpty();
+        List<Usuario> usuarios;
+        int totalUsuarios;
 
-        // Obtener usuarios de la página actual
-        List<Usuario> usuarios = negocioUsuario.obtenerUsuariosPaginados(pagina, cantidadPorPagina);
-        
+        if (esBusqueda) {
+            usuarios = negocioUsuario.buscarUsuarios(busqueda);
+            totalUsuarios = negocioUsuario.contarUsuariosFiltrados(busqueda);
+        } else {
+            usuarios = negocioUsuario.obtenerUsuariosPaginados(pagina, cantidadPorPagina);
+            totalUsuarios = negocioUsuario.contarUsuarios();
+        }
+
         Map<Integer, Integer> cuentasPorUsuario = new HashMap<>();
         for (Usuario usuario : usuarios) {
             int cantidad = negocioCuenta.contarCuentasPorUsuario(usuario.getId());
             cuentasPorUsuario.put(usuario.getId(), cantidad);
         }
-        
-        
-        int totalUsuarios = negocioUsuario.contarUsuarios();
+
         int totalPaginas = (int) Math.ceil((double) totalUsuarios / cantidadPorPagina);
 
-        // Atributos para el JSP
         request.setAttribute("obtenerTodos", usuarios);
         request.setAttribute("cuentasPorUsuario", cuentasPorUsuario);
         request.setAttribute("paginaActual", pagina);
         request.setAttribute("totalPaginas", totalPaginas);
         request.setAttribute("cantidadPorPagina", cantidadPorPagina);
+        request.setAttribute("busqueda", busqueda);
 
-        // Redirigir a la vista
         request.getRequestDispatcher("/admin/clientes.jsp").forward(request, response);
     }
+
 }

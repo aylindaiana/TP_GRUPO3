@@ -93,5 +93,16 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
 	public List<Usuario> listarClientes() {
 		return usuarioDao.listarClientes();
 	}
+	
+	@Override
+	public List<Usuario> buscarUsuarios(String criterio) {
+	    return usuarioDao.buscarUsuarios(criterio);
+	}
+
+	@Override
+	public int contarUsuariosFiltrados(String criterio) {
+	    return usuarioDao.contarUsuariosFiltrados(criterio);
+	}
+
 
 }
