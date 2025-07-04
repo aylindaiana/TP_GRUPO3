@@ -1,3 +1,5 @@
+DROP DATABASE tpintegrador;
+
 CREATE DATABASE `tpintegrador`;
 
 USE `tpintegrador`;
@@ -75,6 +77,40 @@ CREATE TABLE `cuotas` (
   `Estado` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`,`IDPrestamo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='		';
+
+CREATE TABLE `transferencia` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+
+  -- Cuenta que envía dinero
+  `IDCuentaOrigen` INT NOT NULL,
+
+  -- Cuenta que recibe dinero
+  `IDCuentaDestino` INT NOT NULL,
+
+  -- Monto transferido
+  `Monto` DOUBLE NOT NULL,
+
+  -- Fecha y hora exacta de la transferencia
+  `Fecha` DATETIME NOT NULL,
+
+  -- Detalle o comentario opcional
+  `Comentario` VARCHAR(200) DEFAULT NULL,
+
+  -- Estado: 1 = realizada, 0 = anulada, etc.
+  `Estado` TINYINT DEFAULT 1,
+
+  PRIMARY KEY (`ID`),
+
+  -- Claves foráneas que vinculan con cuentas
+  FOREIGN KEY (`IDCuentaOrigen`) REFERENCES `cuenta`(`ID`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+
+  FOREIGN KEY (`IDCuentaDestino`) REFERENCES `cuenta`(`ID`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 CREATE TABLE `movimientos` (
   `ID` int NOT NULL AUTO_INCREMENT,
@@ -795,101 +831,111 @@ END $$
 
 DELIMITER ;
 
+
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS sp_transferir $$
-
-CREATE PROCEDURE sp_transferir(
+CREATE PROCEDURE SP_TRANSFERIR(
     IN p_CuentaOrigen INT,
     IN p_CuentaDestino INT,
     IN p_Monto DOUBLE,
-    IN p_Fecha DATE,
-    IN p_Comentario VARCHAR(45)
+    IN p_Fecha DATETIME,
+    IN p_Comentario VARCHAR(200)
 )
 BEGIN
     DECLARE saldoOrigen DOUBLE;
+    DECLARE idTransferencia INT;
 
-    -- 1) Obtener saldo actual de la cuenta origen
+    -- 1) Obtener saldo de la cuenta origen
     SELECT Saldo INTO saldoOrigen FROM cuenta WHERE ID = p_CuentaOrigen;
 
-    -- 2) Verificar que haya saldo suficiente
+    -- 2) Validar saldo suficiente
     IF saldoOrigen >= p_Monto THEN
-        -- 3) Descontar saldo cuenta origen
-        UPDATE cuenta 
-        SET Saldo = Saldo - p_Monto 
+
+        -- 3) Actualizar saldos
+        UPDATE cuenta
+        SET Saldo = Saldo - p_Monto
         WHERE ID = p_CuentaOrigen;
 
-        -- 4) Sumar saldo cuenta destino
-        UPDATE cuenta 
-        SET Saldo = Saldo + p_Monto 
+        UPDATE cuenta
+        SET Saldo = Saldo + p_Monto
         WHERE ID = p_CuentaDestino;
 
-        -- 5) Registrar movimiento tipo transferencia (IDTipodeMovimiento = 4)
-        CALL SP_INSERTAR_MOVIMIENTO(
-            p_CuentaOrigen, 
-            p_CuentaDestino, 
-            p_Monto, 
-            p_Fecha, 
-            p_Comentario, 
+        -- 4) Registrar en tabla transferencia
+        INSERT INTO transferencia (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, Estado)
+        VALUES (p_CuentaOrigen, p_CuentaDestino, p_Monto, p_Fecha, p_Comentario, 1);
+
+        SET idTransferencia = LAST_INSERT_ID();
+
+        -- 5) Registrar movimiento general (tipo 4 = transferencia)
+        INSERT INTO movimientos (
+            IDCuentaOrigen,
+            IDCuentaDestino,
+            Monto,
+            Fecha,
+            Comentario,
+            IDTipodeMovimiento
+        )
+        VALUES (
+            p_CuentaOrigen,
+            p_CuentaDestino,
+            p_Monto,
+            p_Fecha,
+            CONCAT('Transferencia: ', p_Comentario),
             4
         );
 
     ELSE
-        -- Si no alcanza el saldo, lanza error controlado
+        -- 6) Lanzar error controlado si no hay saldo suficiente
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Saldo insuficiente para realizar la transferencia';
+        SET MESSAGE_TEXT = 'Saldo insuficiente para realizar la transferencia.';
     END IF;
-END$$
+
+END $$
 
 DELIMITER ;
 
 DELIMITER $$
 
-/*DROP PROCEDURE IF EXISTS sp_transferir $$*/
+DROP PROCEDURE IF EXISTS SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS $$
 
-CREATE PROCEDURE sp_transferir(
-    IN p_CuentaOrigen INT,
-    IN p_CuentaDestino INT,
-    IN p_Monto DOUBLE,
-    IN p_Fecha DATE,
-    IN p_Comentario VARCHAR(45)
+CREATE PROCEDURE SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS(
+  IN p_Cuenta1 INT,
+  IN p_Cuenta2 INT,
+  IN p_Cuenta3 INT,
+  IN p_FechaDesde DATE,
+  IN p_FechaHasta DATE,
+  IN p_MontoMin DOUBLE,
+  IN p_MontoMax DOUBLE,
+  IN p_Offset INT,
+  IN p_Limite INT
 )
 BEGIN
-    DECLARE saldoOrigen DOUBLE;
-
-    -- 1) Obtener saldo actual de la cuenta origen
-    SELECT Saldo INTO saldoOrigen FROM cuenta WHERE ID = p_CuentaOrigen;
-
-    -- 2) Verificar que haya saldo suficiente
-    IF saldoOrigen >= p_Monto THEN
-        -- 3) Descontar saldo cuenta origen
-        UPDATE cuenta 
-        SET Saldo = Saldo - p_Monto 
-        WHERE ID = p_CuentaOrigen;
-
-        -- 4) Sumar saldo cuenta destino
-        UPDATE cuenta 
-        SET Saldo = Saldo + p_Monto 
-        WHERE ID = p_CuentaDestino;
-
-        -- 5) Registrar movimiento tipo transferencia (IDTipodeMovimiento = 4)
-        CALL SP_INSERTAR_MOVIMIENTO(
-            p_CuentaOrigen, 
-            p_CuentaDestino, 
-            p_Monto, 
-            p_Fecha, 
-            p_Comentario, 
-            4
-        );
-
-    ELSE
-        -- Si no alcanza el saldo, lanza error controlado
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Saldo insuficiente para realizar la transferencia';
-    END IF;
-END$$
+  SELECT
+    t.ID,
+    t.IDCuentaOrigen,
+    t.IDCuentaDestino,
+    t.Monto,
+    t.Fecha,
+    t.Comentario,
+    CASE
+      WHEN t.IDCuentaOrigen IN (p_Cuenta1, p_Cuenta2, p_Cuenta3) THEN 'EGRESO'
+      WHEN t.IDCuentaDestino IN (p_Cuenta1, p_Cuenta2, p_Cuenta3) THEN 'INGRESO'
+      ELSE 'N/A'
+    END AS TipoMovimiento
+  FROM transferencia t
+  WHERE
+    (t.IDCuentaOrigen IN (p_Cuenta1, p_Cuenta2, p_Cuenta3)
+     OR t.IDCuentaDestino IN (p_Cuenta1, p_Cuenta2, p_Cuenta3))
+    AND t.Fecha BETWEEN p_FechaDesde AND p_FechaHasta
+    AND t.Monto BETWEEN p_MontoMin AND p_MontoMax
+  ORDER BY t.Fecha DESC
+  LIMIT p_Offset, p_Limite;
+END $$
 
 DELIMITER ;
+
+
+
 
 /*pruebas para los Reportes. */
 DELIMITER $$

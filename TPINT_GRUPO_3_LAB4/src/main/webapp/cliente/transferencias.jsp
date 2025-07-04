@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.List, entidad.Cuenta"%>
-<%@ page contentType="text/html; charset=UTF-8" language="java"
-	import="java.util.List, entidad.Cuenta, entidad.Movimiento"%>
+	pageEncoding="UTF-8"
+	import="java.util.List, entidad.Cuenta, entidad.Transferencia"%>
 
 <!DOCTYPE html>
 <html>
@@ -28,14 +27,19 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarText">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" aria-current="page"
-						href="${pageContext.request.contextPath}/HomeClienteServlet">Home</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="${pageContext.request.contextPath}/CuentasClienteServlet">Cuentas</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="${pageContext.request.contextPath}/PrestamosClienteServlet">Préstamo</a></li>
 					<li class="nav-item"><a class="nav-link active"
-						href="${pageContext.request.contextPath}/TransferenciasHomeServlet">Transferir</a></li>
+						aria-current="page"
+						href="${pageContext.request.contextPath}/HomeClienteServlet">Home</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.request.contextPath}/CuentasClienteServlet">Cuentas</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.request.contextPath}/PrestamosClienteServlet">Préstamo</a>
+					</li>
+					<li class="nav-item active"><a class="nav-link"
+						href="${pageContext.request.contextPath}/TransferenciasHomeServlet">Transferir</a>
+					</li>
 				</ul>
 				<span class="navbar-text d-flex flex-row"> <a
 					class="nav-link align-self-center justify-content-center"
@@ -75,42 +79,45 @@
 				</div>
 			</div>
 
-			<!-- === MOVIMIENTOS RECIENTES (abajo) === -->
+			<!-- === TRANSFERENCIAS RECIENTES (abajo) === -->
 			<div class="col-12 mb-4">
 				<div class="info-container">
-					<h5 class="section-title">Movimientos recientes</h5>
+					<h5 class="section-title">Transferencias recientes</h5>
 
 					<table class="table table-striped-columns">
 						<thead>
 							<tr>
 								<th scope="col">Fecha</th>
-								<th scope="col">Operación</th>
-								<th scope="col">Usuario</th>
+								<th scope="col">Tipo</th>
+								<th scope="col">Cuenta Origen</th>
+								<th scope="col">Cuenta Destino</th>
 								<th scope="col">Monto</th>
 								<th scope="col">Comentario</th>
 							</tr>
 						</thead>
 						<tbody>
 							<%
-							List<Movimiento> ultimosMovimientos = (List<Movimiento>) request.getAttribute("ultimosMovimientos");
-							if (ultimosMovimientos != null && !ultimosMovimientos.isEmpty()) {
-								for (Movimiento mov : ultimosMovimientos) {
-									String operacion = (mov.getIDTipodeMovimiento() == 4) ? "Egreso" : "Ingreso";
-									String claseOperacion = (mov.getIDTipodeMovimiento() == 4) ? "text-danger" : "text-success";
+							List<entidad.Transferencia> ultimasTransferencias = (List<entidad.Transferencia>) request
+									.getAttribute("ultimasTransferencias");
+							if (ultimasTransferencias != null && !ultimasTransferencias.isEmpty()) {
+								for (entidad.Transferencia t : ultimasTransferencias) {
+									String claseOperacion = t.getTipoMovimiento().equals("EGRESO") ? "text-danger" : "text-success";
+									String signo = t.getTipoMovimiento().equals("EGRESO") ? "-" : "+";
 							%>
 							<tr>
-								<th scope="row"><%=mov.getFecha()%></th>
-								<td class="<%=claseOperacion%>"><%=operacion%></td>
-								<td><%=mov.getIDCuentaDestino()%></td>
-								<td>$<%=mov.getMonto()%></td>
-								<td><%=mov.getComentario()%></td>
+								<td><%=t.getFecha()%></td>
+								<td class="<%=claseOperacion%>"><%=t.getTipoMovimiento()%></td>
+								<td><%=t.getIdCuentaOrigen()%></td>
+								<td><%=t.getIdCuentaDestino()%></td>
+								<td><span class="<%=claseOperacion%>"><%=signo%>$<%=t.getMonto()%></span></td>
+								<td><%=t.getComentario()%></td>
 							</tr>
 							<%
 							}
 							} else {
 							%>
 							<tr>
-								<td colspan="5">No hay movimientos recientes.</td>
+								<td colspan="6">No hay transferencias recientes.</td>
 							</tr>
 							<%
 							}
@@ -118,15 +125,12 @@
 						</tbody>
 					</table>
 					<div class="d-flex justify-content-center mt-2">
-						<button type="button" class="btn btn-primary px-4">Ver
-							todo</button>
+						<a href="#" class="btn btn-primary px-4">Ver todo</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 </body>
 </html>
 

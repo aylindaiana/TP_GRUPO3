@@ -1,14 +1,10 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import entidad.Cuenta;
-import entidad.Movimiento;
-import negocio.NegocioMovimiento;
 import negocio.NegocioTransferencia;
-import negocioImpl.NegocioMovimientoImpl;
 import negocioImpl.NegocioTransferenciaImpl;
 import dao.CuentaDao;
 import daoImpl.CuentaDaoImpl;
@@ -37,7 +33,6 @@ public class TransferenciaServlet extends HttpServlet {
         CuentaDao cuentaDao = new CuentaDaoImpl();
         List<Cuenta> cuentasPropias = cuentaDao.listarCuentas(idCliente);
 
-        // Ponerlas en el request
         request.setAttribute("cuentasPropias", cuentasPropias);
 
         // Redirige según opción elegida
@@ -57,13 +52,11 @@ public class TransferenciaServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        // Traer cuentas propias para recargar en caso de error
         int idCliente = (int) request.getSession().getAttribute("idCliente");
         CuentaDao cuentaDao = new CuentaDaoImpl();
         List<Cuenta> cuentasPropias = cuentaDao.listarCuentas(idCliente);
         request.setAttribute("cuentasPropias", cuentasPropias);
 
-        // === DATOS ===
         String tipoTransferencia = request.getParameter("tipoTransferencia");
         String strCuentaOrigen = request.getParameter("cuentaOrigen");
         String strCuentaDestino = request.getParameter("cuentaDestino");
@@ -110,7 +103,6 @@ public class TransferenciaServlet extends HttpServlet {
         }
 
         if (hayError) {
-            // Volver al formulario correspondiente
             if ("propia".equals(tipoTransferencia)) {
                 request.getRequestDispatcher("/cliente/transferirPropia.jsp").forward(request, response);
             } else {
@@ -124,23 +116,11 @@ public class TransferenciaServlet extends HttpServlet {
         boolean resultado = negocioTransf.transferir(cuentaOrigen, cuentaDestino, monto, comentario);
 
         if (resultado) {
-            NegocioMovimiento movNeg = new NegocioMovimientoImpl();
-            List<Movimiento> ultimosMovimientos = new ArrayList<>();
-
-            for (Cuenta cuenta : cuentasPropias) {
-                List<Movimiento> movimientosCuenta = movNeg.listarMovimientosPorCliente(cuenta.getId());
-                if (movimientosCuenta != null) {
-                    ultimosMovimientos.addAll(movimientosCuenta);
-                }
-            }
-
             request.setAttribute("success", "Transferencia realizada con éxito.");
-            request.setAttribute("ultimosMovimientos", ultimosMovimientos);
         } else {
             request.setAttribute("errorGeneral", "Saldo insuficiente o error interno.");
         }
 
-        // Volver al formulario con resultado
         if ("propia".equals(tipoTransferencia)) {
             request.getRequestDispatcher("/cliente/transferirPropia.jsp").forward(request, response);
         } else {
@@ -148,4 +128,3 @@ public class TransferenciaServlet extends HttpServlet {
         }
     }
 }
-
