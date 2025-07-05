@@ -15,7 +15,7 @@
         <a class="navbar-brand" href="#">Bankame</a>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/homeAdmin.jsp">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/HomeAdminServlet">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}//ListarUsuariosServlet">Clientes</a></li>
                 <li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a></li>

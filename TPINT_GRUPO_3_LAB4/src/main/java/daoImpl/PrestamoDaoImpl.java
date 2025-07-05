@@ -1,5 +1,6 @@
 package daoImpl;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -26,6 +27,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	
 	private final String CONTAR_PRESTAMOS_APROBADOS = "CALL SP_CONTAR_PRESTAMOS_APROBADOS(?, ?)";
 	static String OBTENER_POR_ID_CUENTA = "CALL SP_LISTAR_PRESTAMOS_POR_CUENTA(?)";
+	static String CANT_PRESTAMOS_PENDIENTES_APROB="SELECT COUNT(*) FROM prestamos WHERE Autorizacion is null";
 
 	
 	@Override
@@ -240,7 +242,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	    int total = 0;
 
 	    try (Connection cn = Conexion.getConexion().getSQLConexion();
-	         PreparedStatement st = cn.prepareStatement(CONTAR_PRESTAMOS_APROBADOS)) {
+	    	CallableStatement st = cn.prepareCall("{CALL SP_CONTAR_PRESTAMOS_APROBADOS(?, ?)}")) {
 
 	        st.setDate(1, Date.valueOf(desde));
 	        st.setDate(2, Date.valueOf(hasta));
@@ -292,5 +294,30 @@ public class PrestamoDaoImpl implements PrestamoDao{
 
         return lista;
 	}
+	
+//	@Override
+//	public int contarPrestamosPendientes() {
+//	    int total = 0;
+//
+//	    try (Connection cn = Conexion.getConexion().getSQLConexion();
+//	         PreparedStatement st = cn.prepareStatement(CANT_PRESTAMOS_PENDIENTES_APROB);
+//	         ResultSet rs = st.executeQuery()) {
+//
+//	        if (rs.next()) {
+//	            total = rs.getInt("total");
+//	        }
+//
+//	        if (!cn.getAutoCommit()) {
+//	            cn.commit();
+//	        }
+//
+//	    } catch (SQLException e) {
+//	        e.printStackTrace();
+//	    }
+//
+//	    return total;
+//	}
+
+
 
 }

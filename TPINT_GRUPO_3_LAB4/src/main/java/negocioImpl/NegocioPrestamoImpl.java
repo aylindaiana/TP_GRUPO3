@@ -55,6 +55,11 @@ public class NegocioPrestamoImpl implements NegocioPrestamo{
     public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta) {
         return dao.contarPrestamosAprobados(desde, hasta);
     }
+    
+//    @Override
+//    public int cantidadPrestamosPendientes() {
+//        return dao.contarPrestamosPendientes();
+//    }
 
 	@Override
 	public List<Prestamo> obtenerPorIdCuenta(int id) { 

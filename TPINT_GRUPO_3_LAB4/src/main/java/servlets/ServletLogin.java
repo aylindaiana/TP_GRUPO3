@@ -71,7 +71,7 @@ public class ServletLogin extends HttpServlet {
 				request.getSession().setAttribute("idTipoUsuario", idTipoUsuario);
 				// si es admin
 				if (idTipoUsuario == 1) {
-					RequestDispatcher rd = request.getRequestDispatcher("/admin/homeAdmin.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("/HomeAdminServlet");
 					rd.forward(request, response);
 				} 
 				// si es cliente
