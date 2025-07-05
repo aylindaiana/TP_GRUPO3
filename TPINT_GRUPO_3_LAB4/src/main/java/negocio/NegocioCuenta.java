@@ -24,4 +24,6 @@ public interface NegocioCuenta {
 	public void bajaCuentasUsuario(int id);
 	public void debitarCuenta(int IDCuenta, double montoDebito);
 	public int contarCuentasPorUsuario(int idusuario);
+	public int contarCuentasTotalesImpl();
+	public double saldoTotalBancario();
 }

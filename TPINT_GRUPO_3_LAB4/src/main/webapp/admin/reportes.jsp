@@ -36,17 +36,16 @@
 	          <a class="nav-link" href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta Clientes</a>
 	        </li>
 	        <li class="nav-item">
-  <a class="nav-link" href="${pageContext.request.contextPath}/ListarUsuariosServlet">Clientes</a>
-</li>
-
-	        <li class="nav-item">
-	          <a class="nav-link active" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
-	        </li>
+			  <a class="nav-link" href="${pageContext.request.contextPath}/ListarUsuariosServlet">Clientes</a>
+			</li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamo</a>
+	          <a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamos</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 	        </li>
 	      </ul>		
 		  <span class="navbar-text d-flex flex-row">

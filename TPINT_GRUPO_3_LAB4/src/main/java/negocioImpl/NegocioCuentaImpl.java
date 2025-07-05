@@ -143,4 +143,14 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 		return cuentaDao.contarCuentasDeUsuario(idUsuario);
 	}
 	
+	@Override
+	public int contarCuentasTotalesImpl() {
+		return cuentaDao.contarCuentasTotales();
+	}
+	
+	@Override
+	public double saldoTotalBancario() {
+		return cuentaDao.saldoTotal();
+	}
+	
 }

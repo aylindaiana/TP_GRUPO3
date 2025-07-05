@@ -458,4 +458,37 @@ public class CuentaDaoImpl implements CuentaDao {
         }
         return 0;
 	}
+	
+	@Override
+    public int contarCuentasTotales() {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM cuenta";
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+	
+	@Override
+    public double saldoTotal() {
+        double total = 0;
+        String sql = "SELECT SUM(Saldo) AS DineroTotalActual FROM cuenta WHERE Estado = 1;";
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                total = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+	
 }
