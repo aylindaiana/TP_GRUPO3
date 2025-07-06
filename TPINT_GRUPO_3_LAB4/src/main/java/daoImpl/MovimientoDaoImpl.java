@@ -1,5 +1,6 @@
 package daoImpl;
 
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -174,11 +175,10 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	@Override
 	public double obtenerTotalxTipo(int tipoMovimiento, LocalDate desde, LocalDate hasta) {
 	    Connection cn = Conexion.getConexion().getSQLConexion();
-	    String query = TOTAL_POR_TIPO;
 	    double total = 0;
 
 	    try {
-	        PreparedStatement st = cn.prepareStatement(query);
+	    	CallableStatement st = cn.prepareCall(TOTAL_POR_TIPO);
 	        st.setInt(1, tipoMovimiento);
 	        st.setDate(2, java.sql.Date.valueOf(desde));
 	        st.setDate(3, java.sql.Date.valueOf(hasta));

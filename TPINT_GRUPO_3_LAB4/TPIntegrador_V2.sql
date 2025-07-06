@@ -1,4 +1,4 @@
-DROP DATABASE tpintegrador;
+/*DROP DATABASE tpintegrador;*/
 
 CREATE DATABASE `tpintegrador`;
 
@@ -1076,6 +1076,59 @@ VALUES ('Rami', 'Gomez', '12345678');
 INSERT INTO usuario (nombre, apellido, dni)
 VALUES ('Nahuel', 'Ramos', '87654321');*/
 
+/*********PRUEBAS PARA REPORTES
+INSERT INTO usuario (Nombre, Apellido, Dni, Cuil, Sexo, Nacionalidad, FechaDeNacimiento, Direccion, ID_Localidad, ID_Provincia, CorreoElectronico, Telefono, IDUsuario, Estado)
+VALUES ('Juan', 'Perez', 12345678, 20312345678, 'Masculino', 'Argentina', '1990-01-15', 'Calle Ficticia 123', 1, 1, 'juan.perez@example.com', '1122334455', 1001, 1);
+
+INSERT INTO usuario (Nombre, Apellido, Dni, Cuil, Sexo, Nacionalidad, FechaDeNacimiento, Direccion, ID_Localidad, ID_Provincia, CorreoElectronico, Telefono, IDUsuario, Estado)
+VALUES ('Maria', 'Gomez', 87654321, 20387654321, 'Femenino', 'Argentina', '1985-04-10', 'Calle Real 456', 2, 1, 'maria.gomez@example.com', '1166778899', 1002, 1);
+
+INSERT INTO usuario_credenciales (IDCliente, Usuario, Contraseña, Estado) 
+VALUES (2, 'juanperez', 'password123', 1);
+
+INSERT INTO usuario_credenciales (IDCliente, Usuario, Contraseña, Estado) 
+VALUES (3, 'mariagomez', 'mypassword456', 1);
+
+INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado) 
+VALUES (2, 1, '2023-01-01', '5425345345345', 5000.0, 1);
+
+INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado) 
+VALUES (3, 2, '2023-02-01', '65463542432152', 2000.0, 1);
+select * FROM transferencia
+INSERT INTO movimientos (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento)
+VALUES (1, 2, 1000.0, '2023-06-15', 'Pago de servicio', 1);
+
+INSERT INTO movimientos (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento)
+VALUES (2, 1, 500.0, '2023-07-01', 'Transferencia a cuenta', 2);
+
+INSERT INTO prestamos (IDCliente, IDCuenta, FechaDeAlta, Importe, PlazoPago, ImporteMensual, CantidadCuotas, Autorizacion)
+VALUES ('1001', 4, '2023-05-10', 15000.0, 12, 1250.0, 12, 1);
+
+INSERT INTO prestamos (IDCliente, IDCuenta, FechaDeAlta, Importe, PlazoPago, ImporteMensual, CantidadCuotas, Autorizacion)
+VALUES ('1002', 5, '2023-04-20', 10000.0, 6, 1666.67, 6, 0);
+
+INSERT INTO cuotas (IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado)
+VALUES (1, 1, 1250.0, '2023-06-10', 'ABC123', 1);
+
+INSERT INTO cuotas (IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado)
+VALUES (1, 2, 1250.0, '2023-07-10', 'DEF456', 1);
+
+INSERT INTO transferencia (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, Estado)
+VALUES (1, 2, 500.0, '2023-06-15', 'Pago a Maria', 1);
+
+INSERT INTO transferencia (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, Estado)
+VALUES (2, 1, 300.0, '2023-07-01', 'Pago de deuda', 1);
+
+SELECT * FROM movimientos WHERE fecha BETWEEN '2020-01-01' AND '2025-12-31';
+
+CALL SP_TOTAL_POR_TIPO(1, '2023-01-01', '2023-12-31');
+SELECT ID, IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento
+FROM movimientos;
+CALL SP_TOTAL_POR_TIPO(1, '2023-01-01', '2023-12-31');
+
+SELECT * FROM movimientos
+WHERE Fecha BETWEEN '2023-01-01' AND '2023-12-31';
+*/
 
 /*******************************************************/
 

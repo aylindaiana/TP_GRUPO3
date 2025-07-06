@@ -1,10 +1,6 @@
 package daoImpl;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,15 +118,18 @@ public class CuotaDaoImpl implements CuotaDao{
 	
 	@Override
 	public int contarCuotasPagadas(LocalDate desde, LocalDate hasta) {
+		Connection cn = Conexion.getConexion().getSQLConexion();
 	    int total = 0;
-	    try (Connection cn = Conexion.getConexion().getSQLConexion();
-	         PreparedStatement st = cn.prepareStatement(CONTAR_CUOTAS_PAGADAS)) {
+	    try {
+	    	CallableStatement st = cn.prepareCall(CONTAR_CUOTAS_PAGADAS);
 
 	        st.setDate(1, Date.valueOf(desde));
 	        st.setDate(2, Date.valueOf(hasta));
 
 	        ResultSet rs = st.executeQuery();
-	        if (rs.next()) total = rs.getInt("total");
+	        if (rs.next()) {
+	            total = rs.getInt("total");
+	        }
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -140,15 +139,18 @@ public class CuotaDaoImpl implements CuotaDao{
 
 	@Override
 	public double totalRecaudadoEnCuotas(LocalDate desde, LocalDate hasta) {
+		Connection cn = Conexion.getConexion().getSQLConexion();
 	    double total = 0;
-	    try (Connection cn = Conexion.getConexion().getSQLConexion();
-	         PreparedStatement st = cn.prepareStatement(TOTAL_RECAUDADO_CUOTAS)) {
+	    try {
+	    	CallableStatement st = cn.prepareCall(TOTAL_RECAUDADO_CUOTAS);
 
 	        st.setDate(1, Date.valueOf(desde));
 	        st.setDate(2, Date.valueOf(hasta));
 
 	        ResultSet rs = st.executeQuery();
-	        if (rs.next()) total = rs.getDouble("total");
+	        if (rs.next()) {
+	            total = rs.getDouble("total");
+	        }
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();

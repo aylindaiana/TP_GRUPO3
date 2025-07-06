@@ -239,10 +239,11 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	
 	@Override
 	public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta) {
+		Connection cn = Conexion.getConexion().getSQLConexion();
 	    int total = 0;
 
-	    try (Connection cn = Conexion.getConexion().getSQLConexion();
-	    	CallableStatement st = cn.prepareCall("{CALL SP_CONTAR_PRESTAMOS_APROBADOS(?, ?)}")) {
+	    try {
+	    	CallableStatement st = cn.prepareCall(CONTAR_PRESTAMOS_APROBADOS);
 
 	        st.setDate(1, Date.valueOf(desde));
 	        st.setDate(2, Date.valueOf(hasta));

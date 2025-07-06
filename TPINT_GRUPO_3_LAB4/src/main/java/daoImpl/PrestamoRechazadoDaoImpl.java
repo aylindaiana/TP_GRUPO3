@@ -1,5 +1,6 @@
 package daoImpl;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -74,10 +75,11 @@ public class PrestamoRechazadoDaoImpl implements PrestamoRechazadoDao{
 	/* Prueba para reporte */ 
 	@Override
 	public int contarRechazos(LocalDate desde, LocalDate hasta) {
+		Connection cn = Conexion.getConexion().getSQLConexion();
 	    int total = 0;
 
-	    try (Connection cn = Conexion.getConexion().getSQLConexion();
-	         PreparedStatement st = cn.prepareStatement(CONTAR_PRESTAMOS_RECHAZADOS)) {
+	    try {
+	    	CallableStatement st = cn.prepareCall(CONTAR_PRESTAMOS_RECHAZADOS);
 
 	        st.setDate(1, Date.valueOf(desde));
 	        st.setDate(2, Date.valueOf(hasta));

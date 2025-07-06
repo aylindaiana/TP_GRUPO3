@@ -286,9 +286,10 @@ public class UsuarioDaoImpl implements UsuarioDao {
     /* Prueba para reporte */
     @Override
     public int contarNuevosClientes(LocalDate desde, LocalDate hasta) {
+    	Connection cn = Conexion.getConexion().getSQLConexion();
         int total = 0;
-        try (Connection cn = Conexion.getConexion().getSQLConexion();
-             PreparedStatement st = cn.prepareStatement(SP_CONTAR_NUEVOS_CLIENTES)) {
+        try {
+        	CallableStatement st = cn.prepareCall(SP_CONTAR_NUEVOS_CLIENTES);
 
             st.setDate(1, Date.valueOf(desde));
             st.setDate(2, Date.valueOf(hasta));
