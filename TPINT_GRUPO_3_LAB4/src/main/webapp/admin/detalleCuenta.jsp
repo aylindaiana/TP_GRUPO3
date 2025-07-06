@@ -14,14 +14,14 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Banco G3</a>
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/HomeAdminServlet">Banco G3</a>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/HomeAdminServlet">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}//ListarUsuariosServlet">Clientes</a></li>
-                <li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a></li>
-                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamos</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a></li>
+                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Préstamos</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a></li>
             </ul>
             <span class="navbar-text d-flex flex-row align-items-center gap-2">

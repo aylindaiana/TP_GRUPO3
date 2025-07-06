@@ -18,38 +18,52 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/altaCliente.css">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" 
+    href="${pageContext.request.contextPath}/resources/css/nav.css">
 	
 </head>
 <body>
 
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Banco G3</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarText"
-				aria-controls="navbarText" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarText">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/HomeAdminServlet">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta Clientes</a></li>
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/ListarUsuariosServlet">Clientes</a></li>
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a></li>
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/PrestamosAdminServlet">Prestamos</a></li>
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/ReportesServlet">Reportes</a></li>
-				</ul>
-				<span class="navbar-text d-flex flex-row align-items-center gap-2"> <a
-					class="nav-link align-self-center justify-content-center"
-					href="${pageContext.request.contextPath}/admin/verUsuarioAdmin.jsp"><%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null"%></a>
-					<a
-					href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar"
-					class="logout-btn">Salir</a>
-				</span>
-			</div>
+	<div class="container-fluid">
+		<a class="navbar-brand" href="${pageContext.request.contextPath}/HomeAdminServlet">Banco G3</a>
+		<button class="navbar-toggler" type="button"
+			data-bs-toggle="collapse" data-bs-target="#navbarText"
+			aria-controls="navbarText" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarText">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link" href="${pageContext.request.contextPath}/HomeAdminServlet">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/FormularioClienteServlet">Alta Clientes</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="${pageContext.request.contextPath}/ListarUsuariosServlet">Clientes</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="${pageContext.request.contextPath}/CuentaAdminServlet">Cuentas</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="${pageContext.request.contextPath}/PrestamosAdminServlet">Préstamos</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="${pageContext.request.contextPath}/ReportesServlet">Reportes</a>
+				</li>
+			</ul>
+			<span class="navbar-text d-flex flex-row align-items-center gap-2">
+				<a class="username-link" href="${pageContext.request.contextPath}/admin/verUsuarioAdmin.jsp">
+					<%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null"%>
+				</a>
+				<a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="logout-btn">Salir</a>
+			</span>
 		</div>
-	</nav>
+	</div>
+</nav>
+
 
 	<%
 	String status = request.getParameter("status");

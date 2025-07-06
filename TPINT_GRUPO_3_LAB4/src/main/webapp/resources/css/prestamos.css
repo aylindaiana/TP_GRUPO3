@@ -10,18 +10,6 @@ header {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-nav a {
-    margin: 0 12px;
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-nav a:hover {
-    color: #007bff; /* azul para hover */
-}
-
 /* Estilo para el nombre del usuario */
 .username-link {
     color: #1e293b !important; /* negro oscuro */
@@ -33,23 +21,6 @@ nav a:hover {
 .username-link:hover {
     color: #0f172a !important;
     text-decoration: underline;
-}
-
-/* Estilo para el botón de salir */
-.logout-btn {
-    background-color: #ef4444;
-    color: white !important;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.logout-btn:hover {
-    background-color: #dc2626;
 }
 
 #general-container {

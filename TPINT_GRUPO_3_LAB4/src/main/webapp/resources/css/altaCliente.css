@@ -1,16 +1,18 @@
+@charset "UTF-8";
+
 /* Reset básico */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f1f5f9;
     margin: 0;
     padding: 0;
-    color: #2e3a59;
+    color: #1e293b;
 }
 
 /* Contenedor principal */
 .main-container {
-    padding: 40px;
-    max-width: 1200px;
+    padding: 30px;
+    max-width: 1100px;
     margin: auto;
 }
 
@@ -27,30 +29,27 @@ body {
     min-width: 300px;
 }
 
+/* Secciones con sombra y borde */
 .form-section,
 .credentials-section {
     background-color: #ffffff;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.form-section:hover,
-.credentials-section:hover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #cbd5e1;
 }
 
 /* Títulos de secciones */
 h2 {
-    font-size: 1.5rem;
-    color: #1e3a8a;
-    border-bottom: 2px solid #e0e7ff;
-    padding-bottom: 10px;
-    margin-bottom: 25px;
+    font-size: 1.4rem;
+    color: #0f172a;
+    font-weight: 700;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
 }
 
-/* Formulario */
+/* Grupos del formulario */
 .form-group {
     margin-bottom: 20px;
 }
@@ -58,18 +57,20 @@ h2 {
 .form-group label {
     display: block;
     margin-bottom: 6px;
-    font-weight: 500;
+    font-weight: 600;
+    color: #1e293b;
 }
 
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #94a3b8;
     background-color: #f8fafc;
-    transition: border 0.25s, box-shadow 0.25s;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
     font-size: 15px;
+    transition: border 0.2s, box-shadow 0.2s;
 }
 
 .form-group input:focus,
@@ -77,11 +78,6 @@ h2 {
     border-color: #3b82f6;
     outline: none;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-/* Select height */
-.form-group select {
-    height: 45px;
 }
 
 /* Errores */
@@ -101,9 +97,9 @@ h2 {
 
 .cancel-button,
 .submit-button {
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 15px;
     font-weight: 600;
     border: none;
     cursor: pointer;
@@ -112,22 +108,28 @@ h2 {
     display: inline-block;
 }
 
+/* Cancelar = rojo */
 .cancel-button {
     background-color: #ef4444;
+    border-color: #ef4444;
     color: white;
 }
 
 .cancel-button:hover {
     background-color: #dc2626;
+    border-color: #dc2626;
 }
 
+/* Confirmar = verde */
 .submit-button {
-    background-color: #10b981;
+    background-color: #22c55e;
+    border-color: #22c55e;
     color: white;
 }
 
 .submit-button:hover {
-    background-color: #059669;
+    background-color: #16a34a;
+    border-color: #16a34a;
 }
 
 /* Alerts */
@@ -137,58 +139,6 @@ h2 {
     font-size: 16px;
     border-radius: 10px;
 }
-
-/* Navbar igual al JSP base */
-.navbar {
-    background-color: #e9ecef; /* bg-body-tertiary equivalent */
-}
-
-.navbar-brand {
-    font-weight: bold;
-    color: #212529; /* bootstrap default dark */
-    font-size: 1.25rem;
-}
-
-.navbar-nav .nav-link {
-    font-weight: 500;
-    color: #212529;
-}
-
-.navbar-nav .nav-link.active,
-.navbar-nav .nav-link:hover {
-    color: #0d6efd; /* bootstrap primary */
-}
-
-/* Estilo para el nombre del usuario */
-.username-link {
-    color: #1e293b !important; /* negro oscuro */
-    font-weight: 600;
-    text-decoration: none;
-    padding: 8px 10px;
-}
-
-.username-link:hover {
-    color: #0f172a !important;
-    text-decoration: underline;
-}
-
-/* Estilo para el botón de salir */
-.logout-btn {
-    background-color: #ef4444;
-    color: white !important;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.logout-btn:hover {
-    background-color: #dc2626;
-}
-
 
 /* Responsive tweaks */
 @media (max-width: 768px) {
