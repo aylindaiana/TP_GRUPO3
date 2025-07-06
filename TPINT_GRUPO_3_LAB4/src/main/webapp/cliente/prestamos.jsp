@@ -28,7 +28,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Bankame</a>
+			<a class="navbar-brand" href="#">Banco G3</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarText"
 				aria-controls="navbarText" aria-expanded="false"
@@ -53,7 +53,7 @@
 					class="nav-link align-self-center justify-content-center"
 					href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">Nombre
 						Usuario</a>
-					<button class="btn btn-danger">Log Out</button>
+					<button class="btn btn-danger">Salir</button>
 				</span>
 			</div>
 		</div>

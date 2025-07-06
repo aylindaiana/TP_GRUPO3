@@ -1,144 +1,198 @@
 @charset "UTF-8";
 
+/* ===== GENERAL ===== */
+body {
+    background-color: #f1f5f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1e293b;
+}
+
+/* ===== HEADER ===== */
 header {
-	background-color: #ccc;
-	padding: 10px 20px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    background-color: #1e293b;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
 }
 
 nav a {
-	margin: 0 10px;
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
+    margin: 0 12px;
+    text-decoration: none;
+    color: #cbd5e1;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: #38bdf8;
 }
 
 nav a u {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
+/* Estilo para el nombre del usuario */
+.username-link {
+    color: #1e293b !important; /* negro oscuro */
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 10px;
+}
+
+.username-link:hover {
+    color: #0f172a !important;
+    text-decoration: underline;
+}
+
+/* Estilo para el botón de salir */
 .logout-btn {
-	background-color: darkred;
-	color: white;
-	padding: 5px 10px;
-	border: none;
-	font-weight: bold;
-	cursor: pointer;
+    background-color: #ef4444;
+    color: white !important;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
 }
 
-.search-container {
-	background-color: #e6e6e6;
-	padding: 20px;
-	border-radius: 8px;
-	margin-bottom: 20px;
-	border: 2px solid rgb(0, 0, 0);
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-}
-        
-.table-container {
-	background-color: #d4d4d4;
-	padding: 15px;
-	border-radius: 8px;
-	border: 2px solid rgb(0, 0, 0);
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-}
-        
-.table-container .table {
-	margin-bottom: 0;
-	background-color: white;
-}
-        
-.table-container .table thead th {
-	background-color: #b8b8b8;
-	color: #333;
-	font-weight: bold;
-	border-color: #999;
-}
-        
-.badge {
-	font-size: 0.8em;
-}
-        
-.btn-sm {
-	font-size: 0.8em;
-	padding: 4px 8px;
+.logout-btn:hover {
+    background-color: #dc2626;
 }
 
+
+/* ===== CONTENEDORES ===== */
 .container {
-	margin: 20px;
-	padding: 30px;
+    margin: 20px;
+    padding: 30px;
 }
 
-body {
-	background-color: #f8f9fa;
-}
-
+/* ===== FORMULARIOS Y CONTROLES ===== */
 .form-control {
-	border: 1px solid #999;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px;
 }
 
-.btn-secondary {
-	background-color: #6c757d;
-	border-color: #6c757d;
+.btn-secondary,
+.btn-outline-secondary {
+    background-color: #64748b;
+    border-color: #64748b;
+    color: white;
 }
 
 .btn-outline-secondary {
-	color: #6c757d;
-	border-color: #6c757d;
+    background-color: transparent;
+    color: #64748b;
 }
 
-/* verCuentaAdmin */
+.btn-secondary:hover,
+.btn-outline-secondary:hover {
+    background-color: #475569;
+    border-color: #475569;
+}
 
+/* ===== BUSQUEDA ===== */
+.search-container {
+    background-color: #f8fafc;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== TABLAS ===== */
+.table-container {
+    background-color: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.table-container .table {
+    background-color: white;
+    margin-bottom: 0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.table-container .table thead th {
+    background-color: #e2e8f0;
+    color: #0f172a;
+    font-weight: bold;
+    border-color: #cbd5e1;
+}
+
+/* ===== BADGES Y BOTONES PEQUEÑOS ===== */
+.badge {
+    font-size: 0.8em;
+}
+
+.btn-sm {
+    font-size: 0.8em;
+    padding: 4px 8px;
+}
+
+/* ===== BOTÓN VOLVER ===== */
 .volver-btn {
-    background-color: darkred;
+    background-color: #ef4444;
     color: white;
-    padding: 6px 12px;
+    padding: 7px 14px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-/* Tabla de movimientos mejorada */
+.volver-btn:hover {
+    background-color: #dc2626;
+}
+
+/* ===== TABLA DE MOVIMIENTOS ===== */
 .tabla-movimientos {
-    background-color: #ddd;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
-    margin: 0 auto;
-    margin-top: 20px;
+    background-color: #f8fafc;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 20px auto;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
 }
 
 .tabla-movimientos table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 5px;
-    overflow: hidden;
 }
 
 .tabla-movimientos th {
-    background-color: #888;
+    background-color: #64748b;
     color: white;
-    padding: 10px;
+    padding: 12px;
     font-weight: bold;
     font-size: 15px;
+    text-align: center;
 }
 
 .tabla-movimientos td {
-    background-color: black;
+    background-color: #1e293b;
     color: white;
-    padding: 12px;
+    padding: 14px;
     font-size: 14px;
+    text-align: center;
 }
 
 .tabla-movimientos td.positivo {
-    color: #00ff66;
+    color: #22c55e;
     font-weight: bold;
 }
 
 .tabla-movimientos td.negativo {
-    color: red;
+    color: #ef4444;
     font-weight: bold;
 }

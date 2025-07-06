@@ -8,11 +8,13 @@
     <meta charset="UTF-8">
     <title>Detalle Cuenta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" 
+    href="${pageContext.request.contextPath}/resources/css/nav.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Bankame</a>
+        <a class="navbar-brand" href="#">Banco G3</a>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/HomeAdminServlet">Home</a></li>
@@ -22,11 +24,11 @@
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/prestamosAdmin.jsp">Prestamos</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a></li>
             </ul>
-            <span class="navbar-text d-flex flex-row">
+            <span class="navbar-text d-flex flex-row align-items-center gap-2">
                 <a class="nav-link align-self-center" href="${pageContext.request.contextPath}/admin/detalleCuenta.jsp">
                     <%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre") : "Admin"%>
                 </a>
-                <a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="btn btn-danger ms-2">Log Out</a>
+                <a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="logout-btn">Salir</a>
             </span>
 
         </div>

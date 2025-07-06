@@ -1,5 +1,11 @@
-@charset "UTF-8";
-
 .span-center {
-	width: 15%;
+    width: 15%;
+    text-align: center;
+    display: inline-block;
+    padding: 6px 10px;
+    font-weight: 500;
+    color: #333;
+    border-radius: 6px;
+    background-color: #f1f5f9;
+    border: 1px solid #d1d5db;
 }

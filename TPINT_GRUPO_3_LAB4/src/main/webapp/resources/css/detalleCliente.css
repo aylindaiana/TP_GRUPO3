@@ -1,103 +1,178 @@
 @charset "UTF-8";
-header {
-	background-color: #ccc;
-	padding: 10px 20px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
 
-nav a {
-	margin: 0 10px;
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-}
-
-nav a u {
-	text-decoration: underline;
-}
-
-.logout-btn {
-	background-color: darkred;
-	color: white;
-	padding: 5px 10px;
-	border: none;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.container {
-	margin: 20px;
-	padding: 30px;
-}
-
-.cliente-container {
-	border-radius: 2%;
-	border: 2px solid rgb(0, 0, 0);
-	padding: 20px;
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-	background-color: white;
-	margin-bottom: 20px;
-}
-
-.cuentas-container {
-	border-radius: 2%;
-	border: 2px solid rgb(0, 0, 0);
-	padding: 20px;
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-	background-color: white;
-}
-
-.cuenta-item {
-	border-radius: 2%;
-	border: 2px solid rgba(0, 0, 0, 0.3);
-	padding: 15px;
-	margin-bottom: 15px;
-	background-color: #f8f9fa;
-}
-
-.form-control, .form-select {
-	border: 1px solid #999;
-}
-
-.btn-success {
-	background-color: #28a745;
-	border-color: #28a745;
-}
-
-.btn-danger {
-	background-color: #dc3545;
-	border-color: #dc3545;
-}
-
-.btn-secondary {
-	background-color: #6c757d;
-	border-color: #6c757d;
-}
-
+/* Body general */
 body {
-	background-color: #f8f9fa;
+    background-color: #f1f5f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #1e293b;
 }
 
-.section-title {
-	color: #333;
-	font-weight: bold;
-	margin-bottom: 20px;
-	border-bottom: 2px solid #ccc;
-	padding-bottom: 10px;
-}
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+/* Header y navegación */
+header {
+    background-color: #1e293b;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     color: white;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+nav a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: #cbd5e1;
+    font-weight: 600;
+    transition: color 0.2s;
 }
 
+nav a:hover {
+    color: #38bdf8;
+}
+
+nav a u {
+    text-decoration: underline;
+}
+
+/* Estilo para el nombre del usuario */
+.username-link {
+    color: #1e293b !important; /* negro oscuro */
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 10px;
+}
+
+.username-link:hover {
+    color: #0f172a !important;
+    text-decoration: underline;
+}
+
+/* Estilo para el botón de salir */
+.logout-btn {
+    background-color: #ef4444;
+    color: white !important;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #dc2626;
+}
+
+/* Contenedor principal */
+.container {
+    margin: 20px auto;
+    padding: 30px;
+    max-width: 1100px;
+}
+
+/* Secciones de cliente y cuentas */
+.cliente-container,
+.cuentas-container {
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    padding: 25px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+/* Ítems individuales de cuenta */
+.cuenta-item {
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9fafb;
+    transition: box-shadow 0.2s;
+}
+
+.cuenta-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Formulario */
+.form-control,
+.form-select {
+    border: 1px solid #94a3b8;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* Botones */
+.btn-success {
+    background-color: #22c55e;
+    border-color: #22c55e;
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 8px 16px;
+}
+
+.btn-success:hover {
+    background-color: #16a34a;
+    border-color: #16a34a;
+}
+
+.btn-danger {
+    background-color: #ef4444;
+    border-color: #ef4444;
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 8px 16px;
+}
+
+.btn-danger:hover {
+    background-color: #dc2626;
+    border-color: #dc2626;
+}
+
+.btn-secondary {
+    background-color: #64748b;
+    border-color: #64748b;
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 8px 16px;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+    border-color: #475569;
+}
+
+.btn-primary {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 8px 16px;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+/* Utilidades */
 .me-2 {
     margin-right: 0.5rem;
+}
+
+.section-title {
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    font-size: 1.4rem;
 }

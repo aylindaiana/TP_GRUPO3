@@ -25,7 +25,7 @@
 	%>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Bankame</a>
+			<a class="navbar-brand" href="#">Banco G3</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarText"
 				aria-controls="navbarText" aria-expanded="false"
@@ -53,12 +53,12 @@
 						href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a>
 					</li>
 				</ul>
-				<span class="navbar-text d-flex flex-row"> <a
+				<span class="navbar-text d-flex flex-row align-items-center gap-2"> <a
 					class="nav-link align-self-center justify-content-center"
 					href="${pageContext.request.contextPath}/admin/verUsuarioAdmin.jsp"><%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null"%></a>
 					<a
 					href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar"
-					class="btn btn-danger">Log Out</a>
+					class="logout-btn">Salir</a>
 				</span>
 			</div>
 		</div>

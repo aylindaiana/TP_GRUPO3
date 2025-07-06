@@ -8,7 +8,7 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector J 5.1/mysql-connector-java-5.1.47.jar">
+	<classpathentry kind="lib" path="C:/Users/antonio/Documents/GitHub/TP1_GRUPO3/TPINT_GRUPO_3_LAB4/mysql-connector-java-5.1.47.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>

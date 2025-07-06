@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+@charset "UTF-8";
+
+nav a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: #334155;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: #1e3a8a;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #1e3a8a !important;
+    font-size: 1.4rem;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+    color: #1e3a8a !important;
+}
+
+.username-link {
+    color: #1e293b !important;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 10px;
+}
+
+.username-link:hover {
+    color: #0f172a !important;
+    text-decoration: underline;
+}
+
+.logout-btn {
+    background-color: #ef4444;
+    color: white !important;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #dc2626;
+}

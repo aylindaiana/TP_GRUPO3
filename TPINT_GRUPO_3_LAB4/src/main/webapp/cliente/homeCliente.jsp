@@ -24,7 +24,7 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Bankame</a>
+			<a class="navbar-brand" href="#">Banco G3</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarText"
 				aria-controls="navbarText" aria-expanded="false"
@@ -53,7 +53,7 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 						<%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null"%>
 				</a> <a
 					href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar"
-					class="btn btn-danger">Log Out</a>
+					class="btn btn-danger">Salir</a>
 				</span>
 			</div>
 		</div>
