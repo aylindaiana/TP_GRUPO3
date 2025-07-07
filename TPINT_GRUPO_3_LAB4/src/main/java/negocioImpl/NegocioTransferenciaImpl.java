@@ -1,6 +1,6 @@
 package negocioImpl;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import dao.TransferenciaDao;
@@ -21,8 +21,8 @@ public class NegocioTransferenciaImpl implements NegocioTransferencia {
         int cuenta1,
         int cuenta2,
         int cuenta3,
-        Date fechaDesde,
-        Date fechaHasta,
+        Timestamp fechaDesde,
+        Timestamp fechaHasta,
         double montoMin,
         double montoMax,
         int offset,

@@ -2,7 +2,7 @@ package daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.Timestamp; // ✅ Asegurarse de usar Timestamp
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,9 +26,8 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
             cs.setInt(1, cuentaOrigen);
             cs.setInt(2, cuentaDestino);
             cs.setDouble(3, monto);
-            cs.setDate(4, new Date(System.currentTimeMillis()));
+            cs.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             cs.setString(5, comentario);
-
             cs.executeUpdate();
             cn.commit();
             exito = true;
@@ -51,8 +50,8 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
             int cuenta1,
             int cuenta2,
             int cuenta3,
-            Date fechaDesde,
-            Date fechaHasta,
+            Timestamp fechaDesde,
+            Timestamp fechaHasta,
             double montoMin,
             double montoMax,
             int offset,
@@ -68,8 +67,10 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
             cs.setInt(1, cuenta1);
             cs.setInt(2, cuenta2);
             cs.setInt(3, cuenta3);
-            cs.setDate(4, fechaDesde);
-            cs.setDate(5, fechaHasta);
+
+            cs.setTimestamp(4, fechaDesde);
+            cs.setTimestamp(5, fechaHasta);
+
             cs.setDouble(6, montoMin);
             cs.setDouble(7, montoMax);
             cs.setInt(8, offset);
@@ -82,10 +83,14 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
                 t.setId(rs.getInt("ID"));
                 t.setIdCuentaOrigen(rs.getInt("IDCuentaOrigen"));
                 t.setIdCuentaDestino(rs.getInt("IDCuentaDestino"));
+                t.setNombreOrigen(rs.getString("NombreOrigen"));
+                t.setCbuOrigen(rs.getString("CBUOrigen"));
+                t.setNombreDestino(rs.getString("NombreDestino"));
+                t.setCbuDestino(rs.getString("CBUDestino"));
                 t.setMonto(rs.getDouble("Monto"));
-                t.setFecha(rs.getTimestamp("Fecha")); // Usar Timestamp si es DATETIME
+                t.setFecha(rs.getTimestamp("Fecha"));
                 t.setComentario(rs.getString("Comentario"));
-                t.setTipoMovimiento(rs.getString("TipoMovimiento")); // IN/OUT
+                t.setTipoMovimiento(rs.getString("TipoMovimiento"));
 
                 lista.add(t);
             }
@@ -97,3 +102,4 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
         return lista;
     }
 }
+

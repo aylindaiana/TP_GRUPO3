@@ -1,7 +1,7 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import dao.CuentaDao;
@@ -40,12 +40,16 @@ public class TransferenciasHomeServlet extends HttpServlet {
 
         // Traer últimas transferencias (limite 5)
         NegocioTransferencia negocioTransf = new NegocioTransferenciaImpl();
+        
+        Timestamp fechaDesde = Timestamp.valueOf("2000-01-01 00:00:00");
+        Timestamp fechaHasta = new Timestamp(System.currentTimeMillis());
+        
         List<Transferencia> ultimasTransferencias = negocioTransf.listarTransferencias(
                 cuenta1,
                 cuenta2,
                 cuenta3,
-                Date.valueOf("2000-01-01"),
-                new Date(System.currentTimeMillis()),
+                fechaDesde,
+                fechaHasta,
                 0,
                 99999999,
                 0,

@@ -14,13 +14,15 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-	<link rel="stylesheet" 
-    href="${pageContext.request.contextPath}/resources/css/nav.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/nav.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/HomeClienteServlet">Banco G3</a>
+			<a class="navbar-brand"
+				href="${pageContext.request.contextPath}/HomeClienteServlet">Banco
+				G3</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarText"
 				aria-controls="navbarText" aria-expanded="false"
@@ -30,7 +32,6 @@
 			<div class="collapse navbar-collapse" id="navbarText">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link"
-						
 						href="${pageContext.request.contextPath}/HomeClienteServlet">Home</a>
 					</li>
 					<li class="nav-item"><a class="nav-link"
@@ -39,12 +40,13 @@
 					<li class="nav-item"><a class="nav-link"
 						href="${pageContext.request.contextPath}/PrestamosClienteServlet">Préstamos</a>
 					</li>
-					<li class="nav-item active"><a class="nav-link active" aria-current="page"
+					<li class="nav-item active"><a class="nav-link active"
+						aria-current="page"
 						href="${pageContext.request.contextPath}/TransferenciasHomeServlet">Transferir</a>
 					</li>
 				</ul>
-				<span class="navbar-text d-flex flex-row align-items-center gap-2"> <a
-					class="username-link"
+				<span class="navbar-text d-flex flex-row align-items-center gap-2">
+					<a class="username-link"
 					href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">
 						<%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null"%>
 				</a> <a
@@ -105,12 +107,17 @@
 								for (entidad.Transferencia t : ultimasTransferencias) {
 									String claseOperacion = t.getTipoMovimiento().equals("EGRESO") ? "text-danger" : "text-success";
 									String signo = t.getTipoMovimiento().equals("EGRESO") ? "-" : "+";
+									java.sql.Timestamp fecha = t.getFecha();
+									java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd / HH:mm");
+									String fechaFormateada = sdf.format(fecha);
 							%>
 							<tr>
-								<td><%=t.getFecha()%></td>
+								<td><%=fechaFormateada%></td>
 								<td class="<%=claseOperacion%>"><%=t.getTipoMovimiento()%></td>
-								<td><%=t.getIdCuentaOrigen()%></td>
-								<td><%=t.getIdCuentaDestino()%></td>
+								<td><%=t.getNombreOrigen()%><br> CBU: <%=t.getCbuOrigen()%>
+								</td>
+								<td><%=t.getNombreDestino()%><br> CBU: <%=t.getCbuDestino()%>
+								</td>
 								<td><span class="<%=claseOperacion%>"><%=signo%>$<%=t.getMonto()%></span></td>
 								<td><%=t.getComentario()%></td>
 							</tr>
@@ -125,6 +132,7 @@
 							}
 							%>
 						</tbody>
+
 					</table>
 					<div class="d-flex justify-content-center mt-2">
 						<a href="#" class="btn btn-primary px-4">Ver todo</a>

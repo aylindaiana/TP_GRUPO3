@@ -81,27 +81,19 @@ CREATE TABLE `cuotas` (
 CREATE TABLE `transferencia` (
   `ID` INT NOT NULL AUTO_INCREMENT,
 
-  -- Cuenta que envía dinero
   `IDCuentaOrigen` INT NOT NULL,
-
-  -- Cuenta que recibe dinero
   `IDCuentaDestino` INT NOT NULL,
 
-  -- Monto transferido
   `Monto` DOUBLE NOT NULL,
 
-  -- Fecha y hora exacta de la transferencia
   `Fecha` DATETIME NOT NULL,
 
-  -- Detalle o comentario opcional
   `Comentario` VARCHAR(200) DEFAULT NULL,
 
-  -- Estado: 1 = realizada, 0 = anulada, etc.
   `Estado` TINYINT DEFAULT 1,
 
   PRIMARY KEY (`ID`),
 
-  -- Claves foráneas que vinculan con cuentas
   FOREIGN KEY (`IDCuentaOrigen`) REFERENCES `cuenta`(`ID`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
@@ -117,7 +109,7 @@ CREATE TABLE `movimientos` (
   `IDCuentaOrigen` int NOT NULL,
   `IDCuentaDestino` int NOT NULL,
   `Monto` double DEFAULT NULL,
-  `Fecha` date DEFAULT NULL,
+  `Fecha` DATETIME DEFAULT NULL,
   `Comentario` varchar(45) DEFAULT NULL,
   `IDTipodeMovimiento` int DEFAULT NULL,
   PRIMARY KEY (`ID`,`IDCuentaOrigen`,`IDCuentaDestino`)
@@ -934,16 +926,16 @@ END $$
 
 DELIMITER ;
 
-DELIMITER $$
+DROP PROCEDURE IF EXISTS SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS;
 
-DROP PROCEDURE IF EXISTS SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS $$
+DELIMITER $$
 
 CREATE PROCEDURE SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS(
   IN p_Cuenta1 INT,
   IN p_Cuenta2 INT,
   IN p_Cuenta3 INT,
-  IN p_FechaDesde DATE,
-  IN p_FechaHasta DATE,
+  IN p_FechaDesde DATETIME,
+  IN p_FechaHasta DATETIME,
   IN p_MontoMin DOUBLE,
   IN p_MontoMax DOUBLE,
   IN p_Offset INT,
@@ -953,7 +945,13 @@ BEGIN
   SELECT
     t.ID,
     t.IDCuentaOrigen,
+    co.CBU AS CBUOrigen,
+    uo.Nombre AS NombreOrigen,
+
     t.IDCuentaDestino,
+    cd.CBU AS CBUDestino,
+    ud.Nombre AS NombreDestino,
+
     t.Monto,
     t.Fecha,
     t.Comentario,
@@ -963,6 +961,12 @@ BEGIN
       ELSE 'N/A'
     END AS TipoMovimiento
   FROM transferencia t
+  INNER JOIN cuenta co ON t.IDCuentaOrigen = co.ID
+  INNER JOIN usuario uo ON co.IDCliente = uo.ID
+
+  INNER JOIN cuenta cd ON t.IDCuentaDestino = cd.ID
+  INNER JOIN usuario ud ON cd.IDCliente = ud.ID
+
   WHERE
     (t.IDCuentaOrigen IN (p_Cuenta1, p_Cuenta2, p_Cuenta3)
      OR t.IDCuentaDestino IN (p_Cuenta1, p_Cuenta2, p_Cuenta3))
@@ -973,6 +977,7 @@ BEGIN
 END $$
 
 DELIMITER ;
+
 
 
 
@@ -1076,7 +1081,7 @@ VALUES ('Rami', 'Gomez', '12345678');
 INSERT INTO usuario (nombre, apellido, dni)
 VALUES ('Nahuel', 'Ramos', '87654321');*/
 
-/*********PRUEBAS PARA REPORTES
+
 INSERT INTO usuario (Nombre, Apellido, Dni, Cuil, Sexo, Nacionalidad, FechaDeNacimiento, Direccion, ID_Localidad, ID_Provincia, CorreoElectronico, Telefono, IDUsuario, Estado)
 VALUES ('Juan', 'Perez', 12345678, 20312345678, 'Masculino', 'Argentina', '1990-01-15', 'Calle Ficticia 123', 1, 1, 'juan.perez@example.com', '1122334455', 1001, 1);
 
@@ -1094,7 +1099,7 @@ VALUES (2, 1, '2023-01-01', '5425345345345', 5000.0, 1);
 
 INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado) 
 VALUES (3, 2, '2023-02-01', '65463542432152', 2000.0, 1);
-select * FROM transferencia
+
 INSERT INTO movimientos (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento)
 VALUES (1, 2, 1000.0, '2023-06-15', 'Pago de servicio', 1);
 
@@ -1128,7 +1133,7 @@ CALL SP_TOTAL_POR_TIPO(1, '2023-01-01', '2023-12-31');
 
 SELECT * FROM movimientos
 WHERE Fecha BETWEEN '2023-01-01' AND '2023-12-31';
-*/
+
 
 /*******************************************************/
 
