@@ -104,5 +104,9 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
 	    return usuarioDao.contarUsuariosFiltrados(criterio);
 	}
 
+	@Override
+	public boolean existeCuil(long cuil) {
+	    return usuarioDao.existeCuil(cuil);
+	}
 
 }

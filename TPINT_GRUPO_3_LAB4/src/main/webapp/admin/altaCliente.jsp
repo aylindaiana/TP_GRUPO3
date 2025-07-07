@@ -107,12 +107,14 @@
 						</div>
 
 						<div class="form-group">
-							<label for="cuil">CUIL:</label> <input type="text" id="cuil"
-								name="cuil" required
-								value="<%=request.getAttribute("cuil") != null ? request.getAttribute("cuil") : ""%>">
-							<small class="text-danger"> <%=request.getAttribute("errorCuil") != null ? request.getAttribute("errorCuil") : ""%>
-							</small>
+						    <label for="cuil">CUIL:</label>
+						    <input type="text" id="cuil" name="cuil" required
+						        value="<%=request.getAttribute("cuil") != null ? request.getAttribute("cuil") : ""%>">
+						    <small class="text-danger">
+						        <%=request.getAttribute("errorCuil") != null ? request.getAttribute("errorCuil") : ""%>
+						    </small>
 						</div>
+
 
 						<div class="form-group">
 							<label for="nombre">Nombre:</label> <input type="text"
@@ -164,38 +166,44 @@
 						</div>
 
 						<div class="form-group mb-3">
-							<label for="provincia">Provincia:</label> <select id="provincia"
-								name="provincia" required class="form-select">
-								<option value="">Seleccionar provincia...</option>
-								<%
-								List<entidad.Provincia> provincias = (List<entidad.Provincia>) request.getAttribute("provincias");
-								if (provincias != null) {
-									for (entidad.Provincia p : provincias) {
-								%>
-								<option value="<%=p.getIdProvincia()%>"><%=p.getNombreProvincia()%></option>
-								<%
-								}
-								}
-								%>
-							</select>
+						    <label for="provincia">Provincia:</label>
+						    <select id="provincia" name="provincia" required class="form-select">
+						        <option value="">Seleccionar provincia...</option>
+						        <%
+						        List<entidad.Provincia> provincias = (List<entidad.Provincia>) request.getAttribute("provincias");
+						        String provinciaSeleccionada = String.valueOf(request.getAttribute("provincia"));
+						        if (provincias != null) {
+						            for (entidad.Provincia p : provincias) {
+						                String selected = String.valueOf(p.getIdProvincia()).equals(provinciaSeleccionada) ? "selected" : "";
+						        %>
+						            <option value="<%=p.getIdProvincia()%>" <%=selected%>><%=p.getNombreProvincia()%></option>
+						        <%
+						            }
+						        }
+						        %>
+						    </select>
 						</div>
 
+
 						<div class="form-group mb-3">
-							<label for="localidad">Localidad:</label> <select id="localidad"
-								name="localidad" required class="form-select">
-								<option value="">Seleccionar localidad...</option>
-								<%
-								List<entidad.Localidad> localidades = (List<entidad.Localidad>) request.getAttribute("localidades");
-								if (localidades != null) {
-									for (entidad.Localidad l : localidades) {
-								%>
-								<option value="<%=l.getIdLocalidad()%>"><%=l.getNombreLocalidad()%></option>
-								<%
-								}
-								}
-								%>
-							</select>
+						    <label for="localidad">Localidad:</label>
+						    <select id="localidad" name="localidad" required class="form-select">
+						        <option value="">Seleccionar localidad...</option>
+						        <%
+						        List<entidad.Localidad> localidades = (List<entidad.Localidad>) request.getAttribute("localidades");
+						        String localidadSeleccionada = String.valueOf(request.getAttribute("localidad"));
+						        if (localidades != null) {
+						            for (entidad.Localidad l : localidades) {
+						                String selected = String.valueOf(l.getIdLocalidad()).equals(localidadSeleccionada) ? "selected" : "";
+						        %>
+						            <option value="<%=l.getIdLocalidad()%>" <%=selected%>><%=l.getNombreLocalidad()%></option>
+						        <%
+						            }
+						        }
+						        %>
+						    </select>
 						</div>
+
 
 
 

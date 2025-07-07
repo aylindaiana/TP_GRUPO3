@@ -74,17 +74,33 @@ List<Localidad> localidades = (List<Localidad>) request.getAttribute("localidade
                 
             </div>
             <div class="col-md-4">
-                <label>CUIL</label>
-                <input type="text" name="cuil" class="form-control" value="<%= usuario.getCuil() %>" required>
-                <% if (request.getAttribute("errorCuil") != null) { %>
-				    <div class="text-danger"><%= request.getAttribute("errorCuil") %></div>
-				<% } %>
-                
-            </div>
+			    <label>CUIL</label>
+			    <input type="text" name="cuil" class="form-control"
+			        value="<%= request.getAttribute("cuil") != null ? request.getAttribute("cuil") : usuario.getCuil() %>" required>
+			    <% if (request.getAttribute("errorCuil") != null) { %>
+			        <div class="text-danger"><%= request.getAttribute("errorCuil") %></div>
+			    <% } %>
+			</div>
+
             <div class="col-md-4">
-                <label>Sexo</label>
-                <input type="text" name="sexo" class="form-control" value="<%= usuario.getSexo() %>">
-            </div>
+			    <label for="sexo">Sexo</label>
+			    <select id="sexo" name="sexo" class="form-select" required>
+			        <option value="">Seleccionar...</option>
+			        <option value="M"
+			            <%= "M".equals(request.getAttribute("sexo") != null ? request.getAttribute("sexo") : usuario.getSexo()) ? "selected" : "" %>>
+			            Masculino
+			        </option>
+			        <option value="F"
+			            <%= "F".equals(request.getAttribute("sexo") != null ? request.getAttribute("sexo") : usuario.getSexo()) ? "selected" : "" %>>
+			            Femenino
+			        </option>
+			        <option value="O"
+			            <%= "O".equals(request.getAttribute("sexo") != null ? request.getAttribute("sexo") : usuario.getSexo()) ? "selected" : "" %>>
+			            Otro
+			        </option>
+			    </select>
+			</div>
+
         </div>
 
         <div class="row mb-3">

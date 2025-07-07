@@ -95,7 +95,14 @@ public class UsuarioServlet extends HttpServlet {
                 request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
                 return;
             }
-
+            
+            // Validar CUIL duplicado
+            long cuilLong = Long.parseLong(cuil);
+            if (negocio.existeCuil(cuilLong)) {
+                request.setAttribute("errorCuil", "El CUIL ya está registrado.");
+                request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
+                return;
+            }
 
 
             // Paso 3: Crear objeto Usuario

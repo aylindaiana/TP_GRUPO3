@@ -71,7 +71,15 @@ public class GuardarModificacionUsuarioServlet extends HttpServlet {
                 request.setAttribute("errorDni", "El DNI ya está registrado.");
                 hayError = true;
             }
+            
+            // Validación de CUIL duplicado si fue modificado
+            long cuilNuevo = Long.parseLong(cuilStr);
+            if (!hayError && usuarioActual.getCuil() != cuilNuevo && negocioUsuario.existeCuil(cuilNuevo)) {
+                request.setAttribute("errorCuil", "El CUIL ya está registrado.");
+                hayError = true;
+            }
 
+            
             if (hayError) {
                 // Cargar provincias y localidades
                 ProvinciaDaoImpl provinciaDao = new ProvinciaDaoImpl();

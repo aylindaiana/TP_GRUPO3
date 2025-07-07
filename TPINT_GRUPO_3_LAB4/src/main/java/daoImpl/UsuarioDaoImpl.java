@@ -380,6 +380,23 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	    return total;
 	}
 
+	@Override
+	public boolean existeCuil(long cuil) {
+	    boolean existe = false;
+	    String sql = "SELECT COUNT(*) FROM usuario WHERE Cuil = ?";
+	    Connection conexion = Conexion.getConexion().getSQLConexion();
+	    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+	        stmt.setLong(1, cuil);
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                existe = rs.getInt(1) > 0;
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return existe;
+	}
 
 }
 
