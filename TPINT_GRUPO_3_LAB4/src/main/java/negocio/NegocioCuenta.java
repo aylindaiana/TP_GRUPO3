@@ -1,5 +1,6 @@
 package negocio;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import entidad.Cuenta;
@@ -15,6 +16,8 @@ public interface NegocioCuenta {
     public boolean existeCBU(String cbu);
     public boolean existeCBUExceptoId(String cbu, int idCuenta);
     public List<Cuenta> buscar(String nombreCliente, String cbu);
+    public int contarCuentasPorTipo(int tipoCuenta, LocalDate desde, LocalDate hasta);
+
 
 
     public boolean cantidadCuentas(int id);

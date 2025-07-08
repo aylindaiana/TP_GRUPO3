@@ -139,6 +139,13 @@ h2 {
     font-size: 16px;
     border-radius: 10px;
 }
+footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #fff;
+    background-color: #1f2e6b;
+}
 
 /* Responsive tweaks */
 @media (max-width: 768px) {

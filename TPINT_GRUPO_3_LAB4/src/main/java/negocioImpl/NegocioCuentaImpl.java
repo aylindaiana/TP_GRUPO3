@@ -1,6 +1,7 @@
 package negocioImpl;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import dao.CuentaDao;
@@ -152,5 +153,10 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 	public double saldoTotalBancario() {
 		return cuentaDao.saldoTotal();
 	}
-	
+	@Override
+	public int contarCuentasPorTipo(int tipoCuenta, LocalDate desde, LocalDate hasta) {
+	    CuentaDao dao = new CuentaDaoImpl();
+	    return dao.contarCuentasPorTipo(tipoCuenta, desde, hasta);
+	}
+
 }

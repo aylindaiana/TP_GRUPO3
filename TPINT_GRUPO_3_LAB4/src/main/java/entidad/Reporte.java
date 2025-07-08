@@ -13,6 +13,8 @@ public class Reporte {
     private int nuevosClientes;
     private double totalMovimientosIngresos;
     private double totalMovimientosEgresos;
+    private int CuentasCajaAhorro;
+    private int CuentasCuentaCorriente;
 
     public Reporte() {}
 
@@ -92,6 +94,21 @@ public class Reporte {
     public void setTotalMovimientosEgresos(double totalMovimientosEgresos) {
         this.totalMovimientosEgresos = totalMovimientosEgresos;
     }
+    public int getCuentasCajaAhorro() {
+        return CuentasCajaAhorro;
+    }
+
+    public void setCuentasCajaAhorro(int CuentasCajaAhorro) {
+        this.CuentasCajaAhorro = CuentasCajaAhorro;
+    }
+    
+    public int getCuentasCuentaCorriente() {
+        return CuentasCuentaCorriente;
+    }
+
+    public void setCuentasCuentaCorriente(int CuentasCuentaCorriente) {
+        this.CuentasCuentaCorriente = CuentasCuentaCorriente;
+    }
 
     @Override
     public String toString() {
@@ -102,6 +119,8 @@ public class Reporte {
                 "- Total Recaudado: $" + totalRecaudado + "\n" +
                 "- Nuevos Clientes: " + nuevosClientes + "\n" +
                 "- Total Ingresos: $" + totalMovimientosIngresos + "\n" +
-                "- Total Egresos: $" + totalMovimientosEgresos;
+                "- Total Egresos: $" + totalMovimientosEgresos + "\n" +
+                "- Total Cuenta Cajade Ahorro: $" + CuentasCajaAhorro+ "\n" +
+                "- Total Cuenta Cuenta Corriente: $" + CuentasCuentaCorriente;
     }
 }

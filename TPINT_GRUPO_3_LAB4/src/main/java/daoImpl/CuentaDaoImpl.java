@@ -1,6 +1,7 @@
 package daoImpl;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String BUSCAR_CUENTAS = "CALL SP_BUSCAR_FILTRO(?, ?)";
     private static final String CONTAR_CUENTAS_ASIGNADA_A_CLIENTE = "CALL sp_buscar_cuentas_asignadas_a_cliente(?)";
     private static final String DEBITAR_CUENTA = "UPDATE cuenta SET Saldo = Saldo - ? WHERE ID = ?";
+    private static final String CONTAR_CUENTA_TIPO = "CALL SP_CONTAR_CUENTAS_POR_TIPO(?, ?, ?)";
     
     
     @Override
@@ -490,5 +492,26 @@ public class CuentaDaoImpl implements CuentaDao {
         }
         return total;
     }
-	
+	@Override
+	public int contarCuentasPorTipo(int tipoCuenta, LocalDate desde, LocalDate hasta) {
+	    int total = 0;
+	    Connection cn = Conexion.getConexion().getSQLConexion();
+
+	    try {
+	        CallableStatement st = cn.prepareCall(CONTAR_CUENTA_TIPO);
+	        st.setInt(1, tipoCuenta);
+	        st.setDate(2, java.sql.Date.valueOf(desde));
+	        st.setDate(3, java.sql.Date.valueOf(hasta));
+	        ResultSet rs = st.executeQuery();
+
+	        if (rs.next()) {
+	            total = rs.getInt("total");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return total;
+	}
+
 }

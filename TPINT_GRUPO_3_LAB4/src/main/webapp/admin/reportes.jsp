@@ -49,12 +49,7 @@
 
     <div class="container mt-4">
         <h1 class="page-title">Reportes del Sistema</h1>
-        
-        <% if (request.getAttribute("error") != null) { %>
-		    <div class="alert alert-danger">
-		        <%= request.getAttribute("error") %>
-		    </div>
-		<% } %>
+  
         
 
 		<form action="ReportesServlet" method="get" class="row mb-4">
@@ -69,8 +64,17 @@
 		    <div class="col-md-2 d-flex align-items-end">
 		        <button type="submit" class="btn btn-primary">Generar Reporte</button>
 		    </div>
+		    <div class="col-md-2 d-flex align-items-end">
+		        <a href="${pageContext.request.contextPath}/ReportesServlet?accion=limpiar" class="btn btn-outline-secondary ms-2">Limpiar</a>
+		    </div>
+		    
 		</form>
-		
+		      
+        <% if (request.getAttribute("error") != null) { %>
+		    <div class="alert alert-danger">
+		        <%= request.getAttribute("error") %>
+		    </div>
+		<% } %>
         <div class="summary-grid">
             <div class="info-card">
                 <div class="info-card-header">
@@ -125,16 +129,16 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">📦 Caja de ahorro:</span>
-                    <span class="metric-value">1</span>
+                    <span class="metric-value"><%= (reporte != null) ? reporte.getCuentasCajaAhorro() : 0 %></span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">🏛️ Cuenta corriente:</span>
-                    <span class="metric-value">2</span>
+                    <span class="metric-value"><%= (reporte != null) ? reporte.getCuentasCuentaCorriente() : 0 %></span>
                 </div>
                 <hr>
                 <div class="metric-row">
                     <span class="metric-label">📋 Total cuentas activas:</span>
-                    <span class="metric-value metric-primary">3</span>
+                    <span class="metric-value metric-primary"><%= (reporte != null) ? reporte.getCuentasCajaAhorro() + reporte.getCuentasCuentaCorriente() : 0 %> </span>
                 </div>
             </div>
             
@@ -176,5 +180,9 @@
             </div>
         </div>
 	</div>
+	
+	<footer>
+	        <p>© 2025 Grupo 3 - Laboratorio 4</p>
+	</footer>
 </body>
 </html>

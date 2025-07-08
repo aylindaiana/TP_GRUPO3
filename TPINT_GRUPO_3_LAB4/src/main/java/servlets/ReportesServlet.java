@@ -15,11 +15,13 @@ import negocio.NegocioMovimiento;
 import negocio.NegocioPrestamo;
 import negocio.NegocioPrestamoRechazado;
 import negocio.NegocioUsuario;
+import negocio.NegocioCuenta;
 import negocioImpl.NegocioCuotaImpl;
 import negocioImpl.NegocioMovimientoImpl;
 import negocioImpl.NegocioPrestamoImpl;
 import negocioImpl.NegocioPrestamoRechazadoImpl;
 import negocioImpl.NegocioUsuarioImpl;
+import negocioImpl.NegocioCuentaImpl;
 
 @WebServlet("/ReportesServlet")
 public class ReportesServlet extends HttpServlet {
@@ -27,6 +29,12 @@ public class ReportesServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
+    	String accion = request.getParameter("accion");
+        if ("limpiar".equals(accion)) {
+            request.getRequestDispatcher("/admin/reportes.jsp").forward(request, response);
+            return;
+        }
 
         try {
             String fechaInicio = request.getParameter("fechaInicio");
@@ -46,6 +54,7 @@ public class ReportesServlet extends HttpServlet {
             NegocioPrestamoRechazado rechazadoNegocio = new NegocioPrestamoRechazadoImpl();
             NegocioCuota cuotaNegocio = new NegocioCuotaImpl();
             NegocioUsuario usuarioNegocio = new NegocioUsuarioImpl();
+            NegocioCuenta cuentaNegocio = new NegocioCuentaImpl();
 
            
             Reporte reporte = new Reporte(desde, hasta);
@@ -60,6 +69,10 @@ public class ReportesServlet extends HttpServlet {
             reporte.setTotalRecaudado(cuotaNegocio.totalRecaudadoEnCuotas(desde, hasta));
 
             reporte.setNuevosClientes(usuarioNegocio.contarNuevosClientes(desde, hasta));
+            
+            reporte.setCuentasCajaAhorro(cuentaNegocio.contarCuentasPorTipo(1, desde, hasta));
+            reporte.setCuentasCuentaCorriente(cuentaNegocio.contarCuentasPorTipo(2, desde, hasta));
+
  
             request.setAttribute("reporte", reporte);
             request.getRequestDispatcher("/admin/reportes.jsp").forward(request, response);

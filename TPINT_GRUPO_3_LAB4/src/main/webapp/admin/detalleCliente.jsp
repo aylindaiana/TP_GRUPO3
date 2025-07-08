@@ -271,7 +271,9 @@
 		<%
 		}
 		%>
-	
+		<footer>
+	        <p>© 2025 Grupo 3 - Laboratorio 4</p>
+	</footer>
 </body>
 </html>
 
