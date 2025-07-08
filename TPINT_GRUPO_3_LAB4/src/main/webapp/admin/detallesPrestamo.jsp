@@ -1,3 +1,7 @@
+<%@page import="entidad.PrestamoRechazado"%>
+<%@page import="entidad.Prestamo"%>
+<%@page import="java.util.List"%>
+<%@page import="entidad.Cuota"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -47,11 +51,18 @@
 	</nav>
 
 
+
+<%
+	if(request.getAttribute("listaCuotas") != null){
+		
+	List<Cuota> cuotas = (List<Cuota>)request.getAttribute("listaCuotas");
+%>
+
 	<div class="container text-center" id="general-container">
 		<div class="col" id="historial-container">
 
 			<div class="row">
-				<b>PRESTAMO NUMERO 1</b>
+				<b>PRESTAMO</b>
 			</div>
 
 			<div class="row">
@@ -64,39 +75,50 @@
 							<th>Fecha limite</th>
 							<th>Estado cuota</th>
 						</tr>
+						<%
+						for(Cuota aux : cuotas)
+						{
+						%>	
 						<tr>
-							<td>1</td>
-							<td>$2000</td>
-							<td>14/06/2025</td>
-							<td><A class="btn btn-success">Pagado</a></td>
+							<td><%= aux.getID() %></td>
+							<td>$<%= aux.getMonto() %></td>
+							<td><%= aux.getFechaPago() %></td>
+							<td>
+							<% if(aux.getEstado() == 1) 
+								{
+							%>
+							<a class="btn btn-success">Pagado</a>
+							<%
+								} 
+								else
+								{
+							%>	
+							<a class="btn btn-warning">Pendiente</a>
+							<%
+								}
+							%>
+							</td>
 						</tr>
-
-						<tr>
-							<td>2</td>
-							<td>$2000</td>
-							<td>14/07/2025</td>
-							<td><a class="btn btn-warning">Pendiente</a></td>
-						</tr>
-
-						<tr>
-							<td>3</td>
-							<td>$2000</td>
-							<td>14/08/2025</td>
-							<td><a class="btn btn-warning">Pendiente</a></td>
-						</tr>
-
-						<tr>
-							<td>4</td>
-							<td>$2000</td>
-							<td>14/09/2025</td>
-							<td><a class="btn btn-warning">Pendiente</a></td>
-						</tr>
+						<%
+						}
+						%>
 					</table>
 				</form>
 			</div>
 
 		</div>
 	</div>
+	
+<%
+	}
+%>
+	
+	
+	
+<%
+	if(request.getAttribute("pendiente") != null){	
+%>
+	
 	<div class="container text-center" id="general-container">
 		<div class="col" id="historial-container">
 			<table class="table table-hover">
@@ -119,6 +141,21 @@
 			</table>
 		</div>
 	</div>
+	
+<%
+	}
+%>
+	
+	
+<%
+	if(request.getAttribute("motivoRechazo") != null){
+	
+	//agregar el desarrollo de mostrar los datos reales de cada prestamo y sus motivos de rechazo.
+	Prestamo prestamo = (Prestamo)request.getAttribute("datosPrestamo");
+	PrestamoRechazado rechazo = (PrestamoRechazado)request.getAttribute("motivoRechazo");
+	
+	
+%>
 	<div class="container text-center" id="general-container">
 		<div class="col" id="historial-container">
 
@@ -134,21 +171,27 @@
 						<th>Fecha de solicitud</th>
 						<th>Motivo de rechazo</th>
 					</tr>
-					<tr>
-						<td>36</td>
-						<td>$2000000</td>
-						<td>18/06/2025</td>
-						<td><textarea rows="8" cols="50" readonly
-								style="resize: none;">el monto solicitado excede la cantidad a brindar para alguien con un historial crediticio casi nulo.
-								</textarea></td>
-					</tr>
+						<tr>
+							<td><%= prestamo.getCantidadCuotas() %></td>
+							<td>$<%= prestamo.getImporte()/1.5 %></td>
+							<td><%= prestamo.getFechaDeAlta() %></td>
+							<td>	
+								<textarea rows="8" cols="50" readonly style="resize: none;"><%=rechazo.getMotivoRechazo() %>
+								</textarea>
+							</td>
+						</tr>
 
-				</table>
-				<a href="prestamosAdmin.jsp" class="btn btn-primary">Regresar</a>
+					</table>
+					<a href="${pageContext.request.contextPath}/PrestamosAdminServlet" class="btn btn-primary">Regresar</a>
 			</div>
 
 		</div>
 	</div>
+
+
+<%
+	}
+%>
 
 </body>
 </html>

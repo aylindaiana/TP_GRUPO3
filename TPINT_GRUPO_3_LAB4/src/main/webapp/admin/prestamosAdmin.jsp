@@ -58,6 +58,8 @@
 		List<Prestamo> prestamosPorCliente = (List<Prestamo>)request.getAttribute("listaPrestamos");
 		double montoSolicitadoTotal = (double)request.getAttribute("montoSolicitadoTotal");
 		double montoTotalAPagar = (double)request.getAttribute("montoTotalAPagar");
+		int IDClienteSeleccionado = (int)request.getAttribute("idClienteSeleccionado");
+		int IDCuentaSeleccionada = (int)request.getAttribute("idCuentaSeleccionado");
 		
 	%>
 	
@@ -66,18 +68,28 @@
 		id="general-container">
 		<div class="row">
 			<div class="col-4" id="cuenta-destino-container">
-		<form action="">
+		<form action="PrestamosAdminServlet" method="post">
 
 				<div class="col">
 					<div class="row">
 						<b>CLIENTES</b>
-						<select class="form-select" name="clienteSeleccionada">
+						<select class="form-select" name="clienteSeleccionado">
 							<%
 								for(Usuario aux : clientes)
 								{
 							%>
 							
-								<option value="<%= aux.getId() %>"><%= aux.getApellido() %> <%= aux.getNombre() %></option>									
+								<option value="<%= aux.getId() %>" 
+								<% 
+								if(aux.getId() == IDClienteSeleccionado){
+									%>
+									selected
+									<%
+								}
+								%>
+								>
+								<%= aux.getApellido() %> <%= aux.getNombre() %>
+								</option>									
 									
 							<%
 								}
@@ -93,7 +105,17 @@
 								{
 							%>
 							
-							    <option value="<%= aux.getId() %>"><%= aux.getCbu() %></option>								
+							    <option value="<%= aux.getId() %>"
+							    <% 
+								if(aux.getId() == IDCuentaSeleccionada){
+									%>
+									selected
+									<%
+								}
+								%>
+							    >
+							    <%= aux.getCbu() %>
+							    </option>								
 									
 							<%
 								}
@@ -118,7 +140,7 @@
 			
 			
 			<div class="col" id="historial-container">
-
+		<form action="PrestamosAdminServlet" method="post">
 				<div class="row">
 					<b>HISTORIAL</b>
 				</div>
@@ -131,8 +153,7 @@
 						</tr>
 						
 						<%
-						List<Prestamo> prestamos = (List<Prestamo>)request.getAttribute("listaPrestamos");
-						for(Prestamo aux : prestamos)
+						for(Prestamo aux : prestamosPorCliente)
 						{
 						%>
 						
@@ -151,7 +172,7 @@
 									break;
 								case 2:
 									%>
-									<td><button class="btn btn-warning">pendiente</button></td>
+									<td><button name="verPendiente" class="btn btn-warning">pendiente</button></td>
 									<%
 									break;
 								case 3:
@@ -171,7 +192,7 @@
 						%>
 					</table>
 				</div>
-
+			</form>
 			</div>
 		</div>
 	</div>

@@ -22,5 +22,5 @@
             <input type="submit" class="login-button" value="Entrar" />
         </form>
     </div>
-</body>
+</body>	
 </html>

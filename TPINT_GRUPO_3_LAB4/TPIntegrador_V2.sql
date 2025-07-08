@@ -517,7 +517,7 @@ BEGIN
         FechaDeAlta, Importe, PlazoPago, 
         ImporteMensual, CantidadCuotas, Autorizacion
     FROM prestamos
-    WHERE IDCuenta = I_IDCuenta;
+    WHERE IDCuenta = I_IDCuenta  AND Autorizacion != 3;
 END$$
 DELIMITER ;
 
