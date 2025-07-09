@@ -533,7 +533,7 @@ CALL SP_LISTAR_PRESTAMOS_POR_CUENTA(4);
 
 /* SP actualizacion estado prestamo*/
 
-DROP PROCEDURE IF EXISTS SP_ACTUALIZACION_DE_ESTADO_PRESTAMO $$
+DROP PROCEDURE IF EXISTS SP_ACTUALIZACION_DE_ESTADO_PRESTAMO 
 
 DELIMITER $$
 CREATE PROCEDURE SP_ACTUALIZACION_DE_ESTADO_PRESTAMO(
@@ -541,7 +541,7 @@ CREATE PROCEDURE SP_ACTUALIZACION_DE_ESTADO_PRESTAMO(
     IN I_Estado TINYINT
 )
 BEGIN
-	UPDATE prestamos SET Estado = I_Estado WHERE IDPrestamo = I_IDPrestamo;
+	UPDATE prestamos SET Autorizacion = I_Estado WHERE ID = I_IDPrestamo;
 END$$
 DELIMITER $$
 
@@ -551,14 +551,14 @@ DELIMITER $$
 
 /* sp actualizacion de tablas relacionadas a prestamos, en base al cambio de estao en un prestamo */
 
-DROP PROCEDURE IF EXISTS SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO $$
+DROP PROCEDURE IF EXISTS SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO 
 
 DELIMITER $$
 CREATE PROCEDURE SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(
 	/*CARGADOS (PRESTAMOS)*/
 	IN I_IDPrestamo INT, 
     IN I_IDCuenta INT, /* SE USA COMO CUENTA DESTINO*/
-    IN I_Estado TINYINT,
+    IN I_Estado TINYINT,		
     IN I_CantidadCuotas INT,
     
     /*AUTOCALCULADO .JAVA (CUENTA Y MOVIMIENTOS)*/
@@ -586,7 +586,7 @@ BEGIN
     
     IF(I_ESTADO = 1) THEN
     
-		CALL sp_recargar_cuenta(I_Importe, I_IDCuenta);
+		CALL sp_recargar_cuenta(I_Importe/1.5, I_IDCuenta);
     
 		/*el tipo de movimiento siempre es 2 ya que se trata del alta de un prestamo*/
 		CALL SP_INSERTAR_MOVIMIENTO(I_CuentaOrigen, I_IDCuenta, I_Importe, I_Fecha, I_Comentario, 2);
@@ -610,6 +610,7 @@ BEGIN
     END IF;
 END$$
 DELIMITER $$
+
 
 
 /*CALL SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(?, ?, ?, ?, ?, ?, ?, ?, ?)*/
