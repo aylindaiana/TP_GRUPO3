@@ -80,7 +80,7 @@
 						{
 						%>	
 						<tr>
-							<td><%= aux.getID() %></td>
+							<td><%= aux.getNumeroCuota()%></td>
 							<td>$<%= aux.getMonto() %></td>
 							<td><%= aux.getFechaPago() %></td>
 							<td>
@@ -116,32 +116,33 @@
 	
 	
 <%
-	if(request.getAttribute("pendiente") != null){	
+	if(request.getAttribute("prestamoPendiente") != null){
+	Prestamo prestamo = (Prestamo)request.getAttribute("prestamoPendiente");
 %>
+	<form action="DetallesPrestamoServlet" method="post">
+		<div class="container text-center" id="general-container">
+			<div class="col" id="historial-container">
+				<table class="table table-hover">
+					<tr class="table-info">
+						<th>Cantidad de cuotas</th>
+						<th>Monto solicitado</th>
+						<th>Fecha de solicitud</th>
+						<th>Accion</th>
+					</tr>
+					<tr>
+						<td><%= prestamo.getCantidadCuotas() %></td>
+						<td>$<%= (prestamo.getImporte()/1.5) %></td>
+						<td><%= prestamo.getFechaDeAlta() %></td>
+						<td>
+							<button name="btn-aceptarPrestamo" value="<%= prestamo.getID() %>" class="btn btn-success">Aceptar</button>
+							<button name="btn-rechazarPrestamo" value="<%= prestamo.getID() %>" class="btn btn-danger">Rechazar</button>
+						</td>
+					</tr>
 	
-	<div class="container text-center" id="general-container">
-		<div class="col" id="historial-container">
-			<table class="table table-hover">
-				<tr class="table-info">
-					<th>Cantidad de cuotas</th>
-					<th>Monto solicitado</th>
-					<th>Fecha de solicitud</th>
-					<th>Accion</th>
-				</tr>
-				<tr>
-					<td>36</td>
-					<td>$2000000</td>
-					<td>18/06/2025</td>
-					<td>
-						<a href="prestamosAdmin.jsp" class="btn btn-success">Aceptar</a>
-						<a href="motivoRechazoPrestamo.jsp" class="btn btn-danger">Rechazar</a>
-					</td>
-				</tr>
-
-			</table>
+				</table>
+			</div>
 		</div>
-	</div>
-	
+	</form>
 <%
 	}
 %>
@@ -153,8 +154,6 @@
 	//agregar el desarrollo de mostrar los datos reales de cada prestamo y sus motivos de rechazo.
 	Prestamo prestamo = (Prestamo)request.getAttribute("datosPrestamo");
 	PrestamoRechazado rechazo = (PrestamoRechazado)request.getAttribute("motivoRechazo");
-	
-	
 %>
 	<div class="container text-center" id="general-container">
 		<div class="col" id="historial-container">
@@ -187,7 +186,6 @@
 
 		</div>
 	</div>
-
 
 <%
 	}

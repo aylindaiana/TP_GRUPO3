@@ -122,7 +122,14 @@ public class PrestamosAdminServlet extends HttpServlet {
 		}
 		
 		if(request.getParameter("verPendiente") != null) {
+
+			int IDPrestamo = Integer.parseInt(request.getParameter("verPendiente"));
+
+			Prestamo prestamo = prestamoNegocio.obtenerPorIDPrestamo(IDPrestamo);
 			
+
+		    request.setAttribute("prestamoPendiente", prestamo);
+		    
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/detallesPrestamo.jsp");
 		    dispatcher.forward(request, response);
 		}

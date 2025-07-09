@@ -20,7 +20,9 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	static String OBTENER_POR_ID_CLIENTE = "call sp_listar_prestamos_por_cliente(?)";
 	static String LISTAR = "call sp_listar_prestamos";
 
+	//este metodo debe ser borrado es para uso interno en la BBDD
 	static String ACTUALIZAR_ESTADO_PRESTAMO = "CALL SP_ACTUALIZACION_DE_ESTADO_PRESTAMO(?, ?)";
+	//
 	static String ACTUALIZAR_TABLAS_EN_BASE_A_ESTADO_PRESTAMO = "CALL SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	static String BUSCAR_PRESTAMO_POR_ID = " CALL SP_BUSCAR_PRESTAMO_POR_ID(?)";
@@ -134,6 +136,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
         return lista;
 	}
 
+	//este metodo debe ser borrado es para uso interno en la BBDD
 	@Override
 	public boolean actualizacionEstadoPrestamo(int id, int estado) {
 		Connection cn = Conexion.getConexion().getSQLConexion();
@@ -161,7 +164,8 @@ public class PrestamoDaoImpl implements PrestamoDao{
 		
 		return exito;
 	}
-
+	//
+	
 	@Override
 	public boolean actualizacionDeTablasEnBase_EstadoPrestamo(int IDPrestamo, int IDCuentaDestino, int EstadoPrestamo,
 			int CantidadCuotas, double ImporteSolicitado, int IDCuentaOrigen, Date FechaSolicitudPrestamo,

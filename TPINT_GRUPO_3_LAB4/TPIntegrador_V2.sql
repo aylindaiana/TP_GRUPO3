@@ -603,7 +603,7 @@ BEGIN
 			SET fecha = DATE_ADD(fecha, INTERVAL 1 MONTH);
 		END WHILE;
         
-    ELSEIF(I_ESTADO = 2) THEN
+    ELSEIF(I_ESTADO = 3) THEN
 		
 		CALL SP_INSERTAR_PRESTAMO_RECHAZADO(I_IDPrestamo, I_MotivoRechazo);
         

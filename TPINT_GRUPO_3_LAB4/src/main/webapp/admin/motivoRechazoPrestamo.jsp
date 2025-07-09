@@ -1,10 +1,11 @@
+<%@page import="entidad.Prestamo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Pagar Cuota</title>
+<title>Rechazar Prestamo</title>
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
@@ -44,40 +45,48 @@
 	  </div>
 	</nav>
 
+
+<%
+
+if(request.getAttribute("prestamo") != null){
+	Prestamo prestamo = (Prestamo)request.getAttribute("prestamo");
+
+%>
 	<div class="container text-center" id="general-container">
 		<div class="col-md-12 mx-auto" id="historial-container">
 			<div class="row">
-				<table class="table table-hover">
-					<tr class="table-info">
-						<th>Cantidad de cuotas</th>
-						<th>Monto solicitado</th>
-						<th>Fecha de solicitud</th>
-						<th>Motivo de rechazo</th>
-					</tr>
-					<tr>
-						<td>36</td>
-						<td>$2000000</td>
-						<td>18/06/2025</td>
-						<td><textarea rows="8" cols="50" style="resize: none;">el monto solicitado excede la cantidad a brindar para alguien con un historial crediticio casi nulo.
-								</textarea></td>
-					</tr>
-				</table>
-
-
-				<div class="col">
-					<div class="row">
-						<a href="prestamosAdmin.jsp" class="btn btn-success">Confirmar</a>
+				<form action="MotivoRechazoPrestamoServlet" method="post">
+					<table class="table table-hover">
+						<tr class="table-info">
+							<th>Cantidad de cuotas</th>
+							<th>Monto solicitado</th>
+							<th>Fecha de solicitud</th>
+							<th>Motivo de rechazo</th>
+						</tr>
+						<tr>
+							<td><%= prestamo.getCantidadCuotas() %></td>
+							<td>$<%= prestamo.getImporte()/1.5 %></td>
+							<td><%= prestamo.getFechaDeAlta() %></td>
+							<td><textarea name="motivoRechazo" rows="8" cols="50" style="resize: none;" maxlength="45"></textarea></td>
+						</tr>
+					</table>
+					<input type="hidden" value="<%= prestamo.getID() %>" name="IDPrestamo">
+					<div class="col">
+						<div class="row">
+							<button name="btn-confirmar" class="btn btn-success">Confirmar</button>
+						</div>
 					</div>
-				</div>
-				<div class="col">
-					<div class="row">
-						<a href="detallesPrestamo.jsp" class="btn btn-danger">Regresar</a>
+					<div class="col">
+						<div class="row">
+							<button name="btn-regresar" class="btn btn-danger">Regresar</button>
+						</div>
 					</div>
-				</div>
-
+				</form>
 			</div>
 		</div>
 	</div>
-
+<%
+}
+%>
 </body>
 </html>

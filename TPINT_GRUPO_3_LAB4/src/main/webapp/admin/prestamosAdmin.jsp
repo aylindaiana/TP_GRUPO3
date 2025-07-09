@@ -172,7 +172,7 @@
 									break;
 								case 2:
 									%>
-									<td><button name="verPendiente" class="btn btn-warning">pendiente</button></td>
+									<td><button name="verPendiente" value="<%=aux.getID() %>" class="btn btn-warning">pendiente</button></td>
 									<%
 									break;
 								case 3:
