@@ -49,6 +49,8 @@ public class ServletLogin extends HttpServlet {
 
 			UsuarioCredencialesDao dao = new UsuarioCredencialesImpl();
 			int idLogin = dao.iniciarSesion(username, password);
+			
+			request.getSession().setAttribute("NombreUsuario", username);
 
 			if (idLogin != -1) {
 				request.getSession().setAttribute("id", idLogin);

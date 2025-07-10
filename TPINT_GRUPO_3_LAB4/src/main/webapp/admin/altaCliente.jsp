@@ -55,7 +55,7 @@
 				</li>
 			</ul>
 			<span class="navbar-text d-flex flex-row align-items-center gap-2">
-				<a class="username-link" href="${pageContext.request.contextPath}/admin/verUsuarioAdmin.jsp">
+				<a class="username-link" href="${pageContext.request.contextPath}/VerDatosAdminServlet">
 					<%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null"%>
 				</a>
 				<a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="logout-btn">Salir</a>

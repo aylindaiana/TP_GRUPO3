@@ -33,7 +33,7 @@
 	        </li>
 	      </ul>	  
 	      <span class="navbar-text d-flex flex-row align-items-center gap-2">
-		    <a class="username-link" href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp"><%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null" %></a>
+		    <a class="username-link" href="${pageContext.request.contextPath}/VerDatosClienteServlet"><%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null" %></a>
 		    <a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="logout-btn">Salir</a>
 		  </span>
 	    </div>

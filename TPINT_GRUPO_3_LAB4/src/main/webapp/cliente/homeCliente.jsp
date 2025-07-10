@@ -52,7 +52,7 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 				</ul>
 				<span class="navbar-text d-flex flex-row align-items-center gap-2"> <a
 					class="username-link"
-					href="${pageContext.request.contextPath}/cliente/verUsuarioCliente.jsp">
+					href="${pageContext.request.contextPath}/VerDatosClienteServlet">
 						<%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre").toString() : "null"%>
 				</a> <a
 					href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar"
@@ -78,34 +78,34 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 
 					<div class="info-field">
 						<label class="field-label">Nombre:</label> <span
-							class="field-value"><%=usuario.getNombre()%></span>
+							class="field-value"> <%=usuario.getNombre()%></span>
 					</div>
 
 					<div class="info-field mt-3">
 						<label class="field-label">Apellido:</label> <span
-							class="field-value"><%=usuario.getApellido()%></span>
+							class="field-value"> <%=usuario.getApellido()%></span>
 					</div>
 
 					<div class="info-field mt-3">
-						<label class="field-label">DNI:</label> <span class="field-value"><%=usuario.getDni()%></span>
+						<label class="field-label">DNI:</label> <span class="field-value"> <%=usuario.getDni()%></span>
 					</div>
 
 					<div class="info-field mt-3">
-						<label class="field-label">CUIL:</label> <span class="field-value"><%=usuario.getCuil()%></span>
+						<label class="field-label">CUIL:</label> <span class="field-value"> <%=usuario.getCuil()%></span>
 					</div>
 
 					<div class="info-field mt-3">
-						<label class="field-label">Sexo:</label> <span class="field-value"><%=usuario.getSexo()%></span>
+						<label class="field-label">Sexo:</label> <span class="field-value"> <%=usuario.getSexo()%></span>
 					</div>
 
 					<div class="info-field mt-3">
 						<label class="field-label">Nacionalidad:</label> <span
-							class="field-value"><%=usuario.getNacionalidad()%></span>
+							class="field-value"> <%=usuario.getNacionalidad()%></span>
 					</div>
 
 					<div class="info-field mt-3">
 						<label class="field-label">Fecha de Nacimiento:</label> <span
-							class="field-value"><%=usuario.getFechaDeNacimiento()%></span>
+							class="field-value"> <%=usuario.getFechaDeNacimiento()%></span>
 					</div>
 				</div>
 			</div>
@@ -116,27 +116,27 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 
 					<div class="info-field">
 						<label class="field-label">Teléfono:</label> <span
-							class="field-value"><%=usuario.getTelefono()%></span>
+							class="field-value">  <%=usuario.getTelefono()%></span>
 					</div>
 
 					<div class="info-field mt-3">
 						<label class="field-label">Email:</label> <span
-							class="field-value"><%=usuario.getCorreoElectronico()%></span>
+							class="field-value"> <%=usuario.getCorreoElectronico()%></span>
 					</div>
 
 					<div class="info-field mt-3">
 						<label class="field-label">Dirección:</label> <span
-							class="field-value"><%=usuario.getDireccion()%></span>
+							class="field-value"> <%=usuario.getDireccion()%></span>
 					</div>
 
 					<div class="info-field mt-3">
 						<label class="field-label">Localidad:</label> <span
-							class="field-value"><%=usuario.getNombreLocalidad()%></span>
+							class="field-value"> <%=usuario.getNombreLocalidad()%></span>
 					</div>
 
 					<div class="info-field mt-3">
 						<label class="field-label">Provincia:</label> <span
-							class="field-value"><%=usuario.getNombreProvincia()%></span>
+							class="field-value"> <%=usuario.getNombreProvincia()%></span>
 					</div>
 
 				</div>
@@ -148,12 +148,12 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 
 					<div class="info-field">
 						<label class="field-label">Usuario:</label> <span
-							class="field-value"><%=session.getAttribute("idNombre")%></span>
+							class="field-value"> <%=session.getAttribute("idNombre")%></span>
 					</div>
 
 					<div class="info-field mt-3">
 						<label class="field-label">Estado:</label> <span
-							class="field-value status-active"><%=usuario.isEstado() ? "Activo" : "Inactivo"%></span>
+							class="field-value status-active"> <%=usuario.isEstado() ? "Activo" : "Inactivo"%></span>
 					</div>
 				</div>
 			</div>

@@ -26,7 +26,7 @@
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/reportes.jsp">Reportes</a></li>
             </ul>
             <span class="navbar-text d-flex flex-row align-items-center gap-2">
-                <a class="nav-link align-self-center" href="${pageContext.request.contextPath}/admin/detalleCuenta.jsp">
+                <a class="nav-link align-self-center" href="${pageContext.request.contextPath}/VerDatosAdminServlet">
                     <%=(session.getAttribute("idNombre") != null) ? session.getAttribute("idNombre") : "Admin"%>
                 </a>
                 <a href="${pageContext.request.contextPath}/ServletLogin?accion=cerrar" class="logout-btn">Salir</a>
