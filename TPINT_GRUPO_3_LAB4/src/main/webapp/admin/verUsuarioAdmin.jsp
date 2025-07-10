@@ -4,6 +4,7 @@
 <%@ page import="entidad.Usuario"%>
 <%@ page import="java.util.List"%>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,10 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 <title>Mi Perfil</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-thin-solid/css/uicons-thin-solid.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fontisto@latest/css/fontisto.min.css">
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+<script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/verUsuario.css">
 <link rel="stylesheet" 
     href="${pageContext.request.contextPath}/resources/css/nav.css">
@@ -48,7 +52,9 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 	<div class="container mt-5">
 	    <div class="card shadow p-4">
 	        <div class="d-flex align-items-center mb-4">
-	            <div class="perfil-foto me-4"></div>
+	            <div class="perfil-foto me-4">
+				  <i class="fi fi-rr-user"></i>
+				</div>
 	            <div>
 	                <h4 class="fw-bold text-uppercase"><%=usuario.getNombre()%>  <%=usuario.getApellido()%></h4>
 	                <p class="text-muted mb-0">Administrador del banco</p>
@@ -90,7 +96,15 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 	        </div>
 	    </div>
 	</div>
-
+	<br>
+	<br>
+	<footer>
+	        <p>© 2025 Grupo 3 - Laboratorio 4</p>
+	</footer>
+<script 
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" 
+	integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" 
+	crossorigin="anonymous"></script>
 </body>
 </html>
 

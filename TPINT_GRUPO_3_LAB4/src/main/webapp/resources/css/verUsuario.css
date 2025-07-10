@@ -28,3 +28,27 @@
     color: #0f172a !important;
     text-decoration: underline;
 }
+
+.perfil-foto {
+  width: 80px;                 /* O el tamaño que uses */
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #3b82f6;   /* Tu borde azul */
+  background: #eee;            /* Fondo gris claro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.perfil-foto i {
+  font-size: 40px;             /* Tamaño del icono */
+  color: #999;                 /* Color del icono */
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #fff;
+    background-color: #1f2e6b;
+}
