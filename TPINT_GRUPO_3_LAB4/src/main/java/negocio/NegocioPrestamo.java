@@ -19,7 +19,7 @@ public interface NegocioPrestamo {
 
 	public Prestamo obtenerPorIDPrestamo(int id);           
     public List<Prestamo> obtenerPorIdCuenta(int id);
-//    public int cantidadPrestamosPendientes();
+    public int cantidadPrestamosPendientes();
 	/* Prueba para reporte */
 	public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta);
 }

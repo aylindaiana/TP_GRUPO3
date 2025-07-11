@@ -300,28 +300,26 @@ public class PrestamoDaoImpl implements PrestamoDao{
         return lista;
 	}
 	
-//	@Override
-//	public int contarPrestamosPendientes() {
-//	    int total = 0;
-//
-//	    try (Connection cn = Conexion.getConexion().getSQLConexion();
-//	         PreparedStatement st = cn.prepareStatement(CANT_PRESTAMOS_PENDIENTES_APROB);
-//	         ResultSet rs = st.executeQuery()) {
-//
-//	        if (rs.next()) {
-//	            total = rs.getInt("total");
-//	        }
-//
-//	        if (!cn.getAutoCommit()) {
-//	            cn.commit();
-//	        }
-//
-//	    } catch (SQLException e) {
-//	        e.printStackTrace();
-//	    }
-//
-//	    return total;
-//	}
+	@Override
+	public int contarPrestamosPendientes() {
+	    Connection cn = Conexion.getConexion().getSQLConexion();
+	    int total = 0;
+	    System.out.println(cn);
+	    try {
+	        PreparedStatement st = cn.prepareStatement(CANT_PRESTAMOS_PENDIENTES_APROB);
+
+	        ResultSet rs = st.executeQuery();
+	        if (rs.next()) {
+	            total = rs.getInt("total");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return total;
+	}
+
 
 
 

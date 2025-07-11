@@ -22,5 +22,8 @@ public interface TransferenciaDao {
         int offset,
         int limite
     );
+    
+    
+   public double saldoTotalEnTransferencia();
 
 }

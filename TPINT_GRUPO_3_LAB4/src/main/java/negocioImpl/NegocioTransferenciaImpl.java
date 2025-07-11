@@ -3,6 +3,7 @@ package negocioImpl;
 import java.sql.Timestamp;
 import java.util.List;
 
+import dao.CuentaDao;
 import dao.TransferenciaDao;
 import daoImpl.TransferenciaDaoImpl;
 import entidad.Transferencia;
@@ -10,6 +11,9 @@ import negocio.NegocioTransferencia;
 
 public class NegocioTransferenciaImpl implements NegocioTransferencia {
 
+	private TransferenciaDao transferenciaDao;
+	
+	
     @Override
     public boolean transferir(int cuentaOrigen, int cuentaDestino, double monto, String comentario) {
         TransferenciaDao dao = new TransferenciaDaoImpl();
@@ -36,4 +40,10 @@ public class NegocioTransferenciaImpl implements NegocioTransferencia {
             offset, limite
         );
     }
+    
+    @Override
+	public double saldoTotalDeTransfe() {
+    	TransferenciaDao transferenciaDao = new TransferenciaDaoImpl();
+		return transferenciaDao.saldoTotalEnTransferencia();
+	}
 }

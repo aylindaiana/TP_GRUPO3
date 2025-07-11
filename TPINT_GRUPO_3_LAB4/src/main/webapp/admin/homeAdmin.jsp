@@ -78,6 +78,22 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-md-4">
+				<div class="card text-center shadow-sm">
+					<div class="card-body">
+						<h5 class="card-title">Cantidad de prestamos por aprobar</h5>
+						<p class="display-6 text-info"><%= request.getAttribute("cantPrestamos") %></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card text-center shadow-sm">
+					<div class="card-body">
+						<h5 class="card-title">Dinero en Transferencias(+/-)</h5>
+						<p class="display-6 text-info"><%= request.getAttribute("dineroEnTransfe") %></p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<footer>

@@ -146,7 +146,7 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 	
 	@Override
 	public int contarCuentasTotalesImpl() {
-		return cuentaDao.contarCuentasTotales();
+		return cuentaDao.contarCuentasTotalesActivas();
 	}
 	
 	@Override

@@ -462,9 +462,9 @@ public class CuentaDaoImpl implements CuentaDao {
 	}
 	
 	@Override
-    public int contarCuentasTotales() {
+    public int contarCuentasTotalesActivas() {
         int total = 0;
-        String sql = "SELECT COUNT(*) FROM cuenta";
+        String sql = "SELECT COUNT(*) FROM cuenta WHERE Estado = 1";
         Connection conexion = Conexion.getConexion().getSQLConexion();
         try (PreparedStatement stmt = conexion.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

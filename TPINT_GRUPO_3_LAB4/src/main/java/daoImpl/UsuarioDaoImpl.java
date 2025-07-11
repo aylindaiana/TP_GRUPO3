@@ -270,7 +270,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
     @Override
     public int contarUsuarios() {
         int total = 0;
-        String sql = "SELECT COUNT(*) FROM usuario";
+        String sql = "SELECT COUNT(*) FROM usuario WHERE Estado = 1";
         Connection conexion = Conexion.getConexion().getSQLConexion();
         try (PreparedStatement stmt = conexion.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

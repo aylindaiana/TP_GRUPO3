@@ -19,5 +19,5 @@ public interface PrestamoDao {
     public List<Prestamo> obtenerPorIdCuenta(int id);
 	 /* Prueba para reporte */
 	public int contarPrestamosAprobados(LocalDate desde, LocalDate hasta);
-//	public int contarPrestamosPendientes();
+	public int contarPrestamosPendientes();
 }

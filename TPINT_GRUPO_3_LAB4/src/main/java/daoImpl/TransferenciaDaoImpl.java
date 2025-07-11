@@ -2,6 +2,7 @@ package daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.Timestamp; // ✅ Asegurarse de usar Timestamp
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -100,6 +101,25 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
         }
 
         return lista;
+    }
+    
+    @Override
+    public double saldoTotalEnTransferencia() {
+        double total = 0;
+        String sql = "SELECT COALESCE(SUM(Monto), 0) AS DineroTotal FROM transferencia WHERE Estado = 1;";
+        Connection conexion = Conexion.getConexion().getSQLConexion();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                total = rs.getDouble(1);
+                if (rs.wasNull()) {
+                    total = 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
     }
 }
 

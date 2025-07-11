@@ -26,6 +26,6 @@ public interface CuentaDao {
 	public void bajaCuentasUsuario(int id);
 	public void debitarCuenta(int IDCuenta, double montoDebito);
 	public int contarCuentasDeUsuario(int idusuario);
-	public int contarCuentasTotales();
+	public int contarCuentasTotalesActivas();
 	public double saldoTotal();
 }

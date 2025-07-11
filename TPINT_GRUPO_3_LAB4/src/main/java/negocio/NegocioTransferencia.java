@@ -20,4 +20,6 @@ public interface NegocioTransferencia {
         int offset,
         int limite
     );
+    
+    public double saldoTotalDeTransfe();
 }
