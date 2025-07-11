@@ -886,13 +886,10 @@ BEGIN
     DECLARE saldoOrigen DOUBLE;
     DECLARE idTransferencia INT;
 
-    -- 1) Obtener saldo de la cuenta origen
     SELECT Saldo INTO saldoOrigen FROM cuenta WHERE ID = p_CuentaOrigen;
 
-    -- 2) Validar saldo suficiente
     IF saldoOrigen >= p_Monto THEN
 
-        -- 3) Actualizar saldos
         UPDATE cuenta
         SET Saldo = Saldo - p_Monto
         WHERE ID = p_CuentaOrigen;
@@ -901,13 +898,11 @@ BEGIN
         SET Saldo = Saldo + p_Monto
         WHERE ID = p_CuentaDestino;
 
-        -- 4) Registrar en tabla transferencia
         INSERT INTO transferencia (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, Estado)
         VALUES (p_CuentaOrigen, p_CuentaDestino, p_Monto, p_Fecha, p_Comentario, 1);
 
         SET idTransferencia = LAST_INSERT_ID();
 
-        -- 5) Registrar movimiento general (tipo 4 = transferencia)
         INSERT INTO movimientos (
             IDCuentaOrigen,
             IDCuentaDestino,
@@ -926,7 +921,6 @@ BEGIN
         );
 
     ELSE
-        -- 6) Lanzar error controlado si no hay saldo suficiente
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Saldo insuficiente para realizar la transferencia.';
     END IF;
@@ -937,14 +931,14 @@ DELIMITER ;
 
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS $$
+DROP PROCEDURE IF EXISTS SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS;
 
 CREATE PROCEDURE SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS(
   IN p_Cuenta1 INT,
   IN p_Cuenta2 INT,
   IN p_Cuenta3 INT,
-  IN p_FechaDesde DATE,
-  IN p_FechaHasta DATE,
+  IN p_FechaDesde DATETIME,
+  IN p_FechaHasta DATETIME,
   IN p_MontoMin DOUBLE,
   IN p_MontoMax DOUBLE,
   IN p_Offset INT,
@@ -954,7 +948,13 @@ BEGIN
   SELECT
     t.ID,
     t.IDCuentaOrigen,
+    co.CBU AS CBUOrigen,
+    uo.Nombre AS NombreOrigen,
+
     t.IDCuentaDestino,
+    cd.CBU AS CBUDestino,
+    ud.Nombre AS NombreDestino,
+
     t.Monto,
     t.Fecha,
     t.Comentario,
@@ -964,6 +964,12 @@ BEGIN
       ELSE 'N/A'
     END AS TipoMovimiento
   FROM transferencia t
+  INNER JOIN cuenta co ON t.IDCuentaOrigen = co.ID
+  INNER JOIN usuario uo ON co.IDCliente = uo.ID
+
+  INNER JOIN cuenta cd ON t.IDCuentaDestino = cd.ID
+  INNER JOIN usuario ud ON cd.IDCliente = ud.ID
+
   WHERE
     (t.IDCuentaOrigen IN (p_Cuenta1, p_Cuenta2, p_Cuenta3)
      OR t.IDCuentaDestino IN (p_Cuenta1, p_Cuenta2, p_Cuenta3))

@@ -21,21 +21,18 @@ public class TransferenciaServlet extends HttpServlet {
         super();
     }
 
-    // === GET ===
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String tipo = request.getParameter("tipo");
 
-        // Traer cuentas propias del usuario logueado
         int idCliente = (int) request.getSession().getAttribute("idCliente");
         CuentaDao cuentaDao = new CuentaDaoImpl();
         List<Cuenta> cuentasPropias = cuentaDao.listarCuentas(idCliente);
 
         request.setAttribute("cuentasPropias", cuentasPropias);
 
-        // Redirige según opción elegida
         if ("propia".equals(tipo)) {
             request.getRequestDispatcher("/cliente/transferirPropia.jsp").forward(request, response);
         } else if ("cbu".equals(tipo)) {
@@ -45,7 +42,6 @@ public class TransferenciaServlet extends HttpServlet {
         }
     }
 
-    // === POST ===
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -111,7 +107,6 @@ public class TransferenciaServlet extends HttpServlet {
             return;
         }
 
-        // === PROCESAR TRANSFERENCIA ===
         NegocioTransferencia negocioTransf = new NegocioTransferenciaImpl();
         boolean resultado = negocioTransf.transferir(cuentaOrigen, cuentaDestino, monto, comentario);
 

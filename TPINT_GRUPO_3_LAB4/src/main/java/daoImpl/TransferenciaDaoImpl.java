@@ -3,7 +3,7 @@ package daoImpl;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Timestamp; // ✅ Asegurarse de usar Timestamp
+import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,7 +14,6 @@ import entidad.Transferencia;
 
 public class TransferenciaDaoImpl implements TransferenciaDao {
 
-    // === SP que ejecuta la transferencia ===
     @Override
     public boolean transferir(int cuentaOrigen, int cuentaDestino, double monto, String comentario) {
         Connection cn = Conexion.getConexion().getSQLConexion();
@@ -45,7 +44,6 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
         return exito;
     }
 
-    // === SP que lista transferencias usando SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS ===
     @Override
     public List<Transferencia> listarTransferencias(
             int cuenta1,
