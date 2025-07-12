@@ -1,6 +1,7 @@
 package negocio;
 
-import java.sql.Timestamp; 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import entidad.Transferencia;
@@ -22,4 +23,6 @@ public interface NegocioTransferencia {
     );
     
     public double saldoTotalDeTransfe();
+    public int contarTransferencias(LocalDate desde, LocalDate hasta);
+
 }

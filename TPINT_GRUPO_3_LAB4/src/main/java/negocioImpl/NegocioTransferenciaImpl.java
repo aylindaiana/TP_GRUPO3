@@ -1,6 +1,7 @@
 package negocioImpl;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import dao.CuentaDao;
@@ -46,4 +47,11 @@ public class NegocioTransferenciaImpl implements NegocioTransferencia {
     	TransferenciaDao transferenciaDao = new TransferenciaDaoImpl();
 		return transferenciaDao.saldoTotalEnTransferencia();
 	}
+    
+    @Override
+    public int contarTransferencias(LocalDate desde, LocalDate hasta) {
+        TransferenciaDao dao = new TransferenciaDaoImpl();
+        return dao.contarTransferencias(desde, hasta);
+    }
+
 }

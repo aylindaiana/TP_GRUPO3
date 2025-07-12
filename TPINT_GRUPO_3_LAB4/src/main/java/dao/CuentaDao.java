@@ -15,6 +15,8 @@ public interface CuentaDao {
     int obtenerIdCuentaPorCBU(String cbu);
     public List<Cuenta> buscar(String nombreCliente, String cbu);
     public int contarCuentasPorTipo(int tipoCuenta, LocalDate desde, LocalDate hasta);
+    public int contarCuentas(LocalDate desde, LocalDate hasta);
+
 
     
     

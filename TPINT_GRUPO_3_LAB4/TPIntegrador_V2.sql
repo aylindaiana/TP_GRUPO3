@@ -1079,6 +1079,32 @@ BEGIN
 END $$
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE SP_CONTAR_TRANSFERENCIAS(
+    IN fechaDesde DATE, IN fechaHasta DATE
+)
+BEGIN
+    SELECT COUNT(*) AS total
+    FROM transferencia
+    WHERE Fecha BETWEEN fechaDesde AND fechaHasta
+      AND Estado = 1;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE SP_CONTAR_CUENTAS_CREADAS(
+    IN fechaDesde DATE, IN fechaHasta DATE
+)
+BEGIN
+    SELECT COUNT(*) AS total
+    FROM cuenta
+    WHERE Estado = 1 AND FechaDeCreacion BETWEEN fechaDesde AND fechaHasta;
+END $$
+
+DELIMITER ;
+
+/*CALL SP_CONTAR_CUENTAS_CREADAS("2023-01-01", "2023-12-31");*/
 
 /* Pruebas para los Reportes. */
 
@@ -1138,11 +1164,11 @@ VALUES (1, 2, 1250.0, '2023-07-10', 'DEF456', 1);
 
 INSERT INTO transferencia (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, Estado)
 VALUES (1, 2, 500.0, '2023-06-15', 'Pago a Maria', 1);
-
+ 
 INSERT INTO transferencia (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, Estado)
 VALUES (2, 1, 300.0, '2023-07-01', 'Pago de deuda', 1);
 
- select * FROM transferencia
+ select * FROM movimientos
 
 CALL SP_TOTAL_POR_TIPO(1, '2023-01-01', '2023-12-31');
 SELECT ID, IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento

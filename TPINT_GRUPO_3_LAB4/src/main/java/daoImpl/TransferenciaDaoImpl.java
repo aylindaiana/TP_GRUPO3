@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import entidad.Transferencia;
 
 public class TransferenciaDaoImpl implements TransferenciaDao {
 
+	private final String CONTAR_TRANSFERENCIAS = "CALL SP_CONTAR_TRANSFERENCIAS(?, ?)";
+	
     @Override
     public boolean transferir(int cuentaOrigen, int cuentaDestino, double monto, String comentario) {
         Connection cn = Conexion.getConexion().getSQLConexion();
@@ -115,6 +118,24 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+    
+    @Override
+    public int contarTransferencias(LocalDate desde, LocalDate hasta) {
+        Connection cn = Conexion.getConexion().getSQLConexion();
+        int total = 0;
+        try {
+            CallableStatement st = cn.prepareCall(CONTAR_TRANSFERENCIAS);
+            st.setDate(1, java.sql.Date.valueOf(desde));
+            st.setDate(2, java.sql.Date.valueOf(hasta));
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return total;

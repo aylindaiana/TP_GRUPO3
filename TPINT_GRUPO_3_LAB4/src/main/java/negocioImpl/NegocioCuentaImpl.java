@@ -158,5 +158,12 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 	    CuentaDao dao = new CuentaDaoImpl();
 	    return dao.contarCuentasPorTipo(tipoCuenta, desde, hasta);
 	}
+	
+	@Override
+	public int contarCuentas(LocalDate desde, LocalDate hasta) {
+	    CuentaDao dao = new CuentaDaoImpl();
+	    return dao.contarCuentas(desde, hasta);
+	}
+
 
 }

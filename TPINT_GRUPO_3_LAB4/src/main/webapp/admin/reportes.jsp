@@ -163,19 +163,19 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">➡️ Transferencias:</span>
-                    <span class="metric-value">1</span>
+                    <span class="metric-value"><%= (reporte != null) ? reporte.getTotalTransferencias() : 0 %></span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">⬆️ Altas de cuenta:</span>
-                    <span class="metric-value">2</span>
+                    <span class="metric-value"><%= (reporte != null) ? reporte.getTotalAltasCuenta() : 0 %></span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">💰 Pagos de préstamo:</span>
-                    <span class="metric-value">3</span>
+                    <span class="metric-value"><%= (reporte != null) ? reporte.getTotalPagosPrestamo() : 0 %></span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">📈 Altas de préstamos:</span>
-                    <span class="metric-value">4</span>
+                    <span class="metric-value"><%= (reporte != null) ? reporte.getTotalAltasPrestamo() : 0 %></span>
                 </div>
             </div>
         </div>

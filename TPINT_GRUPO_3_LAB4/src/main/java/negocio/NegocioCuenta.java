@@ -17,6 +17,7 @@ public interface NegocioCuenta {
     public boolean existeCBUExceptoId(String cbu, int idCuenta);
     public List<Cuenta> buscar(String nombreCliente, String cbu);
     public int contarCuentasPorTipo(int tipoCuenta, LocalDate desde, LocalDate hasta);
+    public int contarCuentas(LocalDate desde, LocalDate hasta);
 
 
 

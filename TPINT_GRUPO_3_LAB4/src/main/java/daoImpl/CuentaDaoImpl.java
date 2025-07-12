@@ -27,7 +27,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String CONTAR_CUENTAS_ASIGNADA_A_CLIENTE = "CALL sp_buscar_cuentas_asignadas_a_cliente(?)";
     private static final String DEBITAR_CUENTA = "UPDATE cuenta SET Saldo = Saldo - ? WHERE ID = ?";
     private static final String CONTAR_CUENTA_TIPO = "CALL SP_CONTAR_CUENTAS_POR_TIPO(?, ?, ?)";
-    
+    private static final String CONTAR_CUENTAS = "CALL SP_CONTAR_CUENTAS_CREADAS(?, ?)";
     
     @Override
     public boolean insertar(Cuenta c) {
@@ -511,6 +511,24 @@ public class CuentaDaoImpl implements CuentaDao {
 	        e.printStackTrace();
 	    }
 
+	    return total;
+	}
+	
+	@Override
+	public int contarCuentas(LocalDate desde, LocalDate hasta) {
+	    Connection cn = Conexion.getConexion().getSQLConexion();
+	    int total = 0;
+	    try {
+	        CallableStatement st = cn.prepareCall(CONTAR_CUENTAS);
+	        st.setDate(1, java.sql.Date.valueOf(desde));
+	        st.setDate(2, java.sql.Date.valueOf(hasta));
+	        ResultSet rs = st.executeQuery();
+	        if (rs.next()) {
+	            total = rs.getInt("total");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	    return total;
 	}
 

@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import entidad.Transferencia;
@@ -25,5 +26,6 @@ public interface TransferenciaDao {
     
     
    public double saldoTotalEnTransferencia();
+   public int contarTransferencias(LocalDate desde, LocalDate hasta);
 
 }

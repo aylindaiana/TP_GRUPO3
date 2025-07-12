@@ -15,10 +15,49 @@ public class Reporte {
     private double totalMovimientosEgresos;
     private int CuentasCajaAhorro;
     private int CuentasCuentaCorriente;
+    private int totalTransferencias;
+    private int totalAltasCuenta;
+    private int totalPagosPrestamo;
+    private int totalAltasPrestamo;
+
+    // getters y setters
+
 
     public Reporte() {}
 
-    public Reporte(LocalDate desde, LocalDate hasta) {
+    public int getTotalTransferencias() {
+		return totalTransferencias;
+	}
+
+	public void setTotalTransferencias(int totalTransferencias) {
+		this.totalTransferencias = totalTransferencias;
+	}
+
+	public int getTotalAltasCuenta() {
+		return totalAltasCuenta;
+	}
+
+	public void setTotalAltasCuenta(int totalAltasCuenta) {
+		this.totalAltasCuenta = totalAltasCuenta;
+	}
+
+	public int getTotalPagosPrestamo() {
+		return totalPagosPrestamo;
+	}
+
+	public void setTotalPagosPrestamo(int totalPagosPrestamo) {
+		this.totalPagosPrestamo = totalPagosPrestamo;
+	}
+
+	public int getTotalAltasPrestamo() {
+		return totalAltasPrestamo;
+	}
+
+	public void setTotalAltasPrestamo(int totalAltasPrestamo) {
+		this.totalAltasPrestamo = totalAltasPrestamo;
+	}
+
+	public Reporte(LocalDate desde, LocalDate hasta) {
         this.desde = desde;
         this.hasta = hasta;
     }
@@ -111,16 +150,14 @@ public class Reporte {
     }
 
     @Override
-    public String toString() {
-        return "Reporte del " + desde + " al " + hasta + ":\n" +
-                "- Préstamos Aprobados: " + prestamosAprobados + "\n" +
-                "- Préstamos Rechazados: " + prestamosRechazados + "\n" +
-                "- Cuotas Pagadas: " + cuotasPagadas + "\n" +
-                "- Total Recaudado: $" + totalRecaudado + "\n" +
-                "- Nuevos Clientes: " + nuevosClientes + "\n" +
-                "- Total Ingresos: $" + totalMovimientosIngresos + "\n" +
-                "- Total Egresos: $" + totalMovimientosEgresos + "\n" +
-                "- Total Cuenta Cajade Ahorro: $" + CuentasCajaAhorro+ "\n" +
-                "- Total Cuenta Cuenta Corriente: $" + CuentasCuentaCorriente;
-    }
+	public String toString() {
+		return "Reporte [desde=" + desde + ", hasta=" + hasta + ", prestamosAprobados=" + prestamosAprobados
+				+ ", prestamosRechazados=" + prestamosRechazados + ", cuotasPagadas=" + cuotasPagadas
+				+ ", totalRecaudado=" + totalRecaudado + ", nuevosClientes=" + nuevosClientes
+				+ ", totalMovimientosIngresos=" + totalMovimientosIngresos + ", totalMovimientosEgresos="
+				+ totalMovimientosEgresos + ", CuentasCajaAhorro=" + CuentasCajaAhorro + ", CuentasCuentaCorriente="
+				+ CuentasCuentaCorriente + ", totalTransferencias=" + totalTransferencias + ", totalAltasCuenta="
+				+ totalAltasCuenta + ", totalPagosPrestamo=" + totalPagosPrestamo + ", totalAltasPrestamo="
+				+ totalAltasPrestamo + "]";
+	}
 }

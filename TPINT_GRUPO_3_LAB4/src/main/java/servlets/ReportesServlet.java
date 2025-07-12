@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Reporte;
+import negocio.NegocioTransferencia;
 import negocio.NegocioCuota;
 import negocio.NegocioMovimiento;
 import negocio.NegocioPrestamo;
 import negocio.NegocioPrestamoRechazado;
 import negocio.NegocioUsuario;
 import negocio.NegocioCuenta;
+import negocioImpl.NegocioTransferenciaImpl;
 import negocioImpl.NegocioCuotaImpl;
 import negocioImpl.NegocioMovimientoImpl;
 import negocioImpl.NegocioPrestamoImpl;
@@ -49,6 +51,7 @@ public class ReportesServlet extends HttpServlet {
             LocalDate desde = LocalDate.parse(fechaInicio);
             LocalDate hasta = LocalDate.parse(fechaFin);
 
+            NegocioTransferencia transferenciaNegocio = new NegocioTransferenciaImpl();
             NegocioMovimiento movimientoNegocio = new NegocioMovimientoImpl();
             NegocioPrestamo prestamoNegocio = new NegocioPrestamoImpl();
             NegocioPrestamoRechazado rechazadoNegocio = new NegocioPrestamoRechazadoImpl();
@@ -72,6 +75,11 @@ public class ReportesServlet extends HttpServlet {
             
             reporte.setCuentasCajaAhorro(cuentaNegocio.contarCuentasPorTipo(1, desde, hasta));
             reporte.setCuentasCuentaCorriente(cuentaNegocio.contarCuentasPorTipo(2, desde, hasta));
+            
+            reporte.setTotalTransferencias(transferenciaNegocio.contarTransferencias(desde, hasta));
+            reporte.setTotalAltasCuenta(cuentaNegocio.contarCuentas(desde, hasta)); 
+            reporte.setTotalPagosPrestamo(cuotaNegocio.contarCuotasPagadas(desde, hasta));
+            reporte.setTotalAltasPrestamo(prestamoNegocio.contarPrestamosAprobados(desde, hasta));
 
  
             request.setAttribute("reporte", reporte);
