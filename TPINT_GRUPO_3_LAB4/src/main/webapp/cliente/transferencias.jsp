@@ -135,7 +135,7 @@
 
 					</table>
 					<div class="d-flex justify-content-center mt-2">
-						<a href="#" class="btn btn-primary px-4">Ver todo</a>
+						<a href="${pageContext.request.contextPath}/TransferenciasVerTodoServlet" class="btn btn-primary px-4">Ver todo</a>
 					</div>
 				</div>
 			</div>
