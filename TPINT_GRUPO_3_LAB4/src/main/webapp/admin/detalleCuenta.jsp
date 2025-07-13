@@ -75,8 +75,8 @@
             <div class="mb-3">
                 <label for="tipoCuenta" class="form-label">Tipo de cuenta</label>
                 <select class="form-select" name="tipoCuenta" id="tipoCuenta">
-                    <option value="1" <%= cuenta != null && cuenta.getIdTipoDeCuenta() == 1 ? "selected" : "" %>>Cuenta corriente</option>
-                    <option value="2" <%= cuenta != null && cuenta.getIdTipoDeCuenta() == 2 ? "selected" : "" %>>Caja de ahorro</option>
+                    <option value="1" <%= cuenta != null && cuenta.getIdTipoDeCuenta() == 1 ? "selected" : "" %>>Caja de ahorro</option>
+                    <option value="2" <%= cuenta != null && cuenta.getIdTipoDeCuenta() == 2 ? "selected" : "" %>>Cuenta corriente</option>
                 </select>
             </div>
 
@@ -139,10 +139,17 @@
 					    %>
 					        <tr>
 					            <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(m.getFecha()) %></td>
-					            <td><%= m.getIDTipodeMovimiento() %> </td>
-					            <td class="<%= m.getMonto() >= 0 ? "text-success" : "text-danger" %>">
-					                <%= m.getMonto() >= 0 ? "+" : "-" %>$<%= Math.abs(m.getMonto()) %>
-					            </td>
+					            <td><%= m.getDescripcionTipoDeMovimiento() %> </td>
+					            
+					            <% if(m.getIDCuentaOrigen() != cuenta.getId() || m.getIDTipoDeMovimiento() == 1){ %>
+						            <td class="text-success">
+						            	+ $<%= Math.abs(m.getMonto()) %>
+						            </td>
+						        <% } else { %>
+						            <td class="text-danger">
+						            	- $<%= Math.abs(m.getMonto()) %>
+						            </td>
+					            <%}%>
 					        </tr>
 					    <%
 					            }

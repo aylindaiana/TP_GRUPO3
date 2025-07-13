@@ -16,6 +16,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 
 	private final String INSERT = "CALL SP_INSERTAR_MOVIMIENTO(?, ?, ?, ?, ?, ?, ?)";
 	private final String LISTAR_MOVIMIENTOS_POR_CLIENTE = "CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(?)";
+	private final String LISTAR_MOVIMIENTOS_POR_CUENTA = "CALL SP_LISTAR_MOVIMIENTOS_POR_CUENTA(?)";
 	private final String LISTAR_MOVIMIENTOS = "CALL SP_LISTAR_MOVIMIENTOS()";
 	private final String ULTIMO_ID_GENERADO = "CALL SP_ULTIMO_ID_MOVIMIENTO_GENERADO()";
 	private final String TOTAL_POR_TIPO = "CALL SP_TOTAL_POR_TIPO(?, ?, ?)";
@@ -40,7 +41,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	        st.setDouble(4, movimiento.getMonto());
 	        st.setDate(5, movimiento.getFecha());
 	        st.setString(6, movimiento.getComentario());
-	        st.setInt(7, movimiento.getIDTipodeMovimiento());
+	        st.setInt(7, movimiento.getIDTipoDeMovimiento());
 	        if(st.executeUpdate() > 0) {
 	            cn.commit();
 	            exito = true;
@@ -57,6 +58,40 @@ public class MovimientoDaoImpl implements MovimientoDao{
 		return exito;
 	}
 	
+	@Override
+	public List<Movimiento> listarMovimientosPorCuenta(int id) {
+
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		String query = LISTAR_MOVIMIENTOS_POR_CUENTA;
+		ArrayList<Movimiento> lista = new ArrayList<>();
+
+        
+        try {
+        	PreparedStatement st;
+			st = cn.prepareStatement(query);
+	        st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            
+            while (rs.next()) {
+                Movimiento movimiento = new Movimiento();
+                movimiento.setID(rs.getInt("ID"));
+                movimiento.setIDCuentaOrigen(rs.getInt("IDCuentaOrigen"));
+                movimiento.setIDCuentaDestino(rs.getInt("IDCuentaDestino"));
+                movimiento.setMonto((double)(rs.getInt("Monto")));
+                movimiento.setFecha(rs.getDate("Fecha"));
+                movimiento.setComentario(rs.getString("Comentario"));
+                movimiento.setIDTipoDeMovimiento(rs.getInt("IDTipodeMovimiento"));
+                movimiento.setDescripcionTipoDeMovimiento(rs.getString("DescripcionTipodeMovimiento"));
+                
+                lista.add(movimiento);
+            }
+            return lista;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+	}
 
 	@Override
 	public List<Movimiento> listarMovimientosPorCliente(int id) {
@@ -80,7 +115,8 @@ public class MovimientoDaoImpl implements MovimientoDao{
                 movimiento.setMonto((double)(rs.getInt("Monto")));
                 movimiento.setFecha(rs.getDate("Fecha"));
                 movimiento.setComentario(rs.getString("Comentario"));
-                movimiento.setIDTipodeMovimiento(rs.getInt("IDTipodeMovimiento"));
+                movimiento.setIDTipoDeMovimiento(rs.getInt("IDTipodeMovimiento"));
+                movimiento.setDescripcionTipoDeMovimiento(rs.getString("DescripcionTipodeMovimiento"));
                 
                 lista.add(movimiento);
             }
@@ -111,7 +147,8 @@ public class MovimientoDaoImpl implements MovimientoDao{
                 movimiento.setMonto((double)(rs.getInt("Monto")));
                 movimiento.setFecha(rs.getDate("Fecha"));
                 movimiento.setComentario(rs.getString("Comentario"));
-                movimiento.setIDTipodeMovimiento(rs.getInt("IDTipodeMovimiento"));
+                movimiento.setIDTipoDeMovimiento(rs.getInt("IDTipodeMovimiento"));
+                movimiento.setDescripcionTipoDeMovimiento(rs.getString("DescripcionTipodeMovimiento"));
                 
                 lista.add(movimiento);
             }
@@ -162,7 +199,8 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	            movimiento.setMonto(rs.getDouble("Monto"));
 	            movimiento.setFecha(rs.getDate("Fecha"));
 	            movimiento.setComentario(rs.getString("Comentario"));
-	            movimiento.setIDTipodeMovimiento(rs.getInt("IDTipodeMovimiento"));
+                movimiento.setIDTipoDeMovimiento(rs.getInt("IDTipodeMovimiento"));
+                movimiento.setDescripcionTipoDeMovimiento(rs.getString("DescripcionTipodeMovimiento"));
 	            lista.add(movimiento);
 	        }
 	    } catch (SQLException e) {

@@ -113,7 +113,7 @@
 			    	<td><%= cuenta.getIdCliente() %></td>
 			        <td><%= cuenta.getNombreCliente() %></td>
 			        <td>..................<%= cuenta.getCbu().substring(cuenta.getCbu().length() - 3) %></td>
-			        <td><%= cuenta.getIdTipoDeCuenta() == 1 ? "Cuenta corriente" : "Cuenta de ahorro" %></td>
+			        <td><%= cuenta.getIdTipoDeCuenta() == 1 ? "Cuenta corriente" : "Caja de ahorro" %></td>
 			        <td><%= cuenta.getFechaDeCreacion() %></td>
 			        <td>$<%= String.format("%.2f", cuenta.getSaldo()) %></td>
 			        <td>

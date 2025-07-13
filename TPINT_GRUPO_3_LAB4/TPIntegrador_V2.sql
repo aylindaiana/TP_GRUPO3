@@ -656,8 +656,10 @@ CREATE PROCEDURE SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(
     IN I_IDCliente INT
 )
 BEGIN
-    SELECT M.*
+    SELECT M.ID, M.IDCuentaOrigen, M.IDCuentaDestino, M.Monto, M.Fecha, M.Comentario, M.IDTipodeMovimiento, MT.Descripcion AS DescripcionTipodeMovimiento
     FROM movimientos M
+    INNER JOIN movimientos_tipos MT
+    ON M.IDTipodeMovimiento = MT.ID
     WHERE 
         M.IDCuentaOrigen IN (SELECT ID FROM cuenta WHERE IDCliente = I_IDCliente)
         OR
@@ -668,7 +670,7 @@ END$$
 DELIMITER ;
 
 
-CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(1);
+CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(6);
 
 
 
@@ -679,7 +681,10 @@ DELIMITER $$
 CREATE PROCEDURE SP_LISTAR_MOVIMIENTOS(
 )
 BEGIN
-	SELECT ID, IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento FROM movimientos;
+    SELECT M.ID, M.IDCuentaOrigen, M.IDCuentaDestino, M.Monto, M.Fecha, M.Comentario, M.IDTipodeMovimiento, MT.Descripcion AS DescripcionTipodeMovimiento
+    FROM movimientos M
+    INNER JOIN movimientos_tipos MT
+    ON M.IDTipodeMovimiento = MT.ID;
 END$$
 DELIMITER $$
 
@@ -933,6 +938,8 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS;
 
+DELIMITER $$
+
 CREATE PROCEDURE SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS(
   IN p_Cuenta1 INT,
   IN p_Cuenta2 INT,
@@ -1184,6 +1191,96 @@ WHERE Fecha BETWEEN '2023-01-01' AND '2023-12-31';
 
 /* Al crear usuario, trigger para crear automaticamente credenciales (en nulo pero que se cree el registro relacionado con su id) */
 
-
 CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(3);
 
+/* Trigger al crear usuario */
+DELIMITER $$ 
+DROP TRIGGER IF EXISTS crear_usuario_primera_cuenta;
+
+	DELIMITER $$ 
+	CREATE TRIGGER crear_usuario_primera_cuenta
+	AFTER INSERT
+	ON usuario
+	FOR EACH ROW
+	BEGIN
+		DECLARE cbu VARCHAR(45);
+		set cbu = CONCAT(FLOOR(RAND() * 10000000000), FLOOR(RAND() * 10000000000));
+		/* creacion cuenta */
+		INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado)
+		VALUES (NEW.ID, 2, NOW(), cbu, 10000, 1);
+	END$$;
+
+DELIMITER ;
+
+/* Trigger al crear cuenta nueva */
+DELIMITER $$ 
+DROP TRIGGER IF EXISTS crear_cuenta;
+
+	DELIMITER $$ 
+	CREATE TRIGGER crear_cuenta
+	AFTER INSERT
+	ON cuenta
+	FOR EACH ROW
+	BEGIN
+		/* creacion movimiento */
+        INSERT INTO movimientos (IDCuentaOrigen, IDCuentaDestino, Monto, Fecha, Comentario, IDTipodeMovimiento)
+		VALUES (NEW.ID, NEW.ID, 10000, NOW(), "Se creo la cuenta", 1);
+	END$$;
+
+DELIMITER ;
+
+/* Trigger al eliminr (logicamente) un usuario borrar sus cuentas anexadas*/
+DELIMITER $$ 
+DROP TRIGGER IF EXISTS tr_eliminar_cuentas;
+
+DELIMITER $$ 
+CREATE TRIGGER tr_eliminar_cuentas
+AFTER UPDATE
+ON usuario
+FOR EACH ROW
+BEGIN
+IF OLD.Estado = 1 AND NEW.Estado = 0 THEN
+        UPDATE cuenta c
+        SET c.Estado = 0
+        WHERE c.IDCliente = NEW.ID;
+    END IF;
+END
+$$;
+
+DELIMITER ;
+
+/* SP tipo_movimiento_id */
+DELIMITER $$
+DROP PROCEDURE IF EXISTS tipo_movimiento_id$$
+
+CREATE PROCEDURE tipo_movimiento_id(
+	IN id_mov int
+)
+BEGIN 
+	SELECT descripcion 
+    FROM movimientos_tipos
+    WHERE ID = id_mov;
+END$$
+DELIMITER ;
+
+CALL tipo_movimiento_id(1)
+
+/* SP Listar ultimos movimientos por clientes */
+DELIMITER $$
+DROP PROCEDURE IF EXISTS SP_listar_ultimos_cliente$$
+
+CREATE PROCEDURE SP_listar_ultimos_cliente(
+	IN id_cliente int,
+    IN limite int
+)
+BEGIN 
+    SELECT M.ID, M.IDCuentaOrigen, M.IDCuentaDestino, M.Monto, M.Fecha, M.Comentario, M.IDTipodeMovimiento, MT.Descripcion AS DescripcionTipodeMovimiento
+    FROM movimientos M
+    INNER JOIN movimientos_tipos MT 
+    ON M.IDTipoDeMovimiento = MT.ID
+    WHERE M.IDCuentaOrigen IN (SELECT ID FROM cuenta WHERE IDCliente = id_cliente)
+	ORDER BY M.Fecha DESC LIMIT limite;
+END$$
+DELIMITER ;
+
+CALL SP_listar_ultimos_cliente(5, 5);

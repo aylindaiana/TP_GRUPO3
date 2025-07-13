@@ -33,7 +33,7 @@ public class DetalleCuentaServlet extends HttpServlet {
                 if (cuenta != null) {
                     request.setAttribute("cuenta", cuenta);
                     NegocioMovimientoImpl movimiento = new NegocioMovimientoImpl();
-                    List<Movimiento> movimientos = movimiento.listarMovimientosPorCliente(idCuenta);
+                    List<Movimiento> movimientos = movimiento.listarMovimientosPorCuenta(idCuenta);
                     request.setAttribute("movimientos", movimientos);
                     
                     request.setAttribute("modo", "editar");

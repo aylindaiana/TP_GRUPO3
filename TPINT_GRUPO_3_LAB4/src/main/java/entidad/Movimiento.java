@@ -10,10 +10,11 @@ public class Movimiento {
 	double Monto;
 	Date Fecha;
 	String Comentario;
-	int IDTipodeMovimiento;
+	MovimientoTipos TipoDeMovimiento;
 	
 	public Movimiento() {
 		super();
+		TipoDeMovimiento = new MovimientoTipos();
 	}
 	
 	public int getID() {
@@ -52,11 +53,17 @@ public class Movimiento {
 	public void setComentario(String comentario) {
 		Comentario = comentario;
 	}
-	public int getIDTipodeMovimiento() {
-		return IDTipodeMovimiento;
+	public int getIDTipoDeMovimiento() {
+		return TipoDeMovimiento.getId();
 	}
-	public void setIDTipodeMovimiento(int iDTipodeMovimiento) {
-		IDTipodeMovimiento = iDTipodeMovimiento;
+	public String getDescripcionTipoDeMovimiento() {
+		return TipoDeMovimiento.getDescripcion();
+	}
+	public void setDescripcionTipoDeMovimiento(String DescripcionDeMovimiento) {
+		TipoDeMovimiento.setDescripcion(DescripcionDeMovimiento);
+	}
+	public void setIDTipoDeMovimiento(int iDTipodeMovimiento) {
+		TipoDeMovimiento.setId(iDTipodeMovimiento);
 	}
 	
 	

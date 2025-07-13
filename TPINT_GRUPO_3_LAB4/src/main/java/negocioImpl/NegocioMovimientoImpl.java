@@ -18,6 +18,13 @@ public class NegocioMovimientoImpl implements NegocioMovimiento{
 	}
 
 	@Override
+	public List<Movimiento> listarMovimientosPorCuenta(int id) {
+		MovimientoDao dao = new MovimientoDaoImpl();
+		
+		return dao.listarMovimientosPorCuenta(id);
+	}
+	
+	@Override
 	public List<Movimiento> listarMovimientosPorCliente(int id) {
 		MovimientoDao dao = new MovimientoDaoImpl();
 		
