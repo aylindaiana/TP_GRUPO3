@@ -45,6 +45,7 @@
 	
 	    if ("crear".equals(modo)) {
 	        cuenta = new Cuenta(); 
+	        cuenta.setCbu((String)request.getAttribute("cbu"));
 	    }
 
         String error = (String) request.getAttribute("error");
@@ -83,7 +84,7 @@
             <div class="mb-3">
                 <label for="cbu" class="form-label">CBU</label>
                 <input type="text" class="form-control" name="cbu" id="cbu" required
-                       value="<%= cuenta != null ? cuenta.getCbu() : "" %>">
+                       value="<%= cuenta != null ? cuenta.getCbu() : " "%>">
             </div>
             <div class="mb-3">
         		<label for="fechaCreacion" class="form-label">Fecha de creación</label>

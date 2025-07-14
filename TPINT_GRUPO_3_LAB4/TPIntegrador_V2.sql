@@ -311,7 +311,7 @@ CREATE PROCEDURE iniciar_sesion(
 BEGIN 
 	SELECT IDCliente
     FROM usuario_credenciales UC
-    where UC.Usuario = p_usuario and UC.Contraseña = p_pass ;
+    where UC.Usuario = p_usuario and UC.Contraseña = p_pass and UC.Estado = 1;
 END$$
 DELIMITER ;
 
@@ -670,8 +670,31 @@ END$$
 DELIMITER ;
 
 
-CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(6);
+CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(2);
 
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_MOVIMIENTOS_POR_CUENTA;
+DELIMITER $$
+
+CREATE PROCEDURE SP_LISTAR_MOVIMIENTOS_POR_CUENTA(
+    IN I_IDCuenta INT
+)
+BEGIN
+    SELECT M.ID, M.IDCuentaOrigen, M.IDCuentaDestino, M.Monto, M.Fecha, M.Comentario, M.IDTipodeMovimiento, MT.Descripcion AS DescripcionTipodeMovimiento
+    FROM movimientos M
+    INNER JOIN movimientos_tipos MT
+    ON M.IDTipodeMovimiento = MT.ID
+    WHERE 
+        M.IDCuentaOrigen IN (SELECT ID FROM cuenta WHERE ID = I_IDCuenta)
+        OR
+        M.IDCuentaDestino IN (SELECT ID FROM cuenta WHERE ID = I_IDCuenta)
+    ORDER BY Fecha DESC
+    LIMIT 5;
+END$$
+DELIMITER ;
+
+
+CALL SP_LISTAR_MOVIMIENTOS_POR_CUENTA(8);
 
 
 
@@ -1197,19 +1220,18 @@ CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(3);
 DELIMITER $$ 
 DROP TRIGGER IF EXISTS crear_usuario_primera_cuenta;
 
-	DELIMITER $$ 
-	CREATE TRIGGER crear_usuario_primera_cuenta
-	AFTER INSERT
-	ON usuario
-	FOR EACH ROW
-	BEGIN
-		DECLARE cbu VARCHAR(45);
-		set cbu = CONCAT(FLOOR(RAND() * 10000000000), FLOOR(RAND() * 10000000000));
-		/* creacion cuenta */
-		INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado)
-		VALUES (NEW.ID, 2, NOW(), cbu, 10000, 1);
-	END$$;
-
+DELIMITER $$ 
+CREATE TRIGGER crear_usuario_primera_cuenta
+AFTER INSERT
+ON usuario
+FOR EACH ROW
+BEGIN
+	DECLARE cbu VARCHAR(45);
+	set cbu = CONCAT(FLOOR(RAND() * 10000000000), FLOOR(RAND() * 10000000000));
+	/* creacion cuenta */
+	INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado)
+	VALUES (NEW.ID, 2, NOW(), cbu, 10000, 1);
+END$$;
 DELIMITER ;
 
 /* Trigger al crear cuenta nueva */
@@ -1247,6 +1269,25 @@ IF OLD.Estado = 1 AND NEW.Estado = 0 THEN
 END
 $$;
 
+DELIMITER ;
+
+/* Trigger al eliminar logicamente un usuario, dar de baja sus credenciales */
+DELIMITER $$ 
+DROP TRIGGER IF EXISTS inactivar_credenciales;
+
+DELIMITER $$ 
+CREATE TRIGGER inactivar_credenciales
+AFTER UPDATE
+ON usuario
+FOR EACH ROW
+BEGIN
+	IF
+		OLD.Estado = 1 AND NEW.Estado = 0 THEN
+		update usuario_credenciales uc
+        set uc.Estado = 0
+        WHERE uc.IDCliente = NEW.ID;
+    END IF;
+END$$;
 DELIMITER ;
 
 /* SP tipo_movimiento_id */

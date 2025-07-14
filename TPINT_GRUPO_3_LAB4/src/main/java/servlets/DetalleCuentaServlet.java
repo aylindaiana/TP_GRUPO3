@@ -2,9 +2,12 @@ package servlets;
 
 import entidad.Cuenta;
 import entidad.Movimiento;
+import entidad.Usuario;
 import negocio.NegocioCuenta;
+import negocio.NegocioUsuario;
 import negocioImpl.NegocioCuentaImpl;
 import negocioImpl.NegocioMovimientoImpl;
+import negocioImpl.NegocioUsuarioImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +28,7 @@ public class DetalleCuentaServlet extends HttpServlet {
         if ("crear".equalsIgnoreCase(modo)) {
             request.setAttribute("modo", "crear");
             request.setAttribute("cuenta", new Cuenta());
+            
         } else if (idCuentaParam != null) {
             try {
                 int idCuenta = Integer.parseInt(idCuentaParam);
@@ -47,6 +51,11 @@ public class DetalleCuentaServlet extends HttpServlet {
             request.setAttribute("error", "No se proporcionó una cuenta.");
         }
 
+        int random1 = (int)(Math.random() * 1000000 + 1);
+        int random2 = (int)(Math.random() * 10000000 + 1);
+        int random3 = (int)(Math.random() * 1000000 + 1);
+        String randomCbu = Integer.toString(random1) + Integer.toString(random2) + Integer.toString(random3);
+        request.setAttribute("cbu", randomCbu);
         request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
     }
 
@@ -61,7 +70,19 @@ public class DetalleCuentaServlet extends HttpServlet {
 	        String cbu = request.getParameter("cbu");
 	        String fechaCreacionStr = request.getParameter("fechaCreacion");
 	        java.util.Date fechaCreacion = null;
-
+	        
+	        /* Para identificar que exista el id de cliente indicado*/
+	        NegocioUsuario negocioUsuario = new NegocioUsuarioImpl();
+	        Usuario usuario = negocioUsuario.obtenerPorId(idCliente);
+	        if(usuario == null) {
+	              request.setAttribute("error", "No se encontro el ID de Cliente indicado. Verifique que el cliente exista.");
+	              request.setAttribute("modo", modo);
+	              request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
+	              return;
+	        }
+	        
+	        /* */
+	        
 	        try {
 	            if (fechaCreacionStr != null && !fechaCreacionStr.isEmpty()) {
 	                fechaCreacion = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(fechaCreacionStr);
