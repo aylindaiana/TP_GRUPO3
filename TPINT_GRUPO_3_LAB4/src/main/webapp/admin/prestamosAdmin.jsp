@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="entidad.Prestamo"%>
 <%@page import="entidad.Cuenta"%>
 <%@page import="entidad.Usuario"%>
@@ -54,16 +55,15 @@
 	
 	<%
 	
-		List<Usuario> clientes = (List<Usuario>)request.getAttribute("listaClientes");
-		List<Cuenta> cuentas = (List<Cuenta>)request.getAttribute("listaCuentas");
-		List<Prestamo> prestamosPorCliente = (List<Prestamo>)request.getAttribute("listaPrestamos");
+		List<Usuario> clientes = ((List<Usuario>)request.getAttribute("listaClientes")).isEmpty() ? new ArrayList<Usuario>() : (List<Usuario>)request.getAttribute("listaClientes");
+		List<Cuenta> cuentas = ((List<Cuenta>)request.getAttribute("listaCuentas")).isEmpty() ? new ArrayList<Cuenta>() : (List<Cuenta>)request.getAttribute("listaCuentas");
+		List<Prestamo> prestamosPorCliente = ((List<Prestamo>)request.getAttribute("listaPrestamos")).isEmpty() ? new ArrayList<Prestamo>() : (List<Prestamo>)request.getAttribute("listaPrestamos");
 		double montoSolicitadoTotal = (double)request.getAttribute("montoSolicitadoTotal");
 		double montoTotalAPagar = (double)request.getAttribute("montoTotalAPagar");
 		int IDClienteSeleccionado = (int)request.getAttribute("idClienteSeleccionado");
-		int IDCuentaSeleccionada = (int)request.getAttribute("idCuentaSeleccionado");
+		int IDCuentaSeleccionada = (int)request.getAttribute("idCuentaSeleccionada");
 		
 	%>
-	
 
 	<div class="container text-center"
 		id="general-container">
@@ -74,6 +74,21 @@
 				<div class="col">
 					<div class="row">
 						<b>CLIENTES</b>
+						
+						
+						<%
+						if(clientes.isEmpty() || clientes == null)
+						{
+						%>
+						
+						<div style="color: red">Actualmente no se cuenta con Clientes activos</div>
+						
+						<%
+						}
+						else
+						{
+						%>
+						
 						<select class="form-select" name="clienteSeleccionado">
 							<%
 								for(Usuario aux : clientes)
@@ -97,9 +112,27 @@
 							%>
 						
 						</select>
+						<%
+						}
+						%>
 					</div>
 					<div class="row">
 						<b>CUENTA DESTINO</b>
+						<%
+						if(cuentas.isEmpty() || cuentas == null){
+							
+						
+						%>
+						
+						<div style="color: red">Este cliente actualmente, no tiene cuentas activas</div>
+						
+						<%
+						}
+						else
+						{	
+						%>
+						
+						
 						<select class="form-select" name="cuentaSeleccionada">
 							<%
 								for(Cuenta aux : cuentas)
@@ -123,6 +156,10 @@
 							%>
 						
 						</select>
+						
+						<%
+						}
+						%>
 					</div>	
 				</div>
 				<div class="row">Monto solicitado total</div>

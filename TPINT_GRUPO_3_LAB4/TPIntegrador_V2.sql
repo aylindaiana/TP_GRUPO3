@@ -457,18 +457,20 @@ DELIMITER ;
 
 /*SP recargar cuenta con prestamo*/
 
+DROP PROCEDURE IF EXISTS sp_recargar_cuenta 
+
 DELIMITER $$
 CREATE PROCEDURE sp_recargar_cuenta(
-	IN recarga DOUBLE,
-    IN id INT
+	IN I_RECARGA DOUBLE,
+    IN I_ID_CUENTA INT
 )
 BEGIN
+
 	UPDATE cuenta
-	SET Saldo = Saldo + recarga
-	WHERE ID = id;
+	SET Saldo = Saldo + I_RECARGA
+	WHERE ID = I_ID_CUENTA;
 END$$
 DELIMITER $$
-
 
 /* SP listar prestamos por id prestamo */
 

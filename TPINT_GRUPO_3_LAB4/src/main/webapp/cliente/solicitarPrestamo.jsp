@@ -100,7 +100,7 @@
 						</div>
 						<div class="col">
 							<div class="row">
-								<a href="prestamos.jsp" class="btn btn-danger">Cancelar</a>
+								<a href="${pageContext.request.contextPath}/PrestamosClienteServlet" class="btn btn-danger">Cancelar</a>
 							</div>
 						</div>
 					</div>
