@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" 
     href="${pageContext.request.contextPath}/resources/css/nav.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">

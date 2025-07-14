@@ -213,13 +213,7 @@ td {
     color: #1e293b;
 }
 
-footer {
-    text-align: center;
-    padding: 15px;
-    font-size: 0.9em;
-    color: #fff;
-    background-color: #1f2e6b;
-}
+
 /* Custom center span */
 .span-center {
     width: 15%;

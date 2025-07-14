@@ -21,6 +21,7 @@
 	href="${pageContext.request.contextPath}/resources/css/prestamos.css">
 	<link rel="stylesheet" 
     href="${pageContext.request.contextPath}/resources/css/nav.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -102,7 +103,9 @@
 			</form>
 		</div>
 	</div>
-
+	<footer>
+	        <p>© 2025 Grupo 3 - Laboratorio 4</p>
+	</footer>
 </body>
 </html>
 

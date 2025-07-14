@@ -17,6 +17,7 @@ Usuario usuario = (Usuario) request.getAttribute("usuarioDetalle");
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/verUsuario.css">
 <link rel="stylesheet" 
     href="${pageContext.request.contextPath}/resources/css/nav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
 </head>
 <body>
 

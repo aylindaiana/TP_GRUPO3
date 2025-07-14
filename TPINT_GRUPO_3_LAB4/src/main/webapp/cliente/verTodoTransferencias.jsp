@@ -14,6 +14,7 @@
     rel="stylesheet">
 <link rel="stylesheet"
     href="${pageContext.request.contextPath}/resources/css/nav.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
 </head>
 <body>
 
@@ -170,6 +171,8 @@ String cuentaParam = (request.getParameter("cuenta") != null && !"null".equals(r
             class="btn btn-primary <%=(haySiguiente) ? "" : "disabled"%>">Siguiente</a>
     </div>
 </div>
-
+	<footer>
+	        <p>© 2025 Grupo 3 - Laboratorio 4</p>
+	</footer>
 </body>
 </html>

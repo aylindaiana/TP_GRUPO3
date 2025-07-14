@@ -16,6 +16,7 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/nav.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">

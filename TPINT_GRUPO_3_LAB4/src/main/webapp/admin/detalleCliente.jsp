@@ -20,6 +20,7 @@
 	href="${pageContext.request.contextPath}/resources/css/detalleCliente.css">
 	<link rel="stylesheet" 
     href="${pageContext.request.contextPath}/resources/css/nav.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
 </head>
 <body>
 	<%

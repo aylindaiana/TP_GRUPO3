@@ -22,6 +22,7 @@ List<Cuenta> cuentas = (List<Cuenta>) request.getAttribute("cuentasUsuario");
 	rel="stylesheet">
 	<link rel="stylesheet" 
     href="${pageContext.request.contextPath}/resources/css/nav.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
 </head>
 </head>
 <body>

@@ -28,6 +28,7 @@ public class InactivarCuentaServlet extends HttpServlet {
             } else {
                 response.sendRedirect("CuentaAdminServlet?status=errorEliminacion");
             }
+            
 
         } catch (Exception e) {
             e.printStackTrace();

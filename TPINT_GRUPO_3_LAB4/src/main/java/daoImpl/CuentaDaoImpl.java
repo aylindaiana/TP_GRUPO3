@@ -291,6 +291,10 @@ public class CuentaDaoImpl implements CuentaDao {
 			stmt = conexion.prepareStatement(BAJA_LOGICA);
 			stmt.setInt(1, id);
 			
+		    if (PrestamosActivos(id)) {
+		        System.out.println("La cuenta tiene préstamos activos. No se puede dar de baja.");
+		        return false;
+		    }
 			if (stmt.executeUpdate() > 0) {
 				conexion.commit();
 				resultado = true;
@@ -302,6 +306,28 @@ public class CuentaDaoImpl implements CuentaDao {
 		
 		return resultado;
 	}
+	
+	private boolean PrestamosActivos(int id) {
+	    String query = "SELECT COUNT(*) FROM prestamos p " +
+	                   "LEFT JOIN prestamo_rechazado pr ON p.ID = pr.IDPrestamo " +
+	                   "WHERE p.IDCuenta = ? AND pr.IDPrestamo IS NULL";
+	    
+	    PreparedStatement stmt = null;
+	    Connection conexion = Conexion.getConexion().getSQLConexion(); 
+	    try{
+	    	stmt = conexion.prepareStatement(query);
+	        stmt.setInt(1, id);
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            return rs.getInt(1) > 0;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+
 	
 	@Override
 	public boolean activar(int id)
