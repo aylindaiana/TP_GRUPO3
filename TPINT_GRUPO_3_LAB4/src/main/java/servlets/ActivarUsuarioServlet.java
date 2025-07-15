@@ -24,10 +24,11 @@ public class ActivarUsuarioServlet extends HttpServlet {
             boolean activar = negocioUsuario.activarUsuario(id);
 
             if (activar) {
-                response.sendRedirect("ListarUsuariosServlet?status=activo");
+            	response.sendRedirect("DetalleUsuarioServlet?id=" + id + "&status=activado");
             } else {
-                response.sendRedirect("ListarUsuariosServlet?status=errorActivacion");
+            	response.sendRedirect("DetalleUsuarioServlet?id=" + id + "&status=errorActivacion");
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();

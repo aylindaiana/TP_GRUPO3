@@ -30,10 +30,12 @@ public class EliminarUsuarioServlet extends HttpServlet {
             
             if (eliminado) {
                 cNegocio.bajaCuentasUsuario(id);
-                response.sendRedirect("ListarUsuariosServlet?status=eliminado");
+                response.sendRedirect("DetalleUsuarioServlet?id=" + id + "&status=inactivado");
+
             } else {
-                response.sendRedirect("ListarUsuariosServlet?status=errorEliminacion");
+            	response.sendRedirect("DetalleUsuarioServlet?id=" + id + "&status=errorInactivacion");
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();

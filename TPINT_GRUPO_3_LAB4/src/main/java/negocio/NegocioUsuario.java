@@ -3,6 +3,7 @@ package negocio;
 import java.time.LocalDate;
 import java.util.List;
 import entidad.Usuario;
+import entidad.UsuarioCredenciales;
 
 public interface NegocioUsuario {
     public boolean agregarUsuario(Usuario u);
@@ -20,6 +21,8 @@ public interface NegocioUsuario {
 	public List<Usuario> buscarUsuarios(String criterio);
 	public int contarUsuariosFiltrados(String criterio);
 	public boolean existeCuil(long cuil);
+	
+	UsuarioCredenciales obtenerCredencialesPorClienteId(int idCliente);
 
     /* Prueba para reporte */
     public int contarNuevosClientes(LocalDate desde, LocalDate hasta);

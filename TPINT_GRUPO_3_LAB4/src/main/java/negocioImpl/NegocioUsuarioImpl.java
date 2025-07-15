@@ -14,6 +14,8 @@ import negocio.NegocioUsuario;
 public class NegocioUsuarioImpl implements NegocioUsuario {
 
     private UsuarioDao usuarioDao = new UsuarioDaoImpl();
+    
+    private UsuarioCredencialesDao credencialesDao = new UsuarioCredencialesImpl();
 
     @Override
     public boolean agregarUsuario(Usuario u) {
@@ -107,6 +109,10 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
 	@Override
 	public boolean existeCuil(long cuil) {
 	    return usuarioDao.existeCuil(cuil);
+	}
+
+	public UsuarioCredenciales obtenerCredencialesPorClienteId(int idCliente) {
+	    return credencialesDao.obtenerPorClienteId(idCliente);
 	}
 
 }

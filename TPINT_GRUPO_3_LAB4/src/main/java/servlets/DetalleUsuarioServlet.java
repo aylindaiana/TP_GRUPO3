@@ -2,6 +2,7 @@ package servlets;
 
 import entidad.Cuenta;
 import entidad.Usuario;
+import entidad.UsuarioCredenciales;
 import negocio.NegocioUsuario;
 import negocio.NegocioCuenta;
 import negocioImpl.NegocioCuentaImpl;
@@ -27,33 +28,37 @@ public class DetalleUsuarioServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String idParam = request.getParameter("id");
+	        throws ServletException, IOException {
+	    String idParam = request.getParameter("id");
 
-		
+	    if (idParam != null) {
+	        try {
+	            int id = Integer.parseInt(idParam);
+	            Usuario usuario = negocioUsuario.obtenerPorId(id);
 
-		if (idParam != null) {
-			try {
-				int id = Integer.parseInt(idParam);
-				Usuario usuario = negocioUsuario.obtenerPorId(id); 
+	            if (usuario != null) {
+	                // Obtener cuentas
+	                CuentaDao dao = new CuentaDaoImpl();
+	                List<Cuenta> cuentas = dao.listarCuentas(id);
 
-				if (usuario != null) {
-					CuentaDao dao = new CuentaDaoImpl();
+	                // Obtener credenciales (usuario y tipo)
+	                UsuarioCredenciales credenciales = negocioUsuario.obtenerCredencialesPorClienteId(id);
 
-					List<Cuenta> cuentas = dao.listarCuentas(Integer.parseInt(idParam));
+	                request.setAttribute("cuentasUsuario", cuentas);
+	                request.setAttribute("usuarioDetalle", usuario);
+	                request.setAttribute("credencialesUsuario", credenciales);
 
-					request.setAttribute("cuentasUsuario", cuentas);
-					request.setAttribute("usuarioDetalle", usuario);
-					request.getRequestDispatcher("/admin/detalleCliente.jsp").forward(request, response);
-					return;
-				}
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-		}
+	                request.getRequestDispatcher("/admin/detalleCliente.jsp").forward(request, response);
+	                return;
+	            }
+	        } catch (NumberFormatException e) {
+	            e.printStackTrace();
+	        }
+	    }
 
-		response.sendRedirect("admin/clientes.jsp?status=errorDetalle");
+	    response.sendRedirect("admin/clientes.jsp?status=errorDetalle");
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

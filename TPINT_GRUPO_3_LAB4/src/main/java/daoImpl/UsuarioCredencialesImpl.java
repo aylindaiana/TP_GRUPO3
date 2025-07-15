@@ -124,5 +124,35 @@ public class UsuarioCredencialesImpl implements UsuarioCredencialesDao {
         }
         return idCliente;
     }
+    
+    @Override
+    public UsuarioCredenciales obtenerPorClienteId(int idCliente) {
+        UsuarioCredenciales cred = null;
+        String sql = "SELECT uc.*, ut.Descripcion AS TipoDescripcion " +
+                     "FROM usuario_credenciales uc " +
+                     "LEFT JOIN usuario_tipos ut ON uc.IDTipo = ut.ID " +
+                     "WHERE uc.IDCliente = ?";
+
+        Connection cn = Conexion.getConexion().getSQLConexion();
+
+        try (PreparedStatement stmt = cn.prepareStatement(sql)) {
+            stmt.setInt(1, idCliente);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    cred = new UsuarioCredenciales();
+                    cred.setId(rs.getInt("ID"));
+                    cred.setIDCliente(rs.getInt("IDCliente"));
+                    cred.setIDTipo(rs.getInt("IDTipo"));
+                    cred.setUsuario(rs.getString("Usuario"));
+                    cred.setPassword(rs.getString("Contraseña"));
+                    cred.setEstado(rs.getInt("Estado"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cred;
+    }
+
 
 }
