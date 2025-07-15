@@ -71,7 +71,6 @@ public class DetalleCuentaServlet extends HttpServlet {
 	        String fechaCreacionStr = request.getParameter("fechaCreacion");
 	        java.util.Date fechaCreacion = null;
 	        
-	        /* Para identificar que exista el id de cliente indicado*/
 	        NegocioUsuario negocioUsuario = new NegocioUsuarioImpl();
 	        Usuario usuario = negocioUsuario.obtenerPorId(idCliente);
 	        if(usuario == null) {

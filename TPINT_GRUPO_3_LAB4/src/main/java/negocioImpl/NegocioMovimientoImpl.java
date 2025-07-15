@@ -57,4 +57,11 @@ public class NegocioMovimientoImpl implements NegocioMovimiento{
     	MovimientoDao dao = new MovimientoDaoImpl();
         return dao.obtenerTotalxTipo(tipoMovimiento, desde, hasta);
     }
+    
+    @Override
+    public List<Movimiento> listarMovimientosConFiltros(int idCuenta, String tipo, double minMonto, double maxMonto, java.util.Date desde, java.util.Date hasta, String textoBusqueda, int offset, int limit) {
+        MovimientoDao dao = new MovimientoDaoImpl();
+        return dao.listarPorCuentaConFiltros(idCuenta, tipo, minMonto, maxMonto, desde, hasta, textoBusqueda, offset, limit);
+    }
+
 }

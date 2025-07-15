@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -232,6 +233,38 @@ public class MovimientoDaoImpl implements MovimientoDao{
 
 	    return total;
 	}
+	
+	@Override
+	public List<Movimiento> listarPorCuentaConFiltros(int idCuenta, String tipo, double minMonto, double maxMonto, java.util.Date desde, java.util.Date hasta, String textoBusqueda, int offset, int limit) {
+	    List<Movimiento> lista = new ArrayList<>();
+	    Connection cn = Conexion.getConexion().getSQLConexion();
+	    try {
+	        CallableStatement cs = cn.prepareCall("CALL SP_LISTAR_MOVIMIENTOS_POR_CUENTA_Y_FILTROS(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	        cs.setInt(1, idCuenta);
+	        cs.setString(2, "%" + (textoBusqueda != null ? textoBusqueda : "") + "%");
+	        cs.setString(3, tipo != null ? tipo : "");
+	        cs.setDouble(4, minMonto);
+	        cs.setDouble(5, maxMonto);
+	        cs.setDate(6, new java.sql.Date(desde.getTime()));
+	        cs.setDate(7, new java.sql.Date(hasta.getTime()));
+	        cs.setInt(8, offset);
+	        cs.setInt(9, limit);
+
+	        ResultSet rs = cs.executeQuery();
+	        while (rs.next()) {
+	            Movimiento mov = new Movimiento();
+	            mov.setFecha(rs.getDate("Fecha"));
+	            mov.setComentario(rs.getString("Detalle"));
+	            mov.setMonto(rs.getDouble("Monto"));
+	            mov.setDescripcionTipoDeMovimiento(rs.getString("TipoMovimiento"));
+	            lista.add(mov);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
 
 	
 }

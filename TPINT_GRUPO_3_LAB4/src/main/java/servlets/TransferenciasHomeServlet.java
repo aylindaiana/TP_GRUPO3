@@ -28,17 +28,14 @@ public class TransferenciasHomeServlet extends HttpServlet {
 
         int idCliente = (int) request.getSession().getAttribute("idCliente");
 
-        // Traer cuentas propias del cliente
         CuentaDao cuentaDao = new CuentaDaoImpl();
         List<Cuenta> cuentasPropias = cuentaDao.listarCuentas(idCliente);
         request.setAttribute("cuentasPropias", cuentasPropias);
 
-        // Preparar IDs para SP
         int cuenta1 = cuentasPropias.size() >= 1 ? cuentasPropias.get(0).getId() : 0;
         int cuenta2 = cuentasPropias.size() >= 2 ? cuentasPropias.get(1).getId() : cuenta1;
         int cuenta3 = cuentasPropias.size() >= 3 ? cuentasPropias.get(2).getId() : cuenta2;
 
-        // Traer últimas transferencias (limite 5)
         NegocioTransferencia negocioTransf = new NegocioTransferenciaImpl();
         
         Timestamp fechaDesde = Timestamp.valueOf("2000-01-01 00:00:00");
@@ -58,7 +55,6 @@ public class TransferenciasHomeServlet extends HttpServlet {
 
         request.setAttribute("ultimasTransferencias", ultimasTransferencias);
 
-        // Redirigir al JSP principal
         request.getRequestDispatcher("/cliente/transferencias.jsp").forward(request, response);
     }
 

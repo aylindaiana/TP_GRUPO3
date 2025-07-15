@@ -1036,6 +1036,43 @@ END $$
 
 DELIMITER ;
 
+DELIMITER $$
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_MOVIMIENTOS_POR_CUENTA_Y_FILTROS $$
+
+CREATE PROCEDURE SP_LISTAR_MOVIMIENTOS_POR_CUENTA_Y_FILTROS(
+    IN p_idCuenta INT,
+    IN p_busqueda VARCHAR(255),
+    IN p_tipo VARCHAR(50),
+    IN p_minMonto DOUBLE,
+    IN p_maxMonto DOUBLE,
+    IN p_fechaDesde DATE,
+    IN p_fechaHasta DATE
+)
+BEGIN
+    SELECT 
+        m.Fecha,
+        m.Comentario AS Detalle,
+        m.Monto,
+        mt.Descripcion AS TipoMovimiento
+    FROM movimientos m
+    INNER JOIN movimientos_tipos mt ON m.IDTipodeMovimiento = mt.ID
+    WHERE (m.IDCuentaOrigen = p_idCuenta OR m.IDCuentaDestino = p_idCuenta)
+      AND m.Comentario LIKE p_busqueda
+      AND (p_tipo = '' OR mt.Descripcion = p_tipo)
+      AND m.Monto BETWEEN p_minMonto AND p_maxMonto
+      AND m.Fecha BETWEEN p_fechaDesde AND p_fechaHasta
+    ORDER BY m.Fecha DESC;
+END$$
+
+DELIMITER ;
+
+
+
+CALL SP_LISTAR_MOVIMIENTOS_POR_CUENTA_Y_FILTROS(3, '%%', '', 0, 9999999, '2000-01-01', CURDATE());
+
 
 
 
