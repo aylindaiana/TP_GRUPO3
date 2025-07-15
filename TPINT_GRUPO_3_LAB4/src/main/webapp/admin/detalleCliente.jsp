@@ -187,13 +187,25 @@
 			<div class="card mb-3 shadow-sm p-3">
 				<div class="row g-3">
 					<div class="col-md-2">
-						<label class="form-label">Número</label>
+						<label class="form-label">Nro de cuenta</label>
 						<input type="text" class="form-control" value="<%=aux.getId()%>" readonly name="numeroCuenta">
 					</div>
+					<%
+					    String tipoDescripcion = "";
+					    if (aux.getIdTipoDeCuenta() == 1) {
+					        tipoDescripcion = "Caja de Ahorro";
+					    } else if (aux.getIdTipoDeCuenta() == 2) {
+					        tipoDescripcion = "Cuenta Corriente";
+					    } else {
+					        tipoDescripcion = "Desconocido";
+					    }
+					%>
+					
 					<div class="col-md-2">
-						<label class="form-label">Tipo</label>
-						<input type="text" class="form-control" value="<%=aux.getIdTipoDeCuenta()%>" readonly>
+					    <label class="form-label">Tipo de cuenta</label>
+					    <input type="text" class="form-control" value="<%= tipoDescripcion %>" readonly>
 					</div>
+
 					<div class="col-md-2">
 						<label class="form-label">Fecha</label>
 						<input type="date" class="form-control" value="<%=aux.getFechaDeCreacion()%>" readonly>

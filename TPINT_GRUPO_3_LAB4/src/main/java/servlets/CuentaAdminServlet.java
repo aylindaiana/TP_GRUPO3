@@ -22,28 +22,49 @@ public class CuentaAdminServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         NegocioCuenta negocioCuenta = new NegocioCuentaImpl();
-        
+
         String filtroCliente = request.getParameter("filtroCliente");
         String filtroCBU = request.getParameter("filtroCBU");
 
-        List<Cuenta> cuentas = negocioCuenta.listar();
-        
         boolean hayFiltroCliente = filtroCliente != null && !filtroCliente.trim().isEmpty();
         boolean hayFiltroCBU = filtroCBU != null && !filtroCBU.trim().isEmpty();
-        
+
+        List<Cuenta> cuentas;
         if (hayFiltroCliente || hayFiltroCBU) {
             cuentas = negocioCuenta.buscar(filtroCliente, filtroCBU);
             request.setAttribute("busquedaAnterior", filtroCliente);
             request.setAttribute("cbuAnterior", filtroCBU);
         } else {
-            cuentas = negocioCuenta.listar(); 
+            cuentas = negocioCuenta.listar();
         }
 
-        request.setAttribute("listaCuentas", cuentas);
+        // PAGINACIÓN
+        int cuentasPorPagina = 10;
+        int paginaActual = 1;
+
+        if (request.getParameter("page") != null) {
+            try {
+                paginaActual = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                paginaActual = 1;
+            }
+        }
+
+        int totalCuentas = cuentas.size();
+        int totalPaginas = (int) Math.ceil((double) totalCuentas / cuentasPorPagina);
+
+        int inicio = (paginaActual - 1) * cuentasPorPagina;
+        int fin = Math.min(inicio + cuentasPorPagina, totalCuentas);
+        List<Cuenta> cuentasPaginadas = cuentas.subList(inicio, fin);
+
+        // Envío a JSP
+        request.setAttribute("listaCuentas", cuentasPaginadas);
+        request.setAttribute("paginaActual", paginaActual);
+        request.setAttribute("totalPaginas", totalPaginas);
+        request.setAttribute("filtroCliente", filtroCliente);
+        request.setAttribute("filtroCBU", filtroCBU);
+
         request.getRequestDispatcher("/admin/cuentasAdmin.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
-    }
 }

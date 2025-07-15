@@ -141,6 +141,30 @@
 			</tbody>
 
         </table>
+        <%
+    int paginaActual = (request.getAttribute("paginaActual") != null) ? (Integer)request.getAttribute("paginaActual") : 1;
+    int totalPaginas = (request.getAttribute("totalPaginas") != null) ? (Integer)request.getAttribute("totalPaginas") : 1;
+
+    String filtroClienteVal = request.getAttribute("filtroCliente") != null ? request.getAttribute("filtroCliente").toString() : "";
+    String filtroCBUVal = request.getAttribute("filtroCBU") != null ? request.getAttribute("filtroCBU").toString() : "";
+%>
+
+<nav aria-label="Paginación de cuentas">
+  <ul class="pagination justify-content-center mt-4">
+    <li class="page-item <%= (paginaActual == 1) ? "disabled" : "" %>">
+      <a class="page-link" href="CuentaAdminServlet?page=<%= paginaActual - 1 %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>">Anterior</a>
+    </li>
+    <% for (int i = 1; i <= totalPaginas; i++) { %>
+      <li class="page-item <%= (i == paginaActual) ? "active" : "" %>">
+        <a class="page-link" href="CuentaAdminServlet?page=<%= i %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>"><%= i %></a>
+      </li>
+    <% } %>
+    <li class="page-item <%= (paginaActual == totalPaginas) ? "disabled" : "" %>">
+      <a class="page-link" href="CuentaAdminServlet?page=<%= paginaActual + 1 %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>">Siguiente</a>
+    </li>
+  </ul>
+</nav>
+        
     	</div>
 	</div>
 </div>
