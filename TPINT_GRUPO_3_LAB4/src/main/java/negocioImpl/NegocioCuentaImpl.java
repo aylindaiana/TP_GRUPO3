@@ -165,5 +165,10 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 	    return dao.contarCuentas(desde, hasta);
 	}
 
+	@Override
+	public List<Cuenta> listarCuentasActivasPorCliente(int id) {
+		return cuentaDao.listarCuentasActivasPorCliente(id);
+	}
+
 
 }

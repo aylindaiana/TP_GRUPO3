@@ -29,7 +29,7 @@ import negocioImpl.NegocioPrestamoImpl;
 public class PrestamosClienteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     NegocioPrestamo pNegocio = new NegocioPrestamoImpl();
-	CuentaDao daoCuentas = new CuentaDaoImpl(); 
+	NegocioCuenta cuentaNegocio = new NegocioCuentaImpl(); 
     
     public PrestamosClienteServlet() {
         super();
@@ -40,7 +40,7 @@ public class PrestamosClienteServlet extends HttpServlet {
 
 		String id = precargarIDCliente(request.getSession());
         
-	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
+	    List<Cuenta> cuentas = cuentaNegocio.listarCuentasActivasPorCliente(Integer.parseInt(id));
 	    List<Prestamo> prestamos = pNegocio.obtenerPorIdCliente(Integer.parseInt(id));
 	    
 	    request.setAttribute("listaCuentas", cuentas);
@@ -63,7 +63,7 @@ public class PrestamosClienteServlet extends HttpServlet {
 	    		
 	            NegocioPrestamo cNegocio = new NegocioPrestamoImpl();
 	            
-	    	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
+	    	    List<Cuenta> cuentas = cuentaNegocio.listarCuentasActivasPorCliente(Integer.parseInt(id));
 	    	    List<Prestamo> prestamos = cNegocio.obtenerPorIdCliente(Integer.parseInt(id));
 	    	    
 	    	    request.setAttribute("listaCuentas", cuentas);
@@ -97,14 +97,12 @@ public class PrestamosClienteServlet extends HttpServlet {
             request.setAttribute("incompleto", bandera);
 			
 
-    		CuentaDao daoCuentas = new CuentaDaoImpl(); 
-
     		HttpSession session = request.getSession();
             int idCliente = (int) session.getAttribute("id");
             String id = String.valueOf(idCliente);
             NegocioPrestamo cNegocio = new NegocioPrestamoImpl();
             
-    	    List<Cuenta> cuentas = daoCuentas.listarCuentas(Integer.parseInt(id));
+    	    List<Cuenta> cuentas = cuentaNegocio.listarCuentasActivasPorCliente(Integer.parseInt(id));
     	    List<Prestamo> prestamos = cNegocio.obtenerPorIdCliente(idCliente);
     	    
     	    request.setAttribute("listaCuentas", cuentas);

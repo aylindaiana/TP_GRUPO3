@@ -360,13 +360,14 @@ DROP PROCEDURE IF EXISTS SP_LISTAR_CLIENTES;
 DELIMITER $$
 CREATE PROCEDURE SP_LISTAR_CLIENTES()
 BEGIN
-    SELECT 
-		ID, Nombre, Apellido, Dni, Cuil, 
-        Sexo, Nacionalidad, FechaDeNacimiento, 
-        Direccion, ID_Localidad, ID_Provincia, 
-        CorreoElectronico, Telefono, IDUsuario,Estado
-    FROM usuario
-    WHERE ID = 2;
+	SELECT 
+		U.ID, U.Nombre, U.Apellido, U.Dni, U.Cuil, 
+        U.Sexo, U.Nacionalidad, U.FechaDeNacimiento, 
+        U.Direccion, U.ID_Localidad, U.ID_Provincia, 
+        U.CorreoElectronico, U.Telefono, U.IDUsuario, U.Estado
+    FROM usuario as U
+    INNER JOIN usuario_credenciales AS UC ON U.ID = UC.IDCliente 
+    WHERE IDTipo = 2;
 END$$
 DELIMITER ;
 
@@ -492,15 +493,19 @@ CALL SP_BUSCAR_PRESTAMO_POR_ID(1);
 
 /* SP listar prestamos por cliente */
 
+DROP PROCEDURE IF EXISTS sp_listar_prestamos_por_cliente;
+
 DELIMITER $$
 CREATE PROCEDURE sp_listar_prestamos_por_cliente(
-	IN idCliente VARCHAR(45)
+	IN I_IDCLIENTE VARCHAR(45)
 )
 BEGIN
 	SELECT ID, IDCliente, IDCuenta, FechaDeAlta, Importe, PlazoPago, ImporteMensual, CantidadCuotas, Autorizacion
-	FROM prestamos WHERE IDCliente = idCliente;
+	FROM prestamos WHERE IDCliente = I_IDCLIENTE;
 END$$
 DELIMITER ;
+
+CALL sp_listar_prestamos_por_cliente(2);
 
 /* SP listar prestamos general*/
 
@@ -858,6 +863,24 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+/*CALL SP_LISTAR_CUENTAS();*/
+
+DROP PROCEDURE IF EXISTS SP_LISTAR_CUENTAS_ACTIVAS_POR_CLIENTE;
+
+DELIMITER $$
+CREATE PROCEDURE SP_LISTAR_CUENTAS_ACTIVAS_POR_CLIENTE(
+	IN I_IDCLIENTE VARCHAR(45)
+)
+BEGIN
+	SELECT ID, IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado
+    FROM CUENTA
+	WHERE IDCliente = I_IDCLIENTE AND ESTADO = 1;
+END$$
+DELIMITER ;
+
+CALL SP_LISTAR_CUENTAS_ACTIVAS_POR_CLIENTE(2);
+
 /*CALL SP_OBTENER_CUENTA_POR_ID(1);*/
 
 /*DROP PROCEDURE IF EXISTS SP_BUSCAR_FILTRO;*/

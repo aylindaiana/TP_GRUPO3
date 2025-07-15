@@ -44,16 +44,23 @@ public class PrestamosAdminServlet extends HttpServlet {
 	private List<Cuenta> cuentas;
 	private List<Prestamo> prestamosPorCliente;
 	private List<Prestamo> prestamosPorCuenta;
-	private int IDClienteSeleccionado;
-	private int IDCuentaSeleccionada;
+	private int IDClienteSeleccionado = 2;
+	private int IDCuentaSeleccionada = 1;
 	
     public PrestamosAdminServlet() {
         super();
+    	clientes = new ArrayList<Usuario>();
+    	cuentas = new ArrayList<Cuenta>();
+    	prestamosPorCliente = new ArrayList<Prestamo>();
+    	prestamosPorCuenta = new ArrayList<Prestamo>();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		this.clientes = usuarioNegocio.listarClientes();
+		
+		this.montoSolicitadoTotal = 0;
+		this.montoTotalAPagar = 0;
 		
 		precargarDatos(clientes);
 		
@@ -135,24 +142,25 @@ public class PrestamosAdminServlet extends HttpServlet {
 		if ((clientes == null) || clientes.isEmpty()) 
 		{
 		    clientes = new ArrayList<>();
-
+ 
 		    manejoNulos();
 		}
 		else
 		{
-			this.cuentas = cuentaNegocio.listarCuentas(clientes.get(0).getId()).isEmpty() || cuentaNegocio.listarCuentas(clientes.get(0).getId()) == null ? 
-					new ArrayList<Cuenta>() : 
-					cuentaNegocio.listarCuentas(clientes.get(0).getId());
+			int idCliente = clientes.get(0).getId();
 			
-			if(cuentaNegocio.cuentasActivasPorCliente(IDClienteSeleccionado) > 0)
+			List<Cuenta> cAux = cuentaNegocio.listarCuentasActivasPorCliente(idCliente);
+			this.cuentas = cAux == null || cAux.isEmpty() ? new ArrayList<Cuenta>() : cAux;
+			
+			if(cuentaNegocio.cuentasActivasPorCliente(idCliente) > 0)
 			{
+
+				List<Prestamo> pAux = prestamoNegocio.obtenerPorIdCliente(idCliente);
+				this.prestamosPorCliente = pAux == null || pAux.isEmpty() ? new ArrayList<Prestamo>() : pAux;
 				
-				this.prestamosPorCliente = prestamoNegocio.obtenerPorIdCliente(clientes.get(0).getId()).isEmpty() || prestamoNegocio.obtenerPorIdCliente(clientes.get(0).getId()) == null ? 
-						new ArrayList<Prestamo>() : 
-						prestamoNegocio.obtenerPorIdCliente(clientes.get(0).getId());
-				this.prestamosPorCuenta = prestamoNegocio.obtenerPorIdCuenta(cuentas.get(0).getId()).isEmpty() || prestamoNegocio.obtenerPorIdCuenta(cuentas.get(0).getId()) == null ? 
-						new ArrayList<Prestamo>() : 
-						prestamoNegocio.obtenerPorIdCuenta(cuentas.get(0).getId());
+				int idCuenta = cuentas.get(0).getId();
+				List<Prestamo> pAux2 = prestamoNegocio.obtenerPorIdCuenta(idCuenta);
+				this.prestamosPorCuenta = pAux2 == null || pAux2.isEmpty() ? new ArrayList<Prestamo>() : pAux2;
 
 				//tienen que volver a ponerse en cero, dado que ahora se trata de variables miembro.
 				this.montoSolicitadoTotal = 0;
@@ -183,19 +191,18 @@ public class PrestamosAdminServlet extends HttpServlet {
 		}
 		else
 		{
-			this.cuentas = cuentaNegocio.listarCuentas(IDClienteSeleccionado).isEmpty() || cuentaNegocio.listarCuentas(IDClienteSeleccionado) == null ? 
-					new ArrayList<Cuenta>() : 
-					cuentaNegocio.listarCuentas(IDClienteSeleccionado);
+
+			List<Cuenta> cAux = cuentaNegocio.listarCuentasActivasPorCliente(IDClienteSeleccionado);
+			this.cuentas = cAux.isEmpty() || cAux == null ? new ArrayList<Cuenta>() : cAux;
 			
 			if(cuentaNegocio.cuentasActivasPorCliente(IDClienteSeleccionado) > 0)
 			{
 
-				this.prestamosPorCliente = prestamoNegocio.obtenerPorIdCliente(IDClienteSeleccionado).isEmpty() || prestamoNegocio.obtenerPorIdCliente(IDClienteSeleccionado) == null ? 
-						new ArrayList<Prestamo>() : 
-						prestamoNegocio.obtenerPorIdCliente(IDClienteSeleccionado);
-				this.prestamosPorCuenta = prestamoNegocio.obtenerPorIdCuenta(IDCuentaSeleccionada).isEmpty() || prestamoNegocio.obtenerPorIdCuenta(IDCuentaSeleccionada) == null ?
-						new ArrayList<Prestamo>() : 
-						prestamoNegocio.obtenerPorIdCuenta(IDCuentaSeleccionada);
+				List<Prestamo> pAux = prestamoNegocio.obtenerPorIdCliente(IDClienteSeleccionado);
+				this.prestamosPorCliente = pAux == null || pAux.isEmpty() ? new ArrayList<Prestamo>() : pAux;
+
+				List<Prestamo> pAux2 = prestamoNegocio.obtenerPorIdCuenta(IDCuentaSeleccionada);
+				this.prestamosPorCuenta =  pAux2 == null || pAux2.isEmpty() ? new ArrayList<Prestamo>() : pAux2;
 
 				//tienen que volver a ponerse en cero, dado que ahora se trata de variables miembro.
 				this.montoSolicitadoTotal = 0;
@@ -213,7 +220,6 @@ public class PrestamosAdminServlet extends HttpServlet {
 				manejoNulos();
 			}
 			
-			
 		}
 		return;
 	}
@@ -225,9 +231,6 @@ public class PrestamosAdminServlet extends HttpServlet {
 
 		this.montoSolicitadoTotal = 0;
 		this.montoTotalAPagar = 0;
-		
-		this.IDClienteSeleccionado = 0;
-		this.IDCuentaSeleccionada = 0;
 	}
 }
 

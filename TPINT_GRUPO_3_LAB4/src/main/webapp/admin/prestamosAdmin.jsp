@@ -55,9 +55,18 @@
 	
 	<%
 	
-		List<Usuario> clientes = ((List<Usuario>)request.getAttribute("listaClientes")).isEmpty() ? new ArrayList<Usuario>() : (List<Usuario>)request.getAttribute("listaClientes");
-		List<Cuenta> cuentas = ((List<Cuenta>)request.getAttribute("listaCuentas")).isEmpty() ? new ArrayList<Cuenta>() : (List<Cuenta>)request.getAttribute("listaCuentas");
-		List<Prestamo> prestamosPorCliente = ((List<Prestamo>)request.getAttribute("listaPrestamos")).isEmpty() ? new ArrayList<Prestamo>() : (List<Prestamo>)request.getAttribute("listaPrestamos");
+		List<Usuario> clientes = ((List<Usuario>)request.getAttribute("listaClientes")) == null || 
+			((List<Usuario>)request.getAttribute("listaClientes")).isEmpty() ? 
+			new ArrayList<Usuario>() : (List<Usuario>)request.getAttribute("listaClientes");
+	
+		List<Cuenta> cuentas = ((List<Cuenta>)request.getAttribute("listaCuentas")) == null || 
+			((List<Cuenta>)request.getAttribute("listaCuentas")).isEmpty() ? 
+			new ArrayList<Cuenta>() : (List<Cuenta>)request.getAttribute("listaCuentas");
+		
+		List<Prestamo> prestamosPorCliente = ((List<Prestamo>)request.getAttribute("listaPrestamos")) == null || 
+			((List<Prestamo>)request.getAttribute("listaPrestamos")).isEmpty() ? 
+			new ArrayList<Prestamo>() : (List<Prestamo>)request.getAttribute("listaPrestamos");
+		
 		double montoSolicitadoTotal = (double)request.getAttribute("montoSolicitadoTotal");
 		double montoTotalAPagar = (double)request.getAttribute("montoTotalAPagar");
 		int IDClienteSeleccionado = (int)request.getAttribute("idClienteSeleccionado");
@@ -77,7 +86,7 @@
 						
 						
 						<%
-						if(clientes.isEmpty() || clientes == null)
+						if(clientes == null || clientes.isEmpty())
 						{
 						%>
 						
@@ -119,9 +128,7 @@
 					<div class="row">
 						<b>CUENTA DESTINO</b>
 						<%
-						if(cuentas.isEmpty() || cuentas == null){
-							
-						
+						if(cuentas == null || cuentas.isEmpty()){
 						%>
 						
 						<div style="color: red">Este cliente actualmente, no tiene cuentas activas</div>

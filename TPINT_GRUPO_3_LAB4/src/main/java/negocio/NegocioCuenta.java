@@ -30,4 +30,5 @@ public interface NegocioCuenta {
 	public int contarCuentasPorUsuario(int idusuario);
 	public int contarCuentasTotalesImpl();
 	public double saldoTotalBancario();
+	public List<Cuenta> listarCuentasActivasPorCliente(int id);
 }

@@ -17,6 +17,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String BAJA_LOGICA = "UPDATE cuenta SET Estado = 0 WHERE ID = ?";
     private static final String ACTIVAR = "UPDATE cuenta SET Estado = 1 WHERE ID = ?";
     private static final String CUENTAS_ACTIVAS_CLIENTE = "SELECT COUNT(*) FROM cuenta WHERE IDCliente = ? AND Estado = 1";
+    private static final String LISTAR_CUENTAS_ACTIVAS_POR_CLIENTE = "CALL SP_LISTAR_CUENTAS_ACTIVAS_POR_CLIENTE(?)";
     private static final String EXISTE_CBU = "SELECT COUNT(*) FROM cuenta WHERE CBU = ?";
     private static final String EXISTE_CBU_EXCEPTO_ID = "SELECT COUNT(*) FROM cuenta WHERE CBU = ? AND ID <> ?";
     private static final String SELECT_ID_BY_CBU = "SELECT ID FROM cuenta WHERE CBU = ? AND Estado = 1";
@@ -236,7 +237,7 @@ public class CuentaDaoImpl implements CuentaDao {
             while (rs.next()) {
                 Cuenta cuenta = new Cuenta();
                 cuenta.setId(rs.getInt("ID"));
-                cuenta.setIdCliente(rs.getInt("IDCliente"));;
+                cuenta.setIdCliente(rs.getInt("IDCliente"));
                 cuenta.setIdTipoDeCuenta(rs.getInt("IDTipoDeCuenta"));
                 cuenta.setFechaDeCreacion(rs.getDate("FechaDeCreacion"));
                 cuenta.setCbu(rs.getString("CBU"));
@@ -247,6 +248,38 @@ public class CuentaDaoImpl implements CuentaDao {
                 lista.add(cuenta);
             }
             return lista;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+	}
+	
+	@Override
+	public List<Cuenta> listarCuentasActivasPorCliente(int id){
+		
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		String query =  LISTAR_CUENTAS_ACTIVAS_POR_CLIENTE;
+		List<Cuenta> lista = new ArrayList<>();
+
+        
+        try {
+        	CallableStatement st = cn.prepareCall(query);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            
+            while (rs.next()) {
+                Cuenta cuenta = new Cuenta();
+                cuenta.setId(rs.getInt("ID"));
+                cuenta.setIdCliente(rs.getInt("IDCliente"));
+                cuenta.setIdTipoDeCuenta(rs.getInt("IDTipoDeCuenta"));
+                cuenta.setFechaDeCreacion(rs.getDate("FechaDeCreacion"));
+                cuenta.setCbu(rs.getString("CBU"));
+                cuenta.setSaldo(rs.getDouble("Saldo"));
+                cuenta.setEstado(rs.getBoolean("Estado"));
+                
+                lista.add(cuenta);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
