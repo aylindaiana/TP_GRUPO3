@@ -114,5 +114,18 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
 	public UsuarioCredenciales obtenerCredencialesPorClienteId(int idCliente) {
 	    return credencialesDao.obtenerPorClienteId(idCliente);
 	}
+	
+	@Override
+	public boolean reactivarCredencialesPorCliente(int idCliente) {
+	    UsuarioCredencialesDao dao = new UsuarioCredencialesImpl();
+	    return dao.reactivarCredencialesPorCliente(idCliente);
+	}
+	
+	@Override
+	public boolean reactivarCredenciales(int idCliente) {
+	    UsuarioCredencialesDao credDao = new UsuarioCredencialesImpl();
+	    return credDao.reactivarCredencialesPorCliente(idCliente);
+	}
+
 
 }

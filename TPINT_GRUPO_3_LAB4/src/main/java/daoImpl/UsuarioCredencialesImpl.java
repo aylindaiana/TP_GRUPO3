@@ -154,5 +154,29 @@ public class UsuarioCredencialesImpl implements UsuarioCredencialesDao {
         return cred;
     }
 
+    @Override
+    public boolean reactivarCredencialesPorCliente(int idCliente) {
+        String sql = "UPDATE usuario_credenciales SET Estado = 1 WHERE IDCliente = ?";
+        Connection cn = Conexion.getConexion().getSQLConexion();
+
+        try (PreparedStatement stmt = cn.prepareStatement(sql)) {
+            stmt.setInt(1, idCliente);
+            int filas = stmt.executeUpdate();
+
+            if (filas > 0) {
+                cn.commit();
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return false;
+    }
+
 
 }

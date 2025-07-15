@@ -22,8 +22,12 @@ public class ActivarUsuarioServlet extends HttpServlet {
         try {
             int id = Integer.parseInt(idParam);
             boolean activar = negocioUsuario.activarUsuario(id);
+            
+            boolean activarCredenciales = negocioUsuario.reactivarCredenciales(id);
 
-            if (activar) {
+            if (activar && activarCredenciales) {
+            	
+            	
             	response.sendRedirect("DetalleUsuarioServlet?id=" + id + "&status=activado");
             } else {
             	response.sendRedirect("DetalleUsuarioServlet?id=" + id + "&status=errorActivacion");

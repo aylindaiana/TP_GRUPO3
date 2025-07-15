@@ -16,77 +16,71 @@ import daoImpl.UsuarioCredencialesImpl;
 import daoImpl.UsuarioDaoImpl;
 import daoImpl.usuarioTipoDaoImpl;
 import entidad.Usuario;
+import entidad.UsuarioCredenciales;
 
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String accion = request.getParameter("accion");
 
-		String accion = request.getParameter("accion");
+        if (accion != null && accion.equals("cerrar")) {
+            request.getSession().removeAttribute("id");
+            request.getSession().removeAttribute("idCliente");
+            request.getSession().removeAttribute("idTipoUsuario");
+            request.getSession().removeAttribute("idNombre");
+            request.getSession().removeAttribute("NombreUsuario");
+            RequestDispatcher rd = request.getRequestDispatcher("/public/login.jsp");
+            rd.forward(request, response);
+        }
+    }
 
-		if (accion != null && accion.equals("cerrar")) {
-			request.getSession().removeAttribute("id");
-			request.getSession().removeAttribute("idCliente");
-			request.getSession().removeAttribute("idTipoUsuario");
-			RequestDispatcher rd = request.getRequestDispatcher("/public/login.jsp");
-			rd.forward(request, response);
-		}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String accion = request.getParameter("accion");
 
-	}
+        if (accion != null && accion.equals("iniciar")) {
+            String username = request.getParameter("username") != null ? request.getParameter("username") : "";
+            String password = request.getParameter("password") != null ? request.getParameter("password") : "";
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            UsuarioCredencialesDao dao = new UsuarioCredencialesImpl();
+            int idLogin = dao.iniciarSesion(username, password); // ID de usuario_credenciales
 
-		String accion = request.getParameter("accion");
+            request.getSession().setAttribute("NombreUsuario", username);
 
-		if (accion != null && accion.equals("iniciar")) {
-			String username = !request.getParameter("username").toString().isEmpty()
-					? request.getParameter("username").toString()
-					: "";
-			String password = !request.getParameter("password").toString().isEmpty()
-					? request.getParameter("password").toString()
-					: "";
+            if (idLogin != -1) {
+                int idCliente = dao.obtenerIDClientePorCredencial(idLogin); // ID de usuario
+                UsuarioCredenciales cred = dao.obtenerPorClienteId(idCliente); // aquí sí usamos el ID del cliente
 
-			UsuarioCredencialesDao dao = new UsuarioCredencialesImpl();
-			int idLogin = dao.iniciarSesion(username, password);
-			
-			request.getSession().setAttribute("NombreUsuario", username);
+                if (cred != null && cred.getEstado() == 0) {
+                    // Usuario está inactivo
+                    response.sendRedirect(request.getContextPath() + "/public/login.jsp?status=inactivo");
+                    return;
+                }
 
-			if (idLogin != -1) {
-				request.getSession().setAttribute("id", idLogin);
-				
-				int idCliente = dao.obtenerIDClientePorCredencial(idLogin);
-				request.getSession().setAttribute("idCliente", idCliente);							
-				
-				// check nombre usuario
-				UsuarioDao userDao = new UsuarioDaoImpl();
-				Usuario user = userDao.obtenerPorId(idCliente);
-				String nombre = user.getNombre();
-				System.out.println(nombre);
-				request.getSession().setAttribute("idNombre", nombre);
+                request.getSession().setAttribute("id", idLogin);
+                request.getSession().setAttribute("idCliente", idCliente);
 
-				// check tipo usuario
-				usuarioTipoDao uDao = new usuarioTipoDaoImpl();
-				int idTipoUsuario = uDao.buscarTipoId(idLogin);				
+                UsuarioDao userDao = new UsuarioDaoImpl();
+                Usuario user = userDao.obtenerPorId(idCliente);
+                request.getSession().setAttribute("idNombre", user.getNombre());
 
-				// guardar id usuario y id tipo de usuario en sesion
-				request.getSession().setAttribute("idTipoUsuario", idTipoUsuario);
-				// si es admin
-				if (idTipoUsuario == 1) {
-					RequestDispatcher rd = request.getRequestDispatcher("/HomeAdminServlet");
-					rd.forward(request, response);
-				} 
-				// si es cliente
-				else if (idTipoUsuario == 2) {
-					RequestDispatcher rd = request.getRequestDispatcher("/HomeClienteServlet");
-					rd.forward(request, response);
-				}
-			} else {
-				// mensaje de error: podrías redirigir a login con mensaje
-				response.sendRedirect(request.getContextPath() + "/public/login.jsp?error=1");
-			}
-			
-			
-		}
-	}
+                usuarioTipoDao uDao = new usuarioTipoDaoImpl();
+                int idTipoUsuario = uDao.buscarTipoId(idLogin);
+                request.getSession().setAttribute("idTipoUsuario", idTipoUsuario);
+
+                if (idTipoUsuario == 1) {
+                    RequestDispatcher rd = request.getRequestDispatcher("/HomeAdminServlet");
+                    rd.forward(request, response);
+                } else if (idTipoUsuario == 2) {
+                    RequestDispatcher rd = request.getRequestDispatcher("/HomeClienteServlet");
+                    rd.forward(request, response);
+                }
+            } else {
+                // Usuario o contraseña incorrectos
+                response.sendRedirect(request.getContextPath() + "/public/login.jsp?status=errorLogin");
+            }
+        }
+    }
+
 }

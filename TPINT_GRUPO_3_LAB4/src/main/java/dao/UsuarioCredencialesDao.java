@@ -10,5 +10,7 @@ public interface UsuarioCredencialesDao {
 	int obtenerIDClientePorCredencial(int idCredencial);
 	
 	UsuarioCredenciales obtenerPorClienteId(int idCliente);
+	boolean reactivarCredencialesPorCliente(int idCliente);
+
 
 }
