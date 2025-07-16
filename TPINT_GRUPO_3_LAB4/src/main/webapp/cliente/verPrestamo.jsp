@@ -75,6 +75,7 @@
 							<th>Numero de Cuota</th>
 							<th>Monto</th>
 							<th>Fecha limite</th>
+							<th>Fecha de pago</th>
 							<th>Estado cuota</th>
 						</tr>
 						<%
@@ -87,6 +88,7 @@
 								<td><%=aux.getNumeroCuota() %></td>
 								<td><%=aux.getMonto() %></td>
 								<td><%=aux.getFechaPago() %></td>
+								<td>NUEVO CAMPO AGREGADO</td>
 								<%
 								if(aux.getEstado() == 1){
 								%>

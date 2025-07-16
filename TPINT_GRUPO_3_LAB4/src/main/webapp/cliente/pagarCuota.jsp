@@ -60,6 +60,8 @@
 	double montoCuota = (double)request.getAttribute("montoCuota");
 	int IDPrestamo = (int)request.getAttribute("IDPrestamo");
 	
+	boolean estadoPagoCuota = request.getAttribute("estadoPagoCuota") != null ? (boolean)request.getAttribute("estadoPagoCuota") : true;
+	
 	%>
 
 	<div class="container text-center" id="general-container">
@@ -90,6 +92,7 @@
 				<br>
 				<div class="row">
 					
+					<input type="hidden" name="IDPrestamo" value="<%=IDPrestamo%>">
 					<input type="hidden" name="IDCuota" value="<%=IDCuota%>">
 					<input type="hidden" name="montoCuota" value="<%=montoCuota%>">
 				
@@ -102,6 +105,14 @@
 				</div>
 			</form>
 		</div>
+		<%
+			if(!estadoPagoCuota) 
+			{
+		%>
+			<div class="text-bg-danger p-3">No se pudo concretar el pago de la cuota, saldo insuficiente.<br> Seleccione otra cuenta con fondos</div>			
+		<% 
+			}
+		%>
 	</div>
 	<footer>
 	        <p>© 2025 Grupo 3 - Laboratorio 4</p>

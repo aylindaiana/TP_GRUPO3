@@ -31,4 +31,5 @@ public interface CuentaDao {
 	public int contarCuentasTotalesActivas();
 	public double saldoTotal();
 	public List<Cuenta> listarCuentasActivasPorCliente(int id);
+	double obtenerSaldoCuenta(int id);
 }

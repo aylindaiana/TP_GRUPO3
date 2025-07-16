@@ -45,7 +45,7 @@ public class DetallesPrestamoServlet extends HttpServlet {
 			double importeSolicitado = aux.getImporte();
 			int IDCuentaOrigen = 111111111; // puede ser utilizado como la cuenta del banco?
             Date fechaprestamo = aux.getFechaDeAlta();
-            String comentarioPrestamo = "bien bien";
+            String comentarioPrestamo = request.getParameter("comentarioPrestamoAceptado");
             String motivoRechazo = "";
 			
 			boolean actualizado = prestamoNegocio.actualizacionDeTablasEnBase_EstadoPrestamo

@@ -617,7 +617,7 @@ BEGIN
 		CALL sp_recargar_cuenta(I_Importe/1.5, I_IDCuenta);
     
 		/*el tipo de movimiento siempre es 2 ya que se trata del alta de un prestamo*/
-		CALL SP_INSERTAR_MOVIMIENTO(I_CuentaOrigen, I_IDCuenta, I_Importe, I_Fecha, I_Comentario, 2);
+		CALL SP_INSERTAR_MOVIMIENTO(I_CuentaOrigen, I_IDCuenta, I_Importe/1.5, I_Fecha, I_Comentario, 2);
     
 		SET ultimo_id_movimiento = FN_ULTIMO_ID_MOVIMIENTO_GENERADO();
         /*a fecha se le setea el valor del mes siguiente (por consecuente la primer cuota se paga al siguiente mes)*/
@@ -638,7 +638,6 @@ BEGIN
     END IF;
 END$$
 DELIMITER $$
-
 
 
 /*CALL SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(?, ?, ?, ?, ?, ?, ?, ?, ?)*/
@@ -886,6 +885,26 @@ END$$
 DELIMITER ;
 
 /*CALL SP_LISTAR_CUENTAS();*/
+
+
+
+DROP PROCEDURE IF EXISTS SP_OBTENER_SALDO_CUENTA;
+
+DELIMITER $$
+CREATE PROCEDURE SP_OBTENER_SALDO_CUENTA(
+	IN I_IDCUENTA INT
+)
+BEGIN
+	SELECT Saldo
+    FROM CUENTA
+	WHERE ID = I_IDCUENTA;
+END$$
+DELIMITER ;
+
+CALL SP_OBTENER_SALDO_CUENTA(5);
+
+
+
 
 DROP PROCEDURE IF EXISTS SP_LISTAR_CUENTAS_ACTIVAS_POR_CLIENTE;
 
@@ -1384,6 +1403,33 @@ BEGIN
     END IF;
 END$$;
 DELIMITER ;
+
+
+/*TRIGGER QUE SE ENCARGA DE ACTUALIZAR EL ESTADO DE LOS PRESTAMOS AL MOMENTO DE PAGADAS TODAS SUS CUOTAS*/
+
+DROP TRIGGER IF EXISTS TR_ACTUALIZAR_ESTADO_PRESTAMO;
+
+DELIMITER $$
+CREATE TRIGGER TR_ACTUALIZAR_ESTADO_PRESTAMO
+AFTER UPDATE ON cuotas
+FOR EACH ROW
+BEGIN
+	DECLARE CUOTAS_PENDIENTES INT;
+
+	SELECT COUNT(*) INTO CUOTAS_PENDIENTES
+	FROM Cuotas
+	WHERE IDPrestamo = NEW.IDPrestamo AND Estado = 0;
+    
+    IF CUOTAS_PENDIENTES = 0 THEN
+      UPDATE Prestamo
+      SET Estado = 4
+      WHERE ID = NEW.IDPrestamo;
+    END IF;
+END$$
+
+DELIMITER ;
+
+
 
 /* SP tipo_movimiento_id */
 DELIMITER $$

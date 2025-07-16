@@ -74,6 +74,7 @@
 							<th>Numero de Cuota</th>
 							<th>Monto</th>
 							<th>Fecha limite</th>
+							<th>Fecha de pago</th>
 							<th>Estado cuota</th>
 						</tr>
 						<%
@@ -84,6 +85,7 @@
 							<td><%= aux.getNumeroCuota()%></td>
 							<td>$<%= aux.getMonto() %></td>
 							<td><%= aux.getFechaPago() %></td>
+							<td>NUEVO CAMPO AGREGADO</td>
 							<td>
 							<% if(aux.getEstado() == 1) 
 								{
@@ -128,12 +130,14 @@
 						<th>Cantidad de cuotas</th>
 						<th>Monto solicitado</th>
 						<th>Fecha de solicitud</th>
+						<th>Comentario</th>
 						<th>Accion</th>
 					</tr>
 					<tr>
 						<td><%= prestamo.getCantidadCuotas() %></td>
 						<td>$<%= (prestamo.getImporte()/1.5) %></td>
 						<td><%= prestamo.getFechaDeAlta() %></td>
+							<td><textarea name="comentarioPrestamoAceptado" rows="6" cols="30" style="resize: none;" maxlength="45"></textarea></td>
 						<td>
 							<button name="btn-aceptarPrestamo" value="<%= prestamo.getID() %>" class="btn btn-success">Aceptar</button>
 							<button name="btn-rechazarPrestamo" value="<%= prestamo.getID() %>" class="btn btn-danger">Rechazar</button>

@@ -15,7 +15,7 @@ import entidad.Movimiento;
 
 public class MovimientoDaoImpl implements MovimientoDao{
 
-	private final String INSERT = "CALL SP_INSERTAR_MOVIMIENTO(?, ?, ?, ?, ?, ?, ?)";
+	private final String INSERT = "CALL SP_INSERTAR_MOVIMIENTO(?, ?, ?, ?, ?, ?)";
 	private final String LISTAR_MOVIMIENTOS_POR_CLIENTE = "CALL SP_LISTAR_MOVIMIENTOS_POR_CLIENTE(?)";
 	private final String LISTAR_MOVIMIENTOS_POR_CUENTA = "CALL SP_LISTAR_MOVIMIENTOS_POR_CUENTA(?)";
 	private final String LISTAR_MOVIMIENTOS = "CALL SP_LISTAR_MOVIMIENTOS()";
@@ -36,13 +36,12 @@ public class MovimientoDaoImpl implements MovimientoDao{
         
 		try {
 			st = cn.prepareStatement(query);
-	        st.setInt(1, movimiento.getID());
-	        st.setInt(2, movimiento.getIDCuentaOrigen()); 
-	        st.setInt(3, movimiento.getIDCuentaDestino());
-	        st.setDouble(4, movimiento.getMonto());
-	        st.setDate(5, movimiento.getFecha());
-	        st.setString(6, movimiento.getComentario());
-	        st.setInt(7, movimiento.getIDTipoDeMovimiento());
+	        st.setInt(1, movimiento.getIDCuentaOrigen()); 
+	        st.setInt(2, movimiento.getIDCuentaDestino());
+	        st.setDouble(3, movimiento.getMonto());
+	        st.setDate(4, movimiento.getFecha());
+	        st.setString(5, movimiento.getComentario());
+	        st.setInt(6, movimiento.getIDTipoDeMovimiento());
 	        if(st.executeUpdate() > 0) {
 	            cn.commit();
 	            exito = true;

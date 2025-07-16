@@ -29,6 +29,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String DEBITAR_CUENTA = "UPDATE cuenta SET Saldo = Saldo - ? WHERE ID = ?";
     private static final String CONTAR_CUENTA_TIPO = "CALL SP_CONTAR_CUENTAS_POR_TIPO(?, ?, ?)";
     private static final String CONTAR_CUENTAS = "CALL SP_CONTAR_CUENTAS_CREADAS(?, ?)";
+    private static final String OBTENER_SALDO_CUENTA = "CALL SP_OBTENER_SALDO_CUENTA(?)";
     
     @Override
     public boolean insertar(Cuenta c) {
@@ -286,6 +287,32 @@ public class CuentaDaoImpl implements CuentaDao {
 
         return lista;
 	}
+	
+	
+
+	@Override
+	public double obtenerSaldoCuenta(int id){
+		
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		String query =  OBTENER_SALDO_CUENTA;
+		double saldo = 0;
+        
+        try {
+        	CallableStatement st = cn.prepareCall(query);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            
+            if (rs.next()) {
+                saldo = rs.getDouble("Saldo");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return saldo;
+	}
+	
 
 	@Override
 	public void recargarCuenta(int IDCuenta, double montoSolicitado) {

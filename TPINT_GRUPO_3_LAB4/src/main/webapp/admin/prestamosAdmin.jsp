@@ -194,6 +194,9 @@
 					<table class="table table-hover">
 						<tr class="table-info">
 							<th>Numero de prestamo</th>
+							<th>Monto solicitado</th>
+							<th>Total a pagar</th>
+							<th>Cantidad de cuotas</th>
 							<th>Estado</th>
 						</tr>
 						
@@ -205,6 +208,9 @@
 						<tr>
 							<td>identificacion: <%= aux.getID() %></td>
 							
+							<td>$<%= aux.getImporte()/1.5 %></td>
+							<td>$<%= aux.getImporte() %></td>
+							<td>Nº<%= aux.getCantidadCuotas() %></td>
 							<%
 							switch(aux.getAutorizacion())
 							{
@@ -224,6 +230,13 @@
 									%>
 									<td>
 										<button name="verRechazo" value="<%=aux.getID() %>" class="btn btn-danger">rechazado</button>
+									</td>
+									<%
+									break;
+								case 4:
+									%>
+									<td>
+										<button name="verCuotas" value="<%=aux.getID() %>" class="btn btn-success">Saldado</button>
 									</td>
 									<%
 									break;

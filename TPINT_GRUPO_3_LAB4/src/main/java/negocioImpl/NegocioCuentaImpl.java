@@ -170,5 +170,9 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 		return cuentaDao.listarCuentasActivasPorCliente(id);
 	}
 
+	@Override
+	public double obtenerSaldoCuenta(int id) {
+		return cuentaDao.obtenerSaldoCuenta(id);
+	}
 
 }
