@@ -23,6 +23,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
     private static final String ACTIVAR = "UPDATE usuario SET Estado = 1 WHERE ID = ?";
 
     private final String SP_LISTAR_CLIENTES = "CALL SP_LISTAR_CLIENTES()";
+    /* Prueba para reporte */
+    private final String SP_CONTAR_NUEVOS_CLIENTES = "CALL SP_CONTAR_NUEVOS_CLIENTES(?, ?)";
     
     private static final String BUSCAR_USUARIOS =
     	    "SELECT u.*, p.Nombre_Provincia, l.Nombre_Localidad " +
@@ -297,7 +299,28 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
         return total;
     }
+    
+    /* Prueba para reporte */
+    @Override
+    public int contarNuevosClientes(LocalDate desde, LocalDate hasta) {
+    	Connection cn = Conexion.getConexion().getSQLConexion();
+        int total = 0;
+        try {
+        	CallableStatement st = cn.prepareCall(SP_CONTAR_NUEVOS_CLIENTES);
 
+            st.setDate(1, Date.valueOf(desde));
+            st.setDate(2, Date.valueOf(hasta));
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
 
 	@Override
 	public List<Usuario> listarClientes() {

@@ -20,6 +20,7 @@ public interface NegocioCuenta {
     public int contarCuentas(LocalDate desde, LocalDate hasta);
 
 
+
     public boolean cantidadCuentas(int id);
     public List<Cuenta> listarCuentas(int id);
 	public void recargarCuenta(int IDCuenta, double montoSolicitado);

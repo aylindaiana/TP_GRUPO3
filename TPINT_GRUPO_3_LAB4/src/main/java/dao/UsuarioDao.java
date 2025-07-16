@@ -20,4 +20,7 @@ public interface UsuarioDao {
     public int contarUsuariosFiltrados(String criterio);
     public boolean existeCuil(long cuil);
 
+    
+    /* Prueba para reporte */
+    public int contarNuevosClientes(LocalDate desde, LocalDate hasta);
 }

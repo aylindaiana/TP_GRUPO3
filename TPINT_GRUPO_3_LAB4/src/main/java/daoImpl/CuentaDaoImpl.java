@@ -29,7 +29,7 @@ public class CuentaDaoImpl implements CuentaDao {
     private static final String DEBITAR_CUENTA = "UPDATE cuenta SET Saldo = Saldo - ? WHERE ID = ?";
     private static final String CONTAR_CUENTA_TIPO = "CALL SP_CONTAR_CUENTAS_POR_TIPO(?, ?, ?)";
     private static final String CONTAR_CUENTAS = "CALL SP_CONTAR_CUENTAS_CREADAS(?, ?)";
-
+    
     @Override
     public boolean insertar(Cuenta c) {
         boolean resultado = false;

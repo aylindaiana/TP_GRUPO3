@@ -80,7 +80,6 @@ public class NegocioCuentaImpl implements NegocioCuenta{
     {
     	return cuentaDao.bajaLogica(id);
     }
-
     
     @Override
     public boolean activarCuenta(int id)
