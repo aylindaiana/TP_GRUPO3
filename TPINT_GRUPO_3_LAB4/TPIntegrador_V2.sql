@@ -73,6 +73,7 @@ CREATE TABLE `cuotas` (
   `NumeroCuota` int DEFAULT NULL,
   `Monto` int DEFAULT NULL,
   `FechaPago` date DEFAULT NULL,
+  `FechaRealizacionPago` date DEFAULT NULL,
   `IDMovimiento` varchar(45) DEFAULT NULL,
   `Estado` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`,`IDPrestamo`)
@@ -461,19 +462,19 @@ CALL sp_buscar_cuentas_asignadas_a_cliente(1);
 
 DELIMITER $$
 CREATE PROCEDURE sp_solicitar_prestamo(
-	IN id INT,
-	IN idCliente VARCHAR(45),
-	IN idCuenta INT,
-	IN fecha DATE,
-	IN importe DOUBLE,
-	IN plazo INT,
-	IN importeMensual DOUBLE,
-	IN cuotas INT,
-	IN autorizacion TINYINT
+	IN I_ID INT,
+	IN I_IDCLIENTE VARCHAR(45),
+	IN I_IDCUENTA INT,
+	IN I_FECHA DATE,
+	IN I_IMPORTE DOUBLE,
+	IN I_PLAZO INT,
+	IN I_IMPORTEMENSUAL DOUBLE,
+	IN I_CUOTAS INT,
+	IN I_AUTORIZACION TINYINT
 )
 BEGIN
 	INSERT INTO prestamos (ID, IDCliente, IDCuenta, FechaDeAlta, Importe, PlazoPago, ImporteMensual, CantidadCuotas, Autorizacion)
-	VALUES (id, idCliente, idCuenta, fecha, importe, plazo, importeMensual, cuotas, autorizacion);
+	VALUES (I_ID, I_IDCLIENTE, I_IDCUENTA, I_FECHA, I_IMPORTE, I_PLAZO, I_IMPORTEMENSUAL, I_CUOTAS, I_AUTORIZACION);
 END$$
 DELIMITER ;
 
@@ -541,7 +542,7 @@ DELIMITER ;
 
 /* SP listar prestamos por cuenta*/
 
-DROP PROCEDURE IF EXISTS SP_LISTAR_PRESTAMOS_POR_CUENTA;
+DROP PROCEDURE IF EXISTS SP_LISTAR_PRESTAMOS_ACTIVOS_POR_CUENTA;
 
 DELIMITER $$
 CREATE PROCEDURE SP_LISTAR_PRESTAMOS_POR_CUENTA(
@@ -553,7 +554,7 @@ BEGIN
         FechaDeAlta, Importe, PlazoPago, 
         ImporteMensual, CantidadCuotas, Autorizacion
     FROM prestamos
-    WHERE IDCuenta = I_IDCuenta;
+    WHERE IDCuenta = I_IDCuenta AND Autorizacion != 3 AND Autorizacion != 4;
 END$$
 DELIMITER ;
 
@@ -578,6 +579,7 @@ DELIMITER $$
 
 
 /* sp actualizacion de tablas relacionadas a prestamos, en base al cambio de estao en un prestamo */
+
 
 DROP PROCEDURE IF EXISTS SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO 
 
@@ -625,7 +627,7 @@ BEGIN
         
 		WHILE i <= I_CantidadCuotas DO
             SET numeroCuota = i;
-			CALL SP_INSERTAR_CUOTA(I_IDPrestamo, numeroCuota, (I_Importe / I_CantidadCuotas), fecha, ultimo_id_movimiento, 0);
+			CALL SP_INSERTAR_CUOTA(I_IDPrestamo, numeroCuota, (I_Importe / I_CantidadCuotas), fecha, null, ultimo_id_movimiento, 0);
 			
             SET i = i + 1;
 			SET fecha = DATE_ADD(fecha, INTERVAL 1 MONTH);
@@ -641,7 +643,6 @@ DELIMITER $$
 
 
 /*CALL SP_ACTUALIZACION_TABLAS_DEPENDIENDO_DE_ESTADO_PRESTAMO(?, ?, ?, ?, ?, ?, ?, ?, ?)*/
-
 
 
 
@@ -764,26 +765,42 @@ DELIMITER ;
 cuotas */
 
 
-DROP PROCEDURE IF EXISTS SP_INSERTAR_CUOTA$$
+DROP PROCEDURE IF EXISTS SP_INSERTAR_CUOTA
 
 
 DELIMITER $$
 CREATE PROCEDURE SP_INSERTAR_CUOTA(
-    IN I_IDPrestamo INT,
-    IN I_NumeroCuota INT,
-    IN I_Monto INT,
-    IN I_FechaPago DATE,
-    IN I_IDMovimiento VARCHAR(45),
-    IN I_Estado TINYINT
+	IN I_IDPrestamo INT,
+	IN I_NumeroCuota INT,
+	IN I_Monto INT,
+	IN I_FechaPago DATE,
+	IN I_FechaRealizacionPago DATE,
+	IN I_IDMovimiento VARCHAR(45),
+	IN I_Estado TINYINT
 )
 BEGIN
-	INSERT INTO cuotas (IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado)
-    VALUES (I_IDPrestamo, I_NumeroCuota, I_Monto, I_FechaPago, I_IDMovimiento, I_Estado);
+	INSERT INTO cuotas (IDPrestamo, NumeroCuota, Monto, FechaPago, FechaRealizacionPago, IDMovimiento, Estado)
+	VALUES (I_IDPrestamo, I_NumeroCuota, I_Monto, I_FechaPago, I_FechaRealizacionPago, I_IDMovimiento, I_Estado);
 END$$
 DELIMITER $$
 
-/*CALL SP_INSERTAR_CUOTA(?, ?, ?, ?, ?, ?);*/
+/*CALL SP_INSERTAR_CUOTA(?, ?, ?, ?, ?, ?, ?);*/
 
+
+
+DROP PROCEDURE IF EXISTS SP_PAGAR_CUOTA
+
+DELIMITER $$
+CREATE PROCEDURE SP_PAGAR_CUOTA(
+    IN I_ID INT
+)
+BEGIN
+	UPDATE cuotas SET FechaRealizacionPago = curdate(), Estado = 1
+    WHERE ID = I_ID;
+END$$
+DELIMITER $$
+
+/*CALL SP_PAGAR_CUOTA(1);*/
 
 
 
@@ -794,7 +811,7 @@ CREATE PROCEDURE SP_LISTAR_CUOTAS_POR_PRESTAMO(
     IN I_ID INT
 )
 BEGIN
-	SELECT ID, IDPrestamo, NumeroCuota, Monto, FechaPago, IDMovimiento, Estado FROM cuotas 
+	SELECT ID, IDPrestamo, NumeroCuota, Monto, FechaPago, FechaRealizacionPago, IDMovimiento, Estado FROM cuotas 
     WHERE IDPrestamo = I_ID;
 END$$
 DELIMITER $$
@@ -1414,20 +1431,22 @@ CREATE TRIGGER TR_ACTUALIZAR_ESTADO_PRESTAMO
 AFTER UPDATE ON cuotas
 FOR EACH ROW
 BEGIN
-	DECLARE CUOTAS_PENDIENTES INT;
+DECLARE CUOTAS_PENDIENTES INT;
 
-	SELECT COUNT(*) INTO CUOTAS_PENDIENTES
-	FROM Cuotas
-	WHERE IDPrestamo = NEW.IDPrestamo AND Estado = 0;
-    
-    IF CUOTAS_PENDIENTES = 0 THEN
-      UPDATE Prestamo
-      SET Estado = 4
-      WHERE ID = NEW.IDPrestamo;
-    END IF;
+SELECT COUNT(*) INTO CUOTAS_PENDIENTES
+FROM Cuotas
+WHERE IDPrestamo = NEW.IDPrestamo AND Estado = 0;
+
+IF CUOTAS_PENDIENTES = 0 THEN
+  UPDATE prestamos
+  SET Autorizacion = 4
+  WHERE ID = NEW.IDPrestamo;
+END IF;
 END$$
 
 DELIMITER ;
+
+
 
 
 

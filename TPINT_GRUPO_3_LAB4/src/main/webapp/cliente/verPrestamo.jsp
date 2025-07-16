@@ -88,7 +88,7 @@
 								<td><%=aux.getNumeroCuota() %></td>
 								<td><%=aux.getMonto() %></td>
 								<td><%=aux.getFechaPago() %></td>
-								<td>NUEVO CAMPO AGREGADO</td>
+								<td><%=aux.getFechaRealizacionPago() == null ? "impaga" :  aux.getFechaRealizacionPago()%></td>
 								<%
 								if(aux.getEstado() == 1){
 								%>

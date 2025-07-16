@@ -67,8 +67,6 @@ public class VerPrestamoServlet extends HttpServlet {
 		    request.setAttribute("motivoRechazo", pRechazado);
 		    request.setAttribute("datosPrestamo", prestamo);
 		    
-		    
-			
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente/verPrestamo.jsp");
 		    dispatcher.forward(request, response);
 		}

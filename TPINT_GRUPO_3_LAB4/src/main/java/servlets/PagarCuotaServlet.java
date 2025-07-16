@@ -78,7 +78,7 @@ public class PagarCuotaServlet extends HttpServlet {
 		    List<Prestamo> prestamos = prestamoNegocio.obtenerPorIdCliente(Integer.parseInt(id));
 			
 		    boolean estadoPagoCuota;
-			
+			 
 			if(cuentaNegocio.obtenerSaldoCuenta(IDCuenta) >= montoCuota) {
 				
 				estadoPagoCuota = cuotaNegocio.pagarCuota(IDCuota);

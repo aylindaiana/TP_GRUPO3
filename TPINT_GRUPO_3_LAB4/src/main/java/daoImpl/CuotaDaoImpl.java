@@ -12,7 +12,7 @@ public class CuotaDaoImpl implements CuotaDao{
 	
 	private final String INSERT = "CALL SP_INSERTAR_CUOTA(?, ?, ?, ?, ?, ?, ?)";
 	private final String LISTAR_CUOTAS_POR_PRESTAMO = "CALL SP_LISTAR_CUOTAS_POR_PRESTAMO(?)";
-	private final String PAGAR_CUOTA = "UPDATE cuotas SET Estado = 1 WHERE ID = ?";
+	private final String PAGAR_CUOTA = "CALL SP_PAGAR_CUOTA(?)";
 	
 	/* Prueba para reporte */
 	private final String CONTAR_CUOTAS_PAGADAS = "CALL SP_CONTAR_CUOTAS_PAGADAS(?, ?)";
@@ -29,11 +29,11 @@ public class CuotaDaoImpl implements CuotaDao{
         
 		try {
 			st = cn.prepareStatement(query); 
-	        st.setInt(1, cuota.getID());
-	        st.setInt(2, cuota.getIDPrestamo());
-	        st.setInt(3, cuota.getNumeroCuota());
-	        st.setInt(4, (int)cuota.getMonto());
-	        st.setDate(5, cuota.getFechaPago());
+	        st.setInt(1, cuota.getIDPrestamo());
+	        st.setInt(2, cuota.getNumeroCuota());
+	        st.setInt(3, (int)cuota.getMonto());
+	        st.setDate(4, cuota.getFechaPago());
+	        st.setDate(5, cuota.getFechaRealizacionPago());
 	        st.setString(6, cuota.getIDMovimiento());
 	        st.setInt(7, cuota.getEstado());
 	        if(st.executeUpdate() > 0) {
@@ -73,17 +73,17 @@ public class CuotaDaoImpl implements CuotaDao{
                 cuota.setNumeroCuota(rs.getInt("NumeroCuota"));
                 cuota.setMonto((double)(rs.getInt("Monto")));
                 cuota.setFechaPago(rs.getDate("FechaPago"));
+                cuota.setFechaRealizacionPago(rs.getDate("FechaRealizacionPago"));
                 cuota.setIDMovimiento(rs.getString("IDMovimiento"));
                 cuota.setEstado(rs.getInt("Estado"));
                 
                 lista.add(cuota); 
             }
-            return lista;
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return lista;
 	}
 
 	@Override
@@ -92,11 +92,11 @@ public class CuotaDaoImpl implements CuotaDao{
 		Connection cn = Conexion.getConexion().getSQLConexion();
 		
 		String query = PAGAR_CUOTA;
-		PreparedStatement st;
+		CallableStatement st;
 		Boolean exito = false;
         
 		try {
-			st = cn.prepareStatement(query); 
+			st = cn.prepareCall(query); 
 	        st.setInt(1, id);
 	        if(st.executeUpdate() > 0) {
 	            cn.commit();

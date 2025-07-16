@@ -9,6 +9,7 @@ public class Cuota {
     int NumeroCuota;
     double Monto;
     Date FechaPago;
+    Date FechaRealizacionPago;
     String IDMovimiento;
     int Estado;
 
@@ -55,6 +56,14 @@ public class Cuota {
     public void setFechaPago(Date fechaPago) {
         FechaPago = fechaPago;
     }
+
+    public Date getFechaRealizacionPago() {
+		return FechaRealizacionPago;
+	}
+
+	public void setFechaRealizacionPago(Date fechaRealizacionPago) {
+		FechaRealizacionPago = fechaRealizacionPago;
+	}
 
     public String getIDMovimiento() {
         return IDMovimiento;
