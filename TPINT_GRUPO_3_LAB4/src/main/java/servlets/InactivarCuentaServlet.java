@@ -6,8 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import entidad.Cuenta;
 import negocio.NegocioCuenta;
 import negocioImpl.NegocioCuentaImpl;
+import negocioImpl.NegocioMovimientoImpl;
 
 @WebServlet("/InactivarCuentaServlet")
 public class InactivarCuentaServlet extends HttpServlet {
@@ -26,7 +28,16 @@ public class InactivarCuentaServlet extends HttpServlet {
             if (eliminado) {
                 response.sendRedirect("CuentaAdminServlet?status=eliminado");
             } else {
-                response.sendRedirect("CuentaAdminServlet?status=errorEliminacion");
+            	request.setAttribute("error", "No se puede inactivar la cuenta porque tiene préstamos activos.");
+            	Cuenta cuenta = negocioCuenta.obtenerPorId(id);
+            	request.setAttribute("cuenta", cuenta);
+            	request.setAttribute("modo", "editar");
+
+            	NegocioMovimientoImpl movimiento = new NegocioMovimientoImpl();
+            	request.setAttribute("movimientos", movimiento.listarMovimientosPorCuenta(id));
+
+            	request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
+
             }
             
 

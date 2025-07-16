@@ -325,7 +325,6 @@ public class CuentaDaoImpl implements CuentaDao {
 			stmt.setInt(1, id);
 			
 		    if (PrestamosActivos(id)) {
-		        System.out.println("La cuenta tiene préstamos activos. No se puede dar de baja.");
 		        return false;
 		    }
 			if (stmt.executeUpdate() > 0) {
