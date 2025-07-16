@@ -18,11 +18,20 @@ public class ActivarCuentaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idParam = request.getParameter("id");
-
+        String idDelCliente = request.getParameter("idCliente");
         try {
             int id = Integer.parseInt(idParam);
+            int idCliente = Integer.parseInt(idDelCliente);
+            int totalCuentas = negocioCuenta.contarCuentasPorUsuario(idCliente);
+            
+            if(totalCuentas == 3)
+            {
+            	response.sendRedirect("CuentaAdminServlet?status=errorMaxCuentas");
+            	return;
+            }
+            
             boolean activar = negocioCuenta.activarCuenta(id);
-
+            
             if (activar) {
                 response.sendRedirect("CuentaAdminServlet?status=activado");
             } else {

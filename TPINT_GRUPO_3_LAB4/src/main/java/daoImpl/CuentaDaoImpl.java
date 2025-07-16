@@ -226,7 +226,7 @@ public class CuentaDaoImpl implements CuentaDao {
 	               "c.FechaDeCreacion, c.CBU, c.Saldo, c.Estado " +
 	               "FROM cuenta c " +
 	               "INNER JOIN cuenta_tipos ct ON c.IDTipoDeCuenta = ct.ID " +
-	               "WHERE c.IDCliente = " + id;
+	               "WHERE c.Estado = 1 AND c.IDCliente = " + id;
 		ArrayList<Cuenta> lista = new ArrayList<>();
 
         

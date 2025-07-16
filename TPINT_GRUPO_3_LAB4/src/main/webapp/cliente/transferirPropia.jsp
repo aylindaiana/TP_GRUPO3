@@ -66,8 +66,8 @@
 				}
 				}
 				%>
-			</select> <label class="mt-3">Monto:</label> <input type="text" name="monto"
-				class="form-control" required> <label class="mt-3">Comentario:</label>
+			</select> <label class="mt-3">Monto:</label> <input type="text" name="monto" class="form-control" required pattern="\d+" title="Solo números positivos sin signos."> 
+			<label class="mt-3">Comentario:</label>
 			<textarea name="comentario" class="form-control"></textarea>
 
 			<div class="d-flex gap-2 mt-3">

@@ -119,6 +119,7 @@
 
             <form action="${pageContext.request.contextPath}/ActivarCuentaServlet" method="post" class="d-inline" onsubmit="return confirmarActivacion();">
                 <input type="hidden" name="id" value="<%= cuenta.getId() %>">
+                <input type="hidden" name="idCliente" value="<%= cuenta.getIdCliente() %>">
                 <% if (!cuenta.isEstado()) { %>
                     <button type="submit" class="btn btn-success">Activar</button>
                 <% } %>

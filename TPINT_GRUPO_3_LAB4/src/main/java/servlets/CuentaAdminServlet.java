@@ -25,9 +25,20 @@ public class CuentaAdminServlet extends HttpServlet {
 
         String filtroCliente = request.getParameter("filtroCliente");
         String filtroCBU = request.getParameter("filtroCBU");
-
+        
         boolean hayFiltroCliente = filtroCliente != null && !filtroCliente.trim().isEmpty();
         boolean hayFiltroCBU = filtroCBU != null && !filtroCBU.trim().isEmpty();
+        
+        String status = request.getParameter("status");
+        if ("errorMaxCuentas".equalsIgnoreCase(status)) {
+            request.setAttribute("error", "No se pudo activar la cuenta: el cliente ya tiene 3 cuentas activas.");
+        }
+        else if("activado".equalsIgnoreCase(status)) {
+        	request.setAttribute("activacion", "Se activo correctamente la cuenta y se vera reflejado automaticamente.");
+        }
+        else if("eliminado".equalsIgnoreCase(status)) {
+        	request.setAttribute("inactivo", "Se dio de baja correctamente la cuenta y se vera reflejado automaticamente.");
+        }
 
         List<Cuenta> cuentas;
         if (hayFiltroCliente || hayFiltroCBU) {

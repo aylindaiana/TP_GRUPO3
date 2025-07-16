@@ -76,7 +76,15 @@
 		    </div>
 		</div>
 
-       
+       <% if (request.getAttribute("error") != null) { %>
+		   <div class="alert alert-danger"><%= request.getAttribute("error") %></div>
+		<% } %>
+		<% if (request.getAttribute("activacion") != null) { %>
+		   <div class="alert alert-success"><%= request.getAttribute("activacion") %></div>
+		<% } %>
+		<% if (request.getAttribute("inactivo") != null) { %>
+		   <div class="alert alert-success"><%= request.getAttribute("inactivo") %></div>
+		<% } %>
         <div class="row mt-3">
 		    <div class="col-12 text-end">
 				<a href="${pageContext.request.contextPath}/DetalleCuentaServlet?modo=crear" class="btn btn-primary">
