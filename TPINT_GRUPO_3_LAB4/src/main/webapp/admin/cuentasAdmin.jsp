@@ -56,7 +56,7 @@
 		        <form method="get" action="${pageContext.request.contextPath}/CuentaAdminServlet">
 		            <div class="row align-items-end">
 		                <div class="col-md-4">
-		                    <label for="filtroCliente" class="form-label"><strong>Búsqueda:</strong></label>
+		                    <label for="filtroCliente" class="form-label"><strong>Búsqueda por Nombre y Apellido:</strong></label>
 		                    <input type="text" class="form-control" id="filtroCliente" name="filtroCliente"
 		                        placeholder="Buscar cliente..." 
 		                        value="<%= request.getAttribute("busquedaAnterior") != null ? request.getAttribute("busquedaAnterior") : "" %>">

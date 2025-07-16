@@ -1173,19 +1173,6 @@ BEGIN
 END$$
 DELIMITER ;
 
-
-DELIMITER $$
-CREATE PROCEDURE SP_CONTAR_NUEVOS_CLIENTES(
-    IN fechaDesde DATE, IN fechaHasta DATE
-)
-BEGIN
-    SELECT COUNT(*) AS total
-    FROM usuario
-    WHERE FechaDeNacimiento IS NOT NULL
-      AND FechaDeNacimiento BETWEEN fechaDesde AND fechaHasta;
-END $$
-DELIMITER ;
-
 DELIMITER $$
 CREATE PROCEDURE SP_CONTAR_TRANSFERENCIAS(
     IN fechaDesde DATE, IN fechaHasta DATE
