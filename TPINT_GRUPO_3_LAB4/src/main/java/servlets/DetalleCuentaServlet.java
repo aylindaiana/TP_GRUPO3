@@ -51,10 +51,10 @@ public class DetalleCuentaServlet extends HttpServlet {
             request.setAttribute("error", "No se proporcionó una cuenta.");
         }
 
-        int random1 = (int)(Math.random() * 1000000 + 1);
-        int random2 = (int)(Math.random() * 10000000 + 1);
-        int random3 = (int)(Math.random() * 1000000 + 1);
-        String randomCbu = Integer.toString(random1) + Integer.toString(random2) + Integer.toString(random3);
+        String random1 = String.format("%07d",(int)(Math.random() * 1000000));
+        String random2 = String.format("%08d",(int)(Math.random() * 1000000));
+        String random3 = String.format("%07d",(int)(Math.random() * 1000000));
+        String randomCbu = random1 + random2 + random3;
         request.setAttribute("cbu", randomCbu);
         request.getRequestDispatcher("/admin/detalleCuenta.jsp").forward(request, response);
     }

@@ -44,7 +44,7 @@ public class UsuarioCredencialesImpl implements UsuarioCredencialesDao {
     }
 
     @Override
-    public int iniciarSesion(String email, String pass) {
+    public int iniciarSesion(String user, String pass) {
 		Connection cn = Conexion.getConexion().getSQLConexion();
 		// Structured Procedure, ver en el SQL
 		String query = "CALL iniciar_sesion(?, ?)";
@@ -55,7 +55,7 @@ public class UsuarioCredencialesImpl implements UsuarioCredencialesDao {
         
 		try {
 			st = cn.prepareStatement(query);
-	        st.setString(1, email);
+	        st.setString(1, user);
 	        st.setString(2, pass);
 	        
 	        rs = st.executeQuery();
@@ -77,6 +77,40 @@ public class UsuarioCredencialesImpl implements UsuarioCredencialesDao {
 		return -1;
 	}
 
+    @Override
+    public int buscarIdClienteInactivo(String user, String pass) {
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		// Structured Procedure, ver en el SQL
+		String query = "CALL SP_BUSCAR_ID_CLIENTES_INACTIVOS(?, ?)";
+		// preparar parametros
+		PreparedStatement st;
+		// almacenar resultado
+		ResultSet rs;
+        
+		try {
+			st = cn.prepareStatement(query);
+	        st.setString(1, user);
+	        st.setString(2, pass);
+	        
+	        rs = st.executeQuery();
+	        
+	        if(rs.next()) {
+	        	if(rs.getInt("IDCliente") > 0) {
+	        		return rs.getInt("IDCliente");
+	        	}
+	        }
+	        
+		} catch (SQLException e) {
+			e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+		}
+		return -1;
+	}
+    
     @Override
     public boolean cerrarSesion() {
         // Implementar lógica de cierre de sesión si es necesario

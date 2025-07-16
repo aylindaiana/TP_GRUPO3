@@ -12,8 +12,8 @@ public class Conexion {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //Class.forName("com.mysql.cj.jdbc.Driver");
-            //this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpintegrador", "root", "1234");
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpintegrador", "root", "root");
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpintegrador", "root", "1234");
+            //this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpintegrador", "root", "root");
             this.connection.setAutoCommit(false);
         } catch (Exception e) {
         	System.err.println(">>> ❌ Error al conectar con MySQL:");

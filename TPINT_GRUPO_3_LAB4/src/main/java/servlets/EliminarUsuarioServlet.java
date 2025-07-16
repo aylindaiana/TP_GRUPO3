@@ -24,6 +24,7 @@ public class EliminarUsuarioServlet extends HttpServlet {
         try {
             int id = Integer.parseInt(idParam);
             boolean eliminado = negocioUsuario.eliminarUsuario(id);
+            // falta mensaje, tiene prestamos activos no puede darse de baja
             
             NegocioCuenta cNegocio = new NegocioCuentaImpl();
             

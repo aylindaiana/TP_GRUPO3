@@ -19,7 +19,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
         "JOIN Provincia p ON u.ID_Provincia = p.ID_Provincia " +
         "JOIN Localidad l ON u.ID_Localidad = l.ID_Localidad " +
         "WHERE u.ID = ?";
-    private static final String BAJA_LOGICA = "UPDATE usuario SET Estado = 0 WHERE ID = ?";
+    private static final String BAJA_LOGICA = "CALL sp_baja_usuario(?)";
     private static final String ACTIVAR = "UPDATE usuario SET Estado = 1 WHERE ID = ?";
 
     private final String SP_LISTAR_CLIENTES = "CALL SP_LISTAR_CLIENTES()";
@@ -191,22 +191,39 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return u;
     }
 
+    
     @Override
     public boolean bajaLogica(int id) {
-        boolean resultado = false;
-        Connection conexion = Conexion.getConexion().getSQLConexion();
-        try (PreparedStatement stmt = conexion.prepareStatement(BAJA_LOGICA)) {
-            stmt.setInt(1, id);
-            if (stmt.executeUpdate() > 0) {
-                conexion.commit();
-                resultado = true;
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		// Structured Procedure, ver en el SQL
+		String query = BAJA_LOGICA;
+		// preparar parametros
+		PreparedStatement st;
+		// almacenar resultado
+		ResultSet rs;
+        
+		try {
+			st = cn.prepareStatement(query);
+	        st.setInt(1, id);
+	        
+	        rs = st.executeQuery();
+	        
+	        if(rs.next()) {
+	        	if(rs.getInt("FilasActualizadas") > 0) {
+	        		return true;
+	        	}
+	        }
+	        
+		} catch (SQLException e) {
+			e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (Exception e2) {
+                e2.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            try { conexion.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
-        }
-        return resultado;
-    }
+		}
+		return false;
+	}
 
     @Override
     public boolean activar(int id) {

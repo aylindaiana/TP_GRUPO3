@@ -373,6 +373,27 @@ DELIMITER ;
 
 CALL SP_LISTAR_CLIENTES();
 
+
+/* SP ABML Usuarios */
+
+DROP PROCEDURE IF EXISTS SP_BUSCAR_ID_CLIENTES_INACTIVOS;
+
+DELIMITER $$
+CREATE PROCEDURE SP_BUSCAR_ID_CLIENTES_INACTIVOS(
+	IN usuario varchar(45),
+    IN pass varchar(45)
+)
+BEGIN
+	SELECT 
+		UC.IDCliente
+    FROM usuario_credenciales as UC
+    WHERE UC.Usuario = usuario AND UC.Contraseña = pass AND UC.Estado = 0;
+END$$
+DELIMITER ;
+
+CALL SP_BUSCAR_ID_CLIENTES_INACTIVOS("usuario3", "1234");
+
+
 /* SP ABML Usuarios (Credenciales) */
 
 /* SP ABML Cuentas */
@@ -1325,6 +1346,24 @@ IF OLD.Estado = 1 AND NEW.Estado = 0 THEN
 END
 $$;
 
+/* Trigger al activar un usuario volver a activar sus cuentas anexadas*/
+DELIMITER $$ 
+DROP TRIGGER IF EXISTS tr_activar_cuentas;
+
+DELIMITER $$ 
+CREATE TRIGGER tr_activar_cuentas
+AFTER UPDATE
+ON usuario
+FOR EACH ROW
+BEGIN
+IF OLD.Estado = 0 AND NEW.Estado = 1 THEN
+        UPDATE cuenta c
+        SET c.Estado = 1
+        WHERE c.IDCliente = NEW.ID;
+    END IF;
+END
+$$;
+
 DELIMITER ;
 
 /* Trigger al eliminar logicamente un usuario, dar de baja sus credenciales */
@@ -1381,3 +1420,72 @@ END$$
 DELIMITER ;
 
 CALL SP_listar_ultimos_cliente(5, 5);
+
+/* SP Para calcular cantidad de prestamos pendientes de aprobacion, teniendo en cuenta si la cuenta esta activa o no*/
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS SP_cant_prestamos_pendientes_aprob$$
+
+CREATE PROCEDURE SP_cant_prestamos_pendientes_aprob()
+BEGIN
+	SELECT COUNT(*) as total
+    FROM prestamos p
+    Inner join cuenta c
+    ON p.IDCuenta = c.ID
+    WHERE p.Autorizacion = 2 AND c.Estado = 1;
+END$$
+DELIMITER ;
+
+CALL SP_cant_prestamos_pendientes_aprob();
+
+/* Funcion listar cantidad prestamos activos por cliente */
+
+DROP FUNCTION IF EXISTS listar_cant_prestamos_activos_por_cliente;
+
+DELIMITER $$
+CREATE FUNCTION listar_cant_prestamos_activos_por_cliente(
+	I_IDCLIENTE VARCHAR(45)
+)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	DECLARE CANTIDAD INT;
+    
+	SELECT COUNT(*) INTO CANTIDAD
+	FROM prestamos 
+    WHERE IDCliente = I_IDCLIENTE AND Autorizacion = 1;
+    
+    RETURN CANTIDAD;
+END$$
+DELIMITER ;
+
+SELECT listar_cant_prestamos_activos_por_cliente(4); 
+
+/* Corroborar si el usuario tiene prestamos activos antes de darlo de baja*/
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_baja_usuario$$
+
+CREATE PROCEDURE sp_baja_usuario(
+	IN id_usuario int
+)
+BEGIN
+	DECLARE CantidadPrestamos INT DEFAULT 0;
+    DECLARE FilasActualizadas INT;
+    
+	SET CantidadPrestamos = listar_cant_prestamos_activos_por_cliente(id_usuario);
+    
+	IF CantidadPrestamos = 0
+		THEN 
+		UPDATE usuario SET Estado = 0 WHERE id = id_usuario;
+        SET FilasActualizadas = ROW_COUNT();
+		SELECT FilasActualizadas AS FilasActualizadas;
+	ELSE
+		SELECT 0 as FilasActualizadas;
+    END IF;
+END$$
+DELIMITER ;
+
+SELECT listar_cant_prestamos_activos_por_cliente(4);
+SELECT * FROM USUARIO; 
+CALL sp_baja_usuario(6);
+SELECT * FROM USUARIO; 

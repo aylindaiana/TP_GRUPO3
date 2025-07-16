@@ -252,7 +252,7 @@
 
 			<!-- Botones de acción -->
 			<div class="action-buttons">
-				<a href="${pageContext.request.contextPath}/admin/homeAdmin.jsp"
+				<a href="${pageContext.request.contextPath}/HomeAdminServlet"
 					class="cancel-button">Cancelar</a>
 				<button type="submit" class="submit-button">Crear</button>
 			</div>

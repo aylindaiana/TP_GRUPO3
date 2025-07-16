@@ -29,7 +29,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	
 	private final String CONTAR_PRESTAMOS_APROBADOS = "CALL SP_CONTAR_PRESTAMOS_APROBADOS(?, ?)";
 	static String OBTENER_POR_ID_CUENTA = "CALL SP_LISTAR_PRESTAMOS_POR_CUENTA(?)";
-	static String CANT_PRESTAMOS_PENDIENTES_APROB="SELECT COUNT(*) as total FROM prestamos WHERE Autorizacion = 2";
+	static String CANT_PRESTAMOS_PENDIENTES_APROB="CALL SP_cant_prestamos_pendientes_aprob";
 
 	
 	@Override

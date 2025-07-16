@@ -50,13 +50,7 @@ public class ServletLogin extends HttpServlet {
 
             if (idLogin != -1) {
                 int idCliente = dao.obtenerIDClientePorCredencial(idLogin); // ID de usuario
-                UsuarioCredenciales cred = dao.obtenerPorClienteId(idCliente); // aquí sí usamos el ID del cliente
-
-                if (cred != null && cred.getEstado() == 0) {
-                    // Usuario está inactivo
-                    response.sendRedirect(request.getContextPath() + "/public/login.jsp?status=inactivo");
-                    return;
-                }
+                
 
                 request.getSession().setAttribute("id", idLogin);
                 request.getSession().setAttribute("idCliente", idCliente);
@@ -77,6 +71,13 @@ public class ServletLogin extends HttpServlet {
                     rd.forward(request, response);
                 }
             } else {
+            	idLogin = dao.buscarIdClienteInactivo(username, password);
+            	UsuarioCredenciales cred = dao.obtenerPorClienteId(idLogin); // aquí sí usamos el ID del login
+                if (cred != null && cred.getEstado() == 0) {
+                    // Usuario está inactivo
+                    response.sendRedirect(request.getContextPath() + "/public/login.jsp?status=inactivo");
+                    return;
+                }
                 // Usuario o contraseña incorrectos
                 response.sendRedirect(request.getContextPath() + "/public/login.jsp?status=errorLogin");
             }
