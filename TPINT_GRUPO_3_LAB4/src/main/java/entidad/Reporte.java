@@ -10,7 +10,6 @@ public class Reporte {
     private int prestamosRechazados;
     private int cuotasPagadas;
     private double totalRecaudado;
-    private int nuevosClientes;
     private double totalMovimientosIngresos;
     private double totalMovimientosEgresos;
     private int CuentasCajaAhorro;
@@ -110,14 +109,6 @@ public class Reporte {
         this.totalRecaudado = totalRecaudado;
     }
 
-    public int getNuevosClientes() {
-        return nuevosClientes;
-    }
-
-    public void setNuevosClientes(int nuevosClientes) {
-        this.nuevosClientes = nuevosClientes;
-    }
-
     public double getTotalMovimientosIngresos() {
         return totalMovimientosIngresos;
     }
@@ -153,7 +144,7 @@ public class Reporte {
 	public String toString() {
 		return "Reporte [desde=" + desde + ", hasta=" + hasta + ", prestamosAprobados=" + prestamosAprobados
 				+ ", prestamosRechazados=" + prestamosRechazados + ", cuotasPagadas=" + cuotasPagadas
-				+ ", totalRecaudado=" + totalRecaudado + ", nuevosClientes=" + nuevosClientes
+				+ ", totalRecaudado=" + totalRecaudado
 				+ ", totalMovimientosIngresos=" + totalMovimientosIngresos + ", totalMovimientosEgresos="
 				+ totalMovimientosEgresos + ", CuentasCajaAhorro=" + CuentasCajaAhorro + ", CuentasCuentaCorriente="
 				+ CuentasCuentaCorriente + ", totalTransferencias=" + totalTransferencias + ", totalAltasCuenta="

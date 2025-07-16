@@ -41,7 +41,7 @@
 
     <%
         Cuenta cuenta = (Cuenta) request.getAttribute("cuenta");
-	    String modo = (String) request.getParameter("modo");
+	    String modo = (String) request.getAttribute("modo");
 	    if (modo == null) modo = "ver";
 	
 	    if ("crear".equals(modo)) {
