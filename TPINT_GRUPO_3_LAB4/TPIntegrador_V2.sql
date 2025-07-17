@@ -1551,3 +1551,23 @@ SELECT listar_cant_prestamos_activos_por_cliente(4);
 SELECT * FROM USUARIO; 
 CALL sp_baja_usuario(6);
 SELECT * FROM USUARIO; 
+
+/* Obtener datos del cliente dueño de la cuenta ¨*/
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS sp_listar_cliente_cuenta$$
+
+CREATE PROCEDURE sp_listar_cliente_cuenta(
+	IN id_cuenta INT
+)
+BEGIN
+	SELECT CONCAT(u.nombre, ' ', u.apellido) as Nombre
+	FROM usuario u
+    JOIN cuenta c
+    on u.ID = c.IDCliente
+    WHERE c.ID = id_cuenta;
+END$$
+
+DELIMITER $$
+
+call sp_listar_cliente_cuenta(1)

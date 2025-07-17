@@ -134,12 +134,14 @@ String cuentaParam = (request.getParameter("cuenta") != null && !"null".equals(r
                     java.sql.Timestamp fecha = t.getFecha();
                     java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd / HH:mm");
                     String fechaFormateada = sdf.format(fecha);
+					String nombreOrigen = t.getNombreOrigen();
+					String nombreDestino = t.getNombreDestino();
             %>
             <tr>
                 <td><%=fechaFormateada%></td>
                 <td class="<%=claseOperacion%>"><%=t.getTipoMovimiento()%></td>
-                <td><%=t.getNombreOrigen()%> <br> CBU: <%=t.getCbuOrigen()%></td>
-                <td><%=t.getNombreDestino()%> <br> CBU: <%=t.getCbuDestino()%></td>
+				<td><%=nombreOrigen%> <br> CBU: <%=t.getCbuOrigen()%></td>
+				<td><%=nombreDestino%> <br> CBU: <%=t.getCbuDestino()%></td>
                 <td><span class="<%=claseOperacion%>"><%=signo%>$<%=t.getMonto()%></span></td>
                 <td><%=t.getComentario()%></td>
             </tr>

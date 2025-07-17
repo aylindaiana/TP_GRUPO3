@@ -17,8 +17,12 @@ import daoImpl.UsuarioDaoImpl;
 import daoImpl.usuarioTipoDaoImpl;
 import entidad.Usuario;
 import entidad.UsuarioCredenciales;
+import negocio.NegocioUsuario;
 import negocio.NegocioUsuarioCredenciales;
+import negocio.NegocioUsuarioTipo;
 import negocioImpl.NegocioUsuarioCredencialesImpl;
+import negocioImpl.NegocioUsuarioImpl;
+import negocioImpl.NegocioUsuarioTipoImpl;
 
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
@@ -56,12 +60,12 @@ public class ServletLogin extends HttpServlet {
                 request.getSession().setAttribute("id", idLogin);
                 request.getSession().setAttribute("idCliente", idCliente);
 
-                UsuarioDao userDao = new UsuarioDaoImpl();
+                NegocioUsuario userDao = new NegocioUsuarioImpl();
                 Usuario user = userDao.obtenerPorId(idCliente);
                 request.getSession().setAttribute("idNombre", user.getNombre());
 
-                usuarioTipoDao uDao = new usuarioTipoDaoImpl();
-                int idTipoUsuario = uDao.buscarTipoId(idLogin);
+                NegocioUsuarioTipo neg = new NegocioUsuarioTipoImpl();
+                int idTipoUsuario = neg.buscarTipoId(idLogin);
                 request.getSession().setAttribute("idTipoUsuario", idTipoUsuario);
 
                 if (idTipoUsuario == 1) {

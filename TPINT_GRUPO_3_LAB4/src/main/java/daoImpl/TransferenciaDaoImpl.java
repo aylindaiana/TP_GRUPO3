@@ -104,6 +104,59 @@ public class TransferenciaDaoImpl implements TransferenciaDao {
         return lista;
     }
     
+
+    @Override
+    public String clientePropietarioOrigen(int id) {
+    	Connection cn = Conexion.getConexion().getSQLConexion();
+
+        String sql = "{ CALL sp_listar_cliente_cuenta(?) }";
+
+        try {
+            CallableStatement cs = cn.prepareCall(sql);
+            cs.setInt(1, id);
+            ResultSet rs = cs.executeQuery();
+
+            while (rs.next()) {
+                String nombre = (rs.getString("Nombre"));
+                return nombre;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String clientePropietarioDestino(int id) {
+    	Connection cn = Conexion.getConexion().getSQLConexion();
+
+        String sql = "{ CALL sp_listar_cliente_cuenta(?) }";
+
+        try {
+            CallableStatement cs = cn.prepareCall(sql);
+            cs.setInt(1, id);
+            ResultSet rs = cs.executeQuery();
+
+            while (rs.next()) {
+                String nombre = (rs.getString("Nombre"));
+                return nombre;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                cn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+    
     @Override
     public double saldoTotalEnTransferencia() {
         double total = 0;

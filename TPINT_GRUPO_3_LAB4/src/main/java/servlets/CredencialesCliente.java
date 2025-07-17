@@ -28,18 +28,6 @@ public class CredencialesCliente implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
         
-        /* terminar lógica para que redirija 
-         * 
-        if (session == null) {
-            res.sendRedirect(req.getContextPath() + "/public/login.jsp");
-        } else if (session != null && session.getAttribute("idTipoUsuario") != null && (int)session.getAttribute("idTipoUSuario") == 1) {
-            res.sendRedirect(req.getContextPath() + "/admin/homeAdmin.jsp");
-            // + mensaje no puede ingresar a esa seccion
-        } else if (session != null && session.getAttribute("idTipoUsuario") != null && (int)session.getAttribute("idTipoUSuario") == 2) {
-            chain.doFilter(request, response);
-	    }
-	    */
-        
         if (session != null && session.getAttribute("idTipoUsuario") != null) {
         	if ((int)session.getAttribute("idTipoUsuario") == 2) {
                 chain.doFilter(request, response);

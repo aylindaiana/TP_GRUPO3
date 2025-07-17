@@ -4,6 +4,7 @@
 <%
 List<Movimiento> movimientos = (List<Movimiento>) request.getAttribute("movimientos");
 int idCuenta = (request.getAttribute("idCuenta") != null) ? (int) request.getAttribute("idCuenta") : 0;
+int HayPaginaSiguiente = ((int)request.getAttribute("HayPaginaSiguiente") != 0) ? (int) request.getAttribute("HayPaginaSiguiente") : 0;
 int currentPage = (request.getAttribute("currentPage") != null) ? (int) request.getAttribute("currentPage") : 1;
 %>
 <!DOCTYPE html>
@@ -159,7 +160,7 @@ int currentPage = (request.getAttribute("currentPage") != null) ? (int) request.
 					<a class="page-link"
 					href="${pageContext.request.contextPath}/VerTodoCuentaServlet?idCuenta=<%= idCuenta %>&page=<%= currentPage - 1 %>">Anterior</a>
 				</li>
-				<li class="page-item"><a class="page-link"
+				<li class="page-item <%=(HayPaginaSiguiente == 0) ?  "disabled" : ""%>"><a class="page-link"
 					href="${pageContext.request.contextPath}/VerTodoCuentaServlet?idCuenta=<%= idCuenta %>&page=<%= currentPage + 1 %>">Siguiente</a>
 				</li>
 			</ul>

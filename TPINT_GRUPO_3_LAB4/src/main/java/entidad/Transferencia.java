@@ -70,6 +70,7 @@ public class Transferencia {
     public String getNombreOrigen() {
         return nombreOrigen;
     }
+    
     public void setNombreOrigen(String nombreOrigen) {
         this.nombreOrigen = nombreOrigen;
     }

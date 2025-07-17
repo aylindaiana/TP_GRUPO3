@@ -52,6 +52,20 @@ public class TransferenciasHomeServlet extends HttpServlet {
                 0,
                 5
         );
+        
+        NegocioTransferencia neg = new NegocioTransferenciaImpl();
+        for(Transferencia t : ultimasTransferencias) {
+        	int idOrigen = t.getIdCuentaOrigen();
+        	int idDestino = t.getIdCuentaDestino();
+        	
+        	String nombreOrigen = neg.clientePropietarioOrigen(idOrigen);
+        	String nombreDestino = neg.clientePropietarioDestino(idDestino);
+        	
+        	t.setNombreOrigen(nombreOrigen);
+        	t.setNombreDestino(nombreDestino);
+        }
+        
+        request.getAttribute("datosUsuarioCuenta");
 
         request.setAttribute("ultimasTransferencias", ultimasTransferencias);
 

@@ -52,6 +52,12 @@ public class VerTodoCuentaServlet extends HttpServlet {
                 recordsPerPage
         );
 
+        if(movimientos.size() / recordsPerPage == 1) {
+            request.setAttribute("HayPaginaSiguiente", 1);
+        } else {
+            request.setAttribute("HayPaginaSiguiente", 0);
+        }
+        	
         request.setAttribute("movimientos", movimientos);
         request.setAttribute("idCuenta", idCuenta);
         request.setAttribute("currentPage", page);

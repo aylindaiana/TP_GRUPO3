@@ -42,6 +42,19 @@ public class NegocioTransferenciaImpl implements NegocioTransferencia {
         );
     }
     
+
+    @Override
+    public String clientePropietarioOrigen(int id) {
+    	TransferenciaDao transferenciaDao = new TransferenciaDaoImpl();
+    	return transferenciaDao.clientePropietarioOrigen(id);
+    }
+
+    @Override
+	public String clientePropietarioDestino(int id) {
+		TransferenciaDao transferenciaDao = new TransferenciaDaoImpl();
+		return transferenciaDao.clientePropietarioDestino(id);
+	}
+    
     @Override
 	public double saldoTotalDeTransfe() {
     	TransferenciaDao transferenciaDao = new TransferenciaDaoImpl();

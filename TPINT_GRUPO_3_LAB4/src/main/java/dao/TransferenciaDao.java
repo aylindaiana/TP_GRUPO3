@@ -24,6 +24,9 @@ public interface TransferenciaDao {
         int limite
     );
     
+
+   public String clientePropietarioOrigen(int id);
+   public String clientePropietarioDestino(int id);
     
    public double saldoTotalEnTransferencia();
    public int contarTransferencias(LocalDate desde, LocalDate hasta);
