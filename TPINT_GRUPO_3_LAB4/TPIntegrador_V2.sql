@@ -81,28 +81,16 @@ CREATE TABLE `cuotas` (
 
 CREATE TABLE `transferencia` (
   `ID` INT NOT NULL AUTO_INCREMENT,
-
-  -- Cuenta que envía dinero
   `IDCuentaOrigen` INT NOT NULL,
-
-  -- Cuenta que recibe dinero
   `IDCuentaDestino` INT NOT NULL,
-
-  -- Monto transferido
   `Monto` DOUBLE NOT NULL,
-
-  -- Fecha y hora exacta de la transferencia
   `Fecha` DATETIME NOT NULL,
-
-  -- Detalle o comentario opcional
   `Comentario` VARCHAR(200) DEFAULT NULL,
-
-  -- Estado: 1 = realizada, 0 = anulada, etc.
   `Estado` TINYINT DEFAULT 1,
 
   PRIMARY KEY (`ID`),
 
-  -- Claves foráneas que vinculan con cuentas
+
   FOREIGN KEY (`IDCuentaOrigen`) REFERENCES `cuenta`(`ID`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
