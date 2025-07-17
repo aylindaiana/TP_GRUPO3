@@ -16,7 +16,8 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/nav.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/footer.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -106,21 +107,31 @@
 									.getAttribute("ultimasTransferencias");
 							if (ultimasTransferencias != null && !ultimasTransferencias.isEmpty()) {
 								for (entidad.Transferencia t : ultimasTransferencias) {
-									String claseOperacion = t.getTipoMovimiento().equals("EGRESO") ? "text-danger" : "text-success";
-									String signo = t.getTipoMovimiento().equals("EGRESO") ? "-" : "+";
+									String claseOperacion;
+									String signo;
+									switch (t.getTipoMovimiento()) {
+									case "EGRESO":
+								claseOperacion = "text-danger";
+								signo = "-";
+								break;
+									case "INGRESO":
+								claseOperacion = "text-success";
+								signo = "+";
+								break;
+									default: 
+								claseOperacion = "text-primary";
+								signo = "";
+								break;
+									}
 									java.sql.Timestamp fecha = t.getFecha();
 									java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd / HH:mm");
 									String fechaFormateada = sdf.format(fecha);
-									String nombreOrigen = t.getNombreOrigen();
-									String nombreDestino = t.getNombreDestino();
 							%>
 							<tr>
 								<td><%=fechaFormateada%></td>
 								<td class="<%=claseOperacion%>"><%=t.getTipoMovimiento()%></td>
-								<td><%=nombreOrigen%> <br> CBU: <%=t.getCbuOrigen()%>
-								</td>
-								<td><%=nombreDestino%> <br> CBU: <%=t.getCbuDestino()%>
-								</td>
+								<td><%=t.getNombreOrigen()%><br> CBU: <%=t.getCbuOrigen()%></td>
+								<td><%=t.getNombreDestino()%><br> CBU: <%=t.getCbuDestino()%></td>
 								<td><span class="<%=claseOperacion%>"><%=signo%>$<%=t.getMonto()%></span></td>
 								<td><%=t.getComentario()%></td>
 							</tr>
@@ -136,16 +147,19 @@
 							%>
 						</tbody>
 
+
 					</table>
 					<div class="d-flex justify-content-center mt-2">
-						<a href="${pageContext.request.contextPath}/TransferenciasVerTodoServlet" class="btn btn-primary px-4">Ver todo</a>
+						<a
+							href="${pageContext.request.contextPath}/TransferenciasVerTodoServlet"
+							class="btn btn-primary px-4">Ver todo</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<footer>
-	        <p>© 2025 Grupo 3 - Laboratorio 4</p>
+		<p>© 2025 Grupo 3 - Laboratorio 4</p>
 	</footer>
 </body>
 </html>

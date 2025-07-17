@@ -66,5 +66,12 @@ public class Movimiento {
 		TipoDeMovimiento.setId(iDTipodeMovimiento);
 	}
 	
+	public boolean esIngreso(int idCuentaActual) {
+	    if (this.getDescripcionTipoDeMovimiento().toLowerCase().contains("alta")) {
+	        return true;
+	    }
+	    return this.IDCuentaDestino == idCuentaActual;
+	}
+	
 	
 }

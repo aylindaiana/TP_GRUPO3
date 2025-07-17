@@ -1034,9 +1034,7 @@ DELIMITER ;
 
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS;
-
-DELIMITER $$
+DROP PROCEDURE IF EXISTS SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS $$
 
 CREATE PROCEDURE SP_LISTAR_TRANSFERENCIAS_POR_CUENTAS(
   IN p_Cuenta1 INT,
@@ -1064,9 +1062,14 @@ BEGIN
     t.Fecha,
     t.Comentario,
     CASE
-      WHEN t.IDCuentaOrigen IN (p_Cuenta1, p_Cuenta2, p_Cuenta3) THEN 'EGRESO'
-      WHEN t.IDCuentaDestino IN (p_Cuenta1, p_Cuenta2, p_Cuenta3) THEN 'INGRESO'
-      ELSE 'N/A'
+        WHEN t.IDCuentaOrigen IN (p_Cuenta1, p_Cuenta2, p_Cuenta3)
+             AND t.IDCuentaDestino IN (p_Cuenta1, p_Cuenta2, p_Cuenta3)
+        THEN 'INTERNA'
+        WHEN t.IDCuentaOrigen IN (p_Cuenta1, p_Cuenta2, p_Cuenta3)
+        THEN 'EGRESO'
+        WHEN t.IDCuentaDestino IN (p_Cuenta1, p_Cuenta2, p_Cuenta3)
+        THEN 'INGRESO'
+        ELSE 'N/A'
     END AS TipoMovimiento
   FROM transferencia t
   INNER JOIN cuenta co ON t.IDCuentaOrigen = co.ID
@@ -1086,6 +1089,7 @@ END $$
 
 DELIMITER ;
 
+
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS SP_LISTAR_MOVIMIENTOS_POR_CUENTA_Y_FILTROS $$
@@ -1104,6 +1108,7 @@ CREATE PROCEDURE SP_LISTAR_MOVIMIENTOS_POR_CUENTA_Y_FILTROS(
 BEGIN
     SELECT 
         m.Fecha,
+        m.IDCuentaDestino,
         m.Comentario AS Detalle,
         m.Monto,
         mt.Descripcion AS TipoMovimiento
