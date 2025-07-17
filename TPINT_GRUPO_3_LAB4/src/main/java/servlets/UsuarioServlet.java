@@ -2,6 +2,8 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 import entidad.Usuario;
 import negocio.NegocioUsuario;
@@ -33,7 +35,7 @@ public class UsuarioServlet extends HttpServlet {
         String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
-
+        String fechaNacimientoStr = request.getParameter("fechaNacimiento");
 
         boolean hayError = false;
 
@@ -55,6 +57,25 @@ public class UsuarioServlet extends HttpServlet {
             hayError = true;
         }
 
+        // Validar edad mínima
+        if (fechaNacimientoStr != null && !fechaNacimientoStr.isEmpty()) {
+            try {
+                LocalDate fechaNacimiento = LocalDate.parse(fechaNacimientoStr);
+                LocalDate hoy = LocalDate.now();
+                int edad = Period.between(fechaNacimiento, hoy).getYears();
+
+                if (edad < 18) {
+                    request.setAttribute("errorEdad", "Se debe tener al menos 18 años para registrarse.");
+                    hayError = true;
+                }
+            } catch (Exception e) {
+                request.setAttribute("errorEdad", "Fecha de nacimiento inválida.");
+                hayError = true;
+            }
+        } else {
+            request.setAttribute("errorEdad", "La fecha de nacimiento es obligatoria.");
+            hayError = true;
+        }
 
         // Paso 2: Setear todos los atributos
         request.setAttribute("dni", dni);
@@ -64,7 +85,7 @@ public class UsuarioServlet extends HttpServlet {
         request.setAttribute("apellido", request.getParameter("apellido"));
         request.setAttribute("sexo", request.getParameter("sexo"));
         request.setAttribute("nacionalidad", request.getParameter("nacionalidad"));
-        request.setAttribute("fechaNacimiento", request.getParameter("fechaNacimiento"));
+        request.setAttribute("fechaNacimiento", fechaNacimientoStr);
         request.setAttribute("direccion", request.getParameter("direccion"));
         request.setAttribute("localidad", request.getParameter("localidad"));
         request.setAttribute("provincia", request.getParameter("provincia"));
@@ -73,7 +94,7 @@ public class UsuarioServlet extends HttpServlet {
 
         // Si hay errores de validación, volver al formulario
         if (hayError) {
-        	request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
+            request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
             return;
         }
 
@@ -87,15 +108,14 @@ public class UsuarioServlet extends HttpServlet {
                 request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
                 return;
             }
-            
+
             // Validar nombre de usuario duplicado
             if (negocio.existeNombreUsuario(usuario)) {
                 request.setAttribute("errorNombreUsuario", "El nombre de usuario ya está registrado.");
-                hayError = true;
                 request.getRequestDispatcher("FormularioClienteServlet").forward(request, response);
                 return;
             }
-            
+
             // Validar CUIL duplicado
             long cuilLong = Long.parseLong(cuil);
             if (negocio.existeCuil(cuilLong)) {
@@ -104,16 +124,15 @@ public class UsuarioServlet extends HttpServlet {
                 return;
             }
 
-
             // Paso 3: Crear objeto Usuario
             Usuario nuevoUsuario = new Usuario();
             nuevoUsuario.setDni(dniInt);
-            nuevoUsuario.setCuil(Long.parseLong(cuil));
+            nuevoUsuario.setCuil(cuilLong);
             nuevoUsuario.setNombre(request.getParameter("nombre"));
             nuevoUsuario.setApellido(request.getParameter("apellido"));
             nuevoUsuario.setSexo(request.getParameter("sexo"));
             nuevoUsuario.setNacionalidad(request.getParameter("nacionalidad"));
-            nuevoUsuario.setFechaDeNacimiento(Date.valueOf(request.getParameter("fechaNacimiento")));
+            nuevoUsuario.setFechaDeNacimiento(Date.valueOf(fechaNacimientoStr));
             nuevoUsuario.setDireccion(request.getParameter("direccion"));
             nuevoUsuario.setIdProvincia(Integer.parseInt(request.getParameter("provincia")));
             nuevoUsuario.setIdLocalidad(Integer.parseInt(request.getParameter("localidad")));
@@ -125,9 +144,9 @@ public class UsuarioServlet extends HttpServlet {
             boolean insertadoOK = negocio.agregarUsuarioConCredenciales(nuevoUsuario, usuario, password);
 
             if (insertadoOK) {
-            	response.sendRedirect("FormularioClienteServlet?status=success");
+                response.sendRedirect("FormularioClienteServlet?status=success");
             } else {
-            	response.sendRedirect("FormularioClienteServlet?status=error");
+                response.sendRedirect("FormularioClienteServlet?status=error");
             }
 
         } catch (Exception e) {

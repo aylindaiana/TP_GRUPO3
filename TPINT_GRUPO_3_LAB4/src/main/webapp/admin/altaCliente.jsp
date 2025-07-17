@@ -149,10 +149,14 @@
 						</div>
 
 						<div class="form-group">
-							<label for="fechaNacimiento">Fecha de nacimiento:</label> <input
-								type="date" id="fechaNacimiento" name="fechaNacimiento" required
-								value="<%=request.getAttribute("fechaNacimiento") != null ? request.getAttribute("fechaNacimiento") : ""%>">
+						    <label for="fechaNacimiento">Fecha de nacimiento:</label> 
+						    <input type="date" id="fechaNacimiento" name="fechaNacimiento" required
+						        value="<%=request.getAttribute("fechaNacimiento") != null ? request.getAttribute("fechaNacimiento") : ""%>">
+						    <small class="text-danger">
+						        <%=request.getAttribute("errorEdad") != null ? request.getAttribute("errorEdad") : "" %>
+						    </small>
 						</div>
+
 					</div>
 				</div>
 

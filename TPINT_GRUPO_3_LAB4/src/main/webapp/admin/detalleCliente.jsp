@@ -253,7 +253,7 @@
 		<form action="${pageContext.request.contextPath}/EliminarUsuarioServlet" method="post" style="display: inline;" onsubmit="return confirmarEliminacion();">
 			<input type="hidden" name="id" value="<%=usuario.getId()%>">
 			<% if (usuario.isEstado()) { %>
-				<button type="submit" class="btn btn-danger btn-lg me-2">Eliminar</button>
+				<button type="submit" class="btn btn-danger btn-lg me-2">Inactivar</button>
 			<% } %>
 		</form>
 

@@ -110,9 +110,14 @@ List<Localidad> localidades = (List<Localidad>) request.getAttribute("localidade
                 <input type="text" name="nacionalidad" class="form-control" value="<%= usuario.getNacionalidad() %>">
             </div>
             <div class="col-md-6">
-                <label>Fecha de Nacimiento</label>
-                <input type="date" name="fechaNacimiento" class="form-control" value="<%= usuario.getFechaDeNacimiento() %>">
-            </div>
+			    <label>Fecha de Nacimiento</label>
+			    <input type="date" name="fechaNacimiento" class="form-control"
+			        value="<%= request.getAttribute("fechaNacimiento") != null ? request.getAttribute("fechaNacimiento") : usuario.getFechaDeNacimiento() %>">
+			    <% if (request.getAttribute("errorEdad") != null) { %>
+			        <div class="text-danger"><%= request.getAttribute("errorEdad") %></div>
+			    <% } %>
+			</div>
+
         </div>
 
         <div class="row mb-3">
