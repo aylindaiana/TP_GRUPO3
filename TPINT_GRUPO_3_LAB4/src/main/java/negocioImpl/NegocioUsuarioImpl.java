@@ -84,12 +84,6 @@ public class NegocioUsuarioImpl implements NegocioUsuario {
     public int contarUsuarios() {
         return usuarioDao.contarUsuarios();
     }
-    
-    /* Prueba para reporte */
-    @Override
-    public int contarNuevosClientes(LocalDate desde, LocalDate hasta) {
-        return usuarioDao.contarNuevosClientes(desde, hasta);
-    }
 
 	@Override
 	public List<Usuario> listarClientes() {

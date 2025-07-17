@@ -129,8 +129,8 @@ public class NegocioCuentaImpl implements NegocioCuenta{
 	}
 	
 	@Override
-	public List<Cuenta> buscar(String nombreCliente, String cbu) {
-	    return cuentaDao.buscar(nombreCliente, cbu);
+	public List<Cuenta> buscarAvanzado(String nombreCliente, String cbu, String fechaDesde, String fechaHasta, String tipoCuenta) {
+	    return cuentaDao.buscarAvanzado(nombreCliente, cbu, fechaDesde, fechaHasta, tipoCuenta);
 	}
 
 

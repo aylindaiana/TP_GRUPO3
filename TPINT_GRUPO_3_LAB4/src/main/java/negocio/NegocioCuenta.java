@@ -15,7 +15,7 @@ public interface NegocioCuenta {
     public boolean activarCuenta(int id);
     public boolean existeCBU(String cbu);
     public boolean existeCBUExceptoId(String cbu, int idCuenta);
-    public List<Cuenta> buscar(String nombreCliente, String cbu);
+    public List<Cuenta> buscarAvanzado(String nombreCliente, String cbu, String fechaDesde, String fechaHasta, String tipoCuenta);
     public int contarCuentasPorTipo(int tipoCuenta, LocalDate desde, LocalDate hasta);
     public int contarCuentas(LocalDate desde, LocalDate hasta);
 

@@ -142,21 +142,6 @@
                     <span class="metric-value metric-primary"><%= (reporte != null) ? reporte.getCuentasCajaAhorro() + reporte.getCuentasCuentaCorriente() : 0 %> </span>
                 </div>
             </div>
-            
-
-            <div class="info-card">
-                <div class="info-card-header">
-                    <h6>👥 Nuevos clientes</h6>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">Total:</span>
-                    <span class="metric-value"><%= (reporte != null) ? reporte.getNuevosClientes() : 0 %></span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">🏙️ Provincia con más altas:</span>
-                    <span class="metric-value">Buenos Aires (4)</span>
-                </div>
-            </div>
 
             <div class="info-card">
                 <div class="info-card-header">

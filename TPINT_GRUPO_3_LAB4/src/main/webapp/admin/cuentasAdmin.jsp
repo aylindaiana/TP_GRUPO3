@@ -43,38 +43,48 @@
 	  </div>
 	</nav>
 	
-	<div class="container" style="margin-top: 30px;">
-		<div class="row">
-            <div class="col-12">
-                <h4><strong>Buscar cuentas:</strong></h4>
-                <label>En el caso que sea la busqueda por cliente, aparecen las cuentas en su totalidad, si la busqueda es por CBU, aparece la cuenta en cuestion.</label>
-                <label>SE BUSCA UN CLIENTE A LA VEZ</label>
-            </div>
-    	</div>
-		<div class="row mt-3">
-		    <div class="col-12">
-		        <form method="get" action="${pageContext.request.contextPath}/CuentaAdminServlet">
-		            <div class="row align-items-end">
-		                <div class="col-md-4">
-		                    <label for="filtroCliente" class="form-label"><strong>Búsqueda:</strong></label>
-		                    <input type="text" class="form-control" id="filtroCliente" name="filtroCliente"
-		                        placeholder="Buscar cliente..." 
-		                        value="<%= request.getAttribute("busquedaAnterior") != null ? request.getAttribute("busquedaAnterior") : "" %>">
-		                </div>
-		                <div class="col-md-4">
-		                    <label for="filtroCBU" class="form-label"><strong>CBU:</strong></label>
-		                    <input type="text" class="form-control" id="filtroCBU" name="filtroCBU"
-		                        placeholder="Buscar por CBU..." 
-		                        value="<%= request.getAttribute("cbuAnterior") != null ? request.getAttribute("cbuAnterior") : "" %>">
-		                </div>
-		                <div class="col-md-4 d-flex align-items-end">
-		                    <button type="submit" class="btn btn-secondary">Buscar</button>
-		                    <a href="${pageContext.request.contextPath}/CuentaAdminServlet" class="btn btn-outline-secondary ms-2">Limpiar</a>
-		                </div>
-		            </div>
-		        </form>
-		    </div>
-		</div>
+<main class="container my-4">
+	  <div class="card mb-4">
+	    <div class="card-body">
+	      <h5 class="card-title mb-3"><strong>Buscar Cuentas</strong></h5>
+	      <form method="get" action="${pageContext.request.contextPath}/CuentaAdminServlet">
+	        <div class="row g-3">
+	          <div class="col-md-3">
+	            <label class="form-label">Cliente por Nombre y apellido</label>
+	            <input type="text" class="form-control" name="filtroCliente"
+	              value="<%= request.getAttribute("busquedaAnterior") != null ? request.getAttribute("busquedaAnterior") : "" %>">
+	          </div>
+	          <div class="col-md-3">
+	            <label class="form-label">CBU</label>
+	            <input type="text" class="form-control" name="filtroCBU"
+	              value="<%= request.getAttribute("cbuAnterior") != null ? request.getAttribute("cbuAnterior") : "" %>">
+	          </div>
+	          <div class="col-md-2">
+	            <label class="form-label">Desde</label>
+	            <input type="date" class="form-control" name="fechaDesde"
+	              value="<%= request.getAttribute("fechaDesdeAnterior") != null ? request.getAttribute("fechaDesdeAnterior") : "" %>">
+	          </div>
+	          <div class="col-md-2">
+	            <label class="form-label">Hasta</label>
+	            <input type="date" class="form-control" name="fechaHasta"
+	              value="<%= request.getAttribute("fechaHastaAnterior") != null ? request.getAttribute("fechaHastaAnterior") : "" %>">
+	          </div>
+	          <div class="col-md-2">
+	            <label class="form-label">Tipo de Cuenta</label>
+	            <select class="form-select" name="tipoCuenta">
+	              <option value="">-- Todas --</option>
+	              <option value="1" <%= "1".equals(request.getAttribute("tipoCuentaAnterior")) ? "selected" : "" %>>Caja de Ahorro</option>
+	              <option value="2" <%= "2".equals(request.getAttribute("tipoCuentaAnterior")) ? "selected" : "" %>>Cuenta Corriente</option>
+	            </select>
+	          </div>
+	        </div>
+	        <div class="d-flex justify-content-end gap-2 mt-3">
+	          <button type="submit" class="btn btn-primary">Buscar</button>
+	          <a href="${pageContext.request.contextPath}/CuentaAdminServlet" class="btn btn-outline-secondary">Limpiar</a>
+	        </div>
+	      </form>
+	    </div>
+	  </div>
 
        <% if (request.getAttribute("error") != null) { %>
 		   <div class="alert alert-danger"><%= request.getAttribute("error") %></div>
@@ -85,21 +95,18 @@
 		<% if (request.getAttribute("inactivo") != null) { %>
 		   <div class="alert alert-success"><%= request.getAttribute("inactivo") %></div>
 		<% } %>
-        <div class="row mt-3">
-		    <div class="col-12 text-end">
-				<a href="${pageContext.request.contextPath}/DetalleCuentaServlet?modo=crear" class="btn btn-primary">
-				    Crear Nueva Cuenta
-				</a>
 
-		    </div>
-		</div>
         
-    <div class="contenido">
-	    <div class="titulo-seccion">Cuentas</div>
-	    <div class="tabla-cuentas">
-        <table>
-            <thead>
-                <tr>
+	  <div class="card">
+	    <div class="card-header d-flex justify-content-between align-items-center">
+	      <h5 class="mb-0">Cuentas</h5>
+	      <a href="${pageContext.request.contextPath}/DetalleCuentaServlet?modo=crear" class="btn btn-success btn-sm">Crear Nueva Cuenta</a>
+	    </div>
+	    <div class="card-body p-0">
+	      <div class="table-responsive">
+	        <table class="table table-striped table-hover table-bordered mb-0">
+	          <thead class="table-primary text-center">
+	                <tr>
                 	<th>Nro Cuenta</th>
                 	<th>ID cliente</th>
                 	<th>Cliente</th> 
@@ -122,7 +129,7 @@
 			    	<td><%= cuenta.getIdCliente() %></td>
 			        <td><%= cuenta.getNombreCliente() %></td>
 			        <td>..................<%= cuenta.getCbu().substring(cuenta.getCbu().length() - 3) %></td>
-			        <td><%= cuenta.getIdTipoDeCuenta() == 1 ? "Cuenta corriente" : "Caja de ahorro" %></td>
+			        <td><%= cuenta.getIdTipoDeCuenta() == 1 ? "Caja de ahorro" : "Cuenta corriente" %></td>
 			        <td><%= cuenta.getFechaDeCreacion() %></td>
 			        <td>$<%= String.format("%.2f", cuenta.getSaldo()) %></td>
 			        <td>
@@ -150,32 +157,33 @@
 
         </table>
         <%
-    int paginaActual = (request.getAttribute("paginaActual") != null) ? (Integer)request.getAttribute("paginaActual") : 1;
-    int totalPaginas = (request.getAttribute("totalPaginas") != null) ? (Integer)request.getAttribute("totalPaginas") : 1;
+		    int paginaActual = (request.getAttribute("paginaActual") != null) ? (Integer)request.getAttribute("paginaActual") : 1;
+		    int totalPaginas = (request.getAttribute("totalPaginas") != null) ? (Integer)request.getAttribute("totalPaginas") : 1;
+		
+		    String filtroClienteVal = request.getAttribute("filtroCliente") != null ? request.getAttribute("filtroCliente").toString() : "";
+		    String filtroCBUVal = request.getAttribute("filtroCBU") != null ? request.getAttribute("filtroCBU").toString() : "";
+		%>
 
-    String filtroClienteVal = request.getAttribute("filtroCliente") != null ? request.getAttribute("filtroCliente").toString() : "";
-    String filtroCBUVal = request.getAttribute("filtroCBU") != null ? request.getAttribute("filtroCBU").toString() : "";
-%>
-
-<nav aria-label="Paginación de cuentas">
-  <ul class="pagination justify-content-center mt-4">
-    <li class="page-item <%= (paginaActual == 1) ? "disabled" : "" %>">
-      <a class="page-link" href="CuentaAdminServlet?page=<%= paginaActual - 1 %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>">Anterior</a>
-    </li>
-    <% for (int i = 1; i <= totalPaginas; i++) { %>
-      <li class="page-item <%= (i == paginaActual) ? "active" : "" %>">
-        <a class="page-link" href="CuentaAdminServlet?page=<%= i %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>"><%= i %></a>
-      </li>
-    <% } %>
-    <li class="page-item <%= (paginaActual == totalPaginas) ? "disabled" : "" %>">
-      <a class="page-link" href="CuentaAdminServlet?page=<%= paginaActual + 1 %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>">Siguiente</a>
-    </li>
-  </ul>
-</nav>
-        
-    	</div>
+	<nav aria-label="Paginación de cuentas">
+	  <ul class="pagination justify-content-center mt-4">
+	    <li class="page-item <%= (paginaActual == 1) ? "disabled" : "" %>">
+	      <a class="page-link" href="CuentaAdminServlet?page=<%= paginaActual - 1 %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>">Anterior</a>
+	    </li>
+	    <% for (int i = 1; i <= totalPaginas; i++) { %>
+	      <li class="page-item <%= (i == paginaActual) ? "active" : "" %>">
+	        <a class="page-link" href="CuentaAdminServlet?page=<%= i %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>"><%= i %></a>
+	      </li>
+	    <% } %>
+	    <li class="page-item <%= (paginaActual == totalPaginas) ? "disabled" : "" %>">
+	      <a class="page-link" href="CuentaAdminServlet?page=<%= paginaActual + 1 %>&filtroCliente=<%= filtroClienteVal %>&filtroCBU=<%= filtroCBUVal %>">Siguiente</a>
+	    </li>
+	  </ul>
+	</nav>
+	        
+	    	</div>
+		</div>
 	</div>
-</div>
+</main>
 	<footer>
 	        <p>© 2025 Grupo 3 - Laboratorio 4</p>
 	</footer>

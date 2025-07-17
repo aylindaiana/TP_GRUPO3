@@ -25,9 +25,15 @@ public class CuentaAdminServlet extends HttpServlet {
 
         String filtroCliente = request.getParameter("filtroCliente");
         String filtroCBU = request.getParameter("filtroCBU");
+        String fechaDesde = request.getParameter("fechaDesde");
+        String fechaHasta = request.getParameter("fechaHasta");
+        String tipoCuenta = request.getParameter("tipoCuenta");
         
         boolean hayFiltroCliente = filtroCliente != null && !filtroCliente.trim().isEmpty();
         boolean hayFiltroCBU = filtroCBU != null && !filtroCBU.trim().isEmpty();
+        boolean hayFiltroFechaDesde = fechaDesde != null && !fechaDesde.trim().isEmpty();
+        boolean hayFiltroFechaHasta = fechaHasta != null && !fechaHasta.trim().isEmpty();
+        boolean hayFiltroTipoCuenta = tipoCuenta != null && !tipoCuenta.trim().isEmpty();
         
         String status = request.getParameter("status");
         if ("errorMaxCuentas".equalsIgnoreCase(status)) {
@@ -41,10 +47,13 @@ public class CuentaAdminServlet extends HttpServlet {
         }
 
         List<Cuenta> cuentas;
-        if (hayFiltroCliente || hayFiltroCBU) {
-            cuentas = negocioCuenta.buscar(filtroCliente, filtroCBU);
+        if (hayFiltroCliente || hayFiltroCBU || hayFiltroFechaHasta || hayFiltroTipoCuenta) {
+            cuentas = negocioCuenta.buscarAvanzado(filtroCliente, filtroCBU, fechaDesde, fechaHasta, tipoCuenta);
             request.setAttribute("busquedaAnterior", filtroCliente);
             request.setAttribute("cbuAnterior", filtroCBU);
+            request.setAttribute("fechaDesdeAnterior", fechaDesde);
+            request.setAttribute("fechaHastaAnterior", fechaHasta);
+            request.setAttribute("tipoCuentaAnterior", tipoCuenta);
         } else {
             cuentas = negocioCuenta.listar();
         }

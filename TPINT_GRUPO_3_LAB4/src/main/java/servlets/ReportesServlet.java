@@ -56,7 +56,6 @@ public class ReportesServlet extends HttpServlet {
             NegocioPrestamo prestamoNegocio = new NegocioPrestamoImpl();
             NegocioPrestamoRechazado rechazadoNegocio = new NegocioPrestamoRechazadoImpl();
             NegocioCuota cuotaNegocio = new NegocioCuotaImpl();
-            NegocioUsuario usuarioNegocio = new NegocioUsuarioImpl();
             NegocioCuenta cuentaNegocio = new NegocioCuentaImpl();
 
            
@@ -70,8 +69,6 @@ public class ReportesServlet extends HttpServlet {
 
             reporte.setCuotasPagadas(cuotaNegocio.contarCuotasPagadas(desde, hasta));
             reporte.setTotalRecaudado(cuotaNegocio.totalRecaudadoEnCuotas(desde, hasta));
-
-            reporte.setNuevosClientes(usuarioNegocio.contarNuevosClientes(desde, hasta));
             
             reporte.setCuentasCajaAhorro(cuentaNegocio.contarCuentasPorTipo(1, desde, hasta));
             reporte.setCuentasCuentaCorriente(cuentaNegocio.contarCuentasPorTipo(2, desde, hasta));

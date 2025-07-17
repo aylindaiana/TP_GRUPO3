@@ -944,44 +944,36 @@ CALL SP_LISTAR_CUENTAS_ACTIVAS_POR_CLIENTE(2);
 /*DROP PROCEDURE IF EXISTS SP_BUSCAR_FILTRO;*/
 DELIMITER $$
 
-CREATE PROCEDURE SP_BUSCAR_FILTRO (
+CREATE PROCEDURE SP_BUSCAR_FILTRO_AVANZADO (
     IN filtroCliente VARCHAR(255),
-    IN filtroCBU VARCHAR(255)
+    IN filtroCBU VARCHAR(45),
+    IN fechaDesde DATE,
+    IN fechaHasta DATE,
+    IN tipoCuenta INT
 )
 BEGIN
-    IF filtroCliente IS NOT NULL AND filtroCliente != '' THEN
-        SELECT 
-            c.ID,
-            c.IDCliente,
-            cli.Nombre,
-            cli.Apellido,
-            c.CBU,
-            c.IDTipoDeCuenta,
-            c.FechaDeCreacion,
-            c.Saldo,
-            c.Estado
-        FROM cuenta c
-        INNER JOIN usuario cli ON cli.ID = c.IDCliente
-        WHERE CONCAT(cli.Nombre, ' ', cli.Apellido) LIKE CONCAT('%', filtroCliente, '%');
-
-    ELSEIF filtroCBU IS NOT NULL AND filtroCBU != '' THEN
-        SELECT 
-            c.ID,
-            c.IDCliente,
-            cli.Nombre,
-            cli.Apellido,
-            c.CBU,
-            c.IDTipoDeCuenta,
-            c.FechaDeCreacion,
-            c.Saldo,
-            c.Estado
-        FROM cuenta c
-        INNER JOIN usuario cli ON cli.ID = c.IDCliente
-        WHERE c.CBU LIKE CONCAT('%', filtroCBU, '%');
-    END IF;
+    SELECT 
+        c.ID,
+        c.IDCliente,
+        cli.Nombre,
+        cli.Apellido,
+        c.CBU,
+        c.IDTipoDeCuenta,
+        c.FechaDeCreacion,
+        c.Saldo,
+        c.Estado
+    FROM cuenta c
+    INNER JOIN usuario cli ON cli.ID = c.IDCliente
+    WHERE
+        (filtroCliente IS NULL OR CONCAT(cli.Nombre, ' ', cli.Apellido) LIKE CONCAT('%', filtroCliente, '%'))
+        AND (filtroCBU IS NULL OR c.CBU LIKE CONCAT('%', filtroCBU, '%'))
+        AND (fechaDesde IS NULL OR c.FechaDeCreacion >= fechaDesde)
+        AND (fechaHasta IS NULL OR c.FechaDeCreacion <= fechaHasta)
+        AND (tipoCuenta IS NULL OR c.IDTipoDeCuenta = tipoCuenta);
 END $$
 
 DELIMITER ;
+
 
 
 DELIMITER $$

@@ -27,7 +27,4 @@ public interface NegocioUsuario {
 	boolean reactivarCredenciales(int idCliente);
 
 
-
-    /* Prueba para reporte */
-    public int contarNuevosClientes(LocalDate desde, LocalDate hasta);
 }
