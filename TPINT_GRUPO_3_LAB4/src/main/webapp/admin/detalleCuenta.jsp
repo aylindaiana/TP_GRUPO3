@@ -90,14 +90,14 @@
 
             <div class="mb-3">
                 <label for="cbu" class="form-label">CBU</label>
-                <input type="text" class="form-control disabled" name="cbu" id="cbu" required disabled
+                <input type="text" class="form-control disabled" name="cbu" id="cbu" required readonly
                        value="<%= cuenta != null ? cuenta.getCbu() : " "%>">
             </div>
             <div class="mb-3">
         		<label for="fechaCreacion" class="form-label">Fecha de creación</label>
         		<input type="date" class="form-control disabled" name="fechaCreacion" id="fechaCreacion"
                value="<%= cuenta != null && cuenta.getFechaDeCreacion() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(cuenta.getFechaDeCreacion()) : new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" 
-               required disabled>
+               required readonly>
     		</div>
 
             <% if ("editar".equals(modo)) { %>
