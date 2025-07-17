@@ -293,9 +293,10 @@ INSERT INTO `tpintegrador`.`movimientos_tipos` (`ID`, `Descripcion`) VALUES ('4'
 INSERT INTO `tpintegrador`.`cuenta_tipos` (`ID`, `Descripcion`) VALUES ('1', 'Caja de Ahorro');
 INSERT INTO `tpintegrador`.`cuenta_tipos` (`ID`, `Descripcion`) VALUES ('2', 'Cuenta corriente');
 
-INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado)
-VALUES (1, 1, CURDATE(), '1234567890123456789012', 15000.00, 1);
-
+/*  
+	INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado)
+	VALUES (1, 1, CURDATE(), '1234567890123456789012', 100000.00, 1);
+*/
 /* 
 -----------------------------------------------------------------------------------------------------------------------------------
 Triggers - Structured Procedures 
@@ -1340,7 +1341,11 @@ ON usuario
 FOR EACH ROW
 BEGIN
 	DECLARE cbu VARCHAR(45);
-	set cbu = CONCAT(FLOOR(RAND() * 10000000000), FLOOR(RAND() * 10000000000));
+	SET cbu = CONCAT(
+    /* No lo toquen que se rompe, aca si o si devuelve un numero de 22 digitos c:*/
+    LPAD(FLOOR(RAND() * 10000000000), 11, '0'),
+    LPAD(FLOOR(RAND() * 10000000000), 11, '0')
+	);
 	/* creacion cuenta */
 	INSERT INTO cuenta (IDCliente, IDTipoDeCuenta, FechaDeCreacion, CBU, Saldo, Estado)
 	VALUES (NEW.ID, 2, NOW(), cbu, 10000, 1);

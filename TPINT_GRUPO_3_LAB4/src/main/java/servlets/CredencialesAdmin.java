@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter("/admin/*")
+@WebFilter(urlPatterns = {"/admin/*", "/FormularioClienteServlet", "/DetalleCuentaServlet", "/ReportesServlet"})
 public class CredencialesAdmin implements Filter {
     public CredencialesAdmin() {
         // TODO Auto-generated constructor stub
