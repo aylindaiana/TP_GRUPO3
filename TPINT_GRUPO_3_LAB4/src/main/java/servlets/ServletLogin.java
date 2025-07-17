@@ -17,10 +17,13 @@ import daoImpl.UsuarioDaoImpl;
 import daoImpl.usuarioTipoDaoImpl;
 import entidad.Usuario;
 import entidad.UsuarioCredenciales;
+import negocio.NegocioUsuarioCredenciales;
+import negocioImpl.NegocioUsuarioCredencialesImpl;
 
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private NegocioUsuarioCredenciales neg = new NegocioUsuarioCredencialesImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
@@ -43,14 +46,12 @@ public class ServletLogin extends HttpServlet {
             String username = request.getParameter("username") != null ? request.getParameter("username") : "";
             String password = request.getParameter("password") != null ? request.getParameter("password") : "";
 
-            UsuarioCredencialesDao dao = new UsuarioCredencialesImpl();
-            int idLogin = dao.iniciarSesion(username, password); // ID de usuario_credenciales
+            int idLogin = neg.iniciarSesion(username, password); // ID de usuario_credenciales
 
             request.getSession().setAttribute("NombreUsuario", username);
 
             if (idLogin != -1) {
-                int idCliente = dao.obtenerIDClientePorCredencial(idLogin); // ID de usuario
-                
+                int idCliente = neg.obtenerIDClientePorCredencial(idLogin); // ID de usuario
 
                 request.getSession().setAttribute("id", idLogin);
                 request.getSession().setAttribute("idCliente", idCliente);
@@ -71,8 +72,8 @@ public class ServletLogin extends HttpServlet {
                     rd.forward(request, response);
                 }
             } else {
-            	idLogin = dao.buscarIdClienteInactivo(username, password);
-            	UsuarioCredenciales cred = dao.obtenerPorClienteId(idLogin); // aquí sí usamos el ID del login
+            	idLogin = neg.buscarIdClienteInactivo(username, password);
+            	UsuarioCredenciales cred = neg.obtenerPorClienteId(idLogin); // aquí sí usamos el ID del login
                 if (cred != null && cred.getEstado() == 0) {
                     // Usuario está inactivo
                     response.sendRedirect(request.getContextPath() + "/public/login.jsp?status=inactivo");
