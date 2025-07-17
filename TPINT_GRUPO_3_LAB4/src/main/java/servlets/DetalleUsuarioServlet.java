@@ -78,6 +78,7 @@ public class DetalleUsuarioServlet extends HttpServlet {
 			if (request.getParameter("verCuenta") != null) {
 
 				request.setAttribute("cuenta", cuenta);
+                request.setAttribute("modo", "editar");
 
 				request.setAttribute("usuarioDetalle", usuario);
 

@@ -41,11 +41,17 @@
 
     <%
         Cuenta cuenta = (Cuenta) request.getAttribute("cuenta");
-	    String modo = (String) request.getParameter("modo");
+	    String modo = (String) request.getAttribute("modo");
 	    if (modo == null) modo = "ver";
 	
 	    if ("crear".equals(modo)) {
 	        cuenta = new Cuenta(); 
+
+	        String idClienteStr = (String) request.getAttribute("idClienteCrear");
+	        if(idClienteStr != null){
+			    int idCliente = Integer.parseInt(idClienteStr);
+		        cuenta.setIdCliente(idCliente);
+	        }
 	        cuenta.setCbu((String)request.getAttribute("cbu"));
 	    }
 
@@ -84,14 +90,14 @@
 
             <div class="mb-3">
                 <label for="cbu" class="form-label">CBU</label>
-                <input type="text" class="form-control" name="cbu" id="cbu" required
+                <input type="text" class="form-control disabled" name="cbu" id="cbu" required disabled
                        value="<%= cuenta != null ? cuenta.getCbu() : " "%>">
             </div>
             <div class="mb-3">
         		<label for="fechaCreacion" class="form-label">Fecha de creación</label>
-        		<input type="date" class="form-control" name="fechaCreacion" id="fechaCreacion"
-               value="<%= cuenta != null && cuenta.getFechaDeCreacion() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(cuenta.getFechaDeCreacion()) : "" %>" 
-               required>
+        		<input type="date" class="form-control disabled" name="fechaCreacion" id="fechaCreacion"
+               value="<%= cuenta != null && cuenta.getFechaDeCreacion() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(cuenta.getFechaDeCreacion()) : new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" 
+               required disabled>
     		</div>
 
             <% if ("editar".equals(modo)) { %>
@@ -103,7 +109,7 @@
             <% } else { %>
                 <input type="hidden" name="saldo" value="10000.0">
             <% } %>
-
+			
             <button type="submit" class="btn btn-primary">
                 <%= "editar".equals(modo) ? "Guardar cambios" : "Crear cuenta" %>
             </button>

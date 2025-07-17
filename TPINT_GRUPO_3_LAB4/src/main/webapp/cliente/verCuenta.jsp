@@ -134,7 +134,7 @@ int currentPage = (request.getAttribute("currentPage") != null) ? (int) request.
 						<td><%=mov.getComentario()%></td>
 						<td><%=mov.getDescripcionTipoDeMovimiento()%></td>
 						<td
-							class="<%=mov.getDescripcionTipoDeMovimiento().toLowerCase().contains("alta") ? "text-success" : "text-danger"%>">
+							class="<%=mov.getDescripcionTipoDeMovimiento().toLowerCase().contains("alta") ? "text-success" : ""%>">
 							$<%=mov.getMonto()%>
 						</td>
 					</tr>

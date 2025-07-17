@@ -23,9 +23,12 @@ public class DetalleCuentaServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idCuentaParam = request.getParameter("idCuenta");
+        String idCliente = request.getParameter("idUser");
+
         String modo = request.getParameter("modo");
 
         if ("crear".equalsIgnoreCase(modo)) {
+            request.setAttribute("idClienteCrear", idCliente);
             request.setAttribute("modo", "crear");
             request.setAttribute("cuenta", new Cuenta());
             

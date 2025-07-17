@@ -241,7 +241,7 @@
 				<strong>Agregar nueva cuenta</strong><br>
 				<small>El cliente puede tener hasta 3 cuentas</small>
 			</div>
-			<a href="${pageContext.request.contextPath}/DetalleCuentaServlet?modo=crear" class="btn btn-secondary btn-lg">Agregar cuenta</a>
+			<a href="${pageContext.request.contextPath}/DetalleCuentaServlet?modo=crear&idUser=<%=usuario.getId() %>" class="btn btn-secondary btn-lg">Agregar cuenta</a>
 		</div>
 	</form>
 
