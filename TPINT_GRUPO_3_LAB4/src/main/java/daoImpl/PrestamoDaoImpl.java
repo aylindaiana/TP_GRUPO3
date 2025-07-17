@@ -28,7 +28,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	static String BUSCAR_PRESTAMO_POR_ID = " CALL SP_BUSCAR_PRESTAMO_POR_ID(?)";
 	
 	private final String CONTAR_PRESTAMOS_APROBADOS = "CALL SP_CONTAR_PRESTAMOS_APROBADOS(?, ?)";
-	static String OBTENER_POR_ID_CUENTA = "CALL SP_LISTAR_PRESTAMOS_POR_CUENTA(?)";
+	static String OBTENER_POR_ID_CUENTA = "CALL SP_LISTAR_PRESTAMOS_ACTIVOS_POR_CUENTA(?)";
 	static String CANT_PRESTAMOS_PENDIENTES_APROB="CALL SP_cant_prestamos_pendientes_aprob";
 
 	
